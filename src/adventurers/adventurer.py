@@ -1,18 +1,22 @@
-from typing import Optional, Dict, Union
+from typing import Optional, Dict, Union, TYPE_CHECKING
 from src.equipment.equipment import Equipment
 from src.equipment.armor import Armor
 from src.equipment.weapon import Weapon
 
+if TYPE_CHECKING:
+    from src.jobs.job import Job
+
 class Adventurer:
+    
     def __init__(
         self,
         name: str,
         job: "Job",
         level: int = 0,
         levels_gained: Optional[Dict[str, int]] = None,
-        aptitude: float = 0,
-        **stat_overrides: float
-    ):
+        aptitude: float = 5,
+        **stat_overrides: float):
+
         self.name = name
         self.job = job
         self.level = level
@@ -28,6 +32,7 @@ class Adventurer:
             "agility": 0,
             "intellect": 0,
             "wisdom": 0,
+            "speed": 0,
             "tenacity": 0,
             "charisma": 0,
             "luck": 0,
