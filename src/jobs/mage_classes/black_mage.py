@@ -1,13 +1,15 @@
 from src.jobs.job import Job
-from typing import Dict
-from src.jobs.job import Adventurer
+from typing import Dict, TYPE_CHECKING
 from src.adventurers.stat_growth import compute_stat_bonus
+
+if TYPE_CHECKING:
+    from src.jobs.job import Adventurer
 
 
 class BlackMage(Job):
     @property
-    def base_growth_rates(self) -> Dict[str, int]:
-        # Total: 41
+    def growth_rates(self) -> Dict[str, int]:
+        # Total: 45
         return {
             "hp": 4,
             "mp": 7,
@@ -16,7 +18,8 @@ class BlackMage(Job):
             "dexterity": 4,
             "agility": 5,
             "intellect": 8,
-            "willpower": 5,
+            "wisdom": 5,
+            "speed": 4,
             "tenacity": 4,
             "charisma": 4,
             "luck": 6
@@ -40,4 +43,4 @@ class BlackMage(Job):
                 base_aptitude=adventurer.aptitude,
                 class_aptitude=self.class_aptitude
                 )
-            adventurer[stat] += growth_rate + bonus_mult * stat_bonus
+            adventurer.base_stats[stat] += growth_rate + (bonus_mult * stat_bonus)
