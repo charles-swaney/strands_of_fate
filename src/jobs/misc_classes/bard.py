@@ -29,11 +29,11 @@ class Bard(Job):
     def class_aptitude(self) -> int:
         return 1
 
-    def apply_level_up(self, adventurer: Adventurer) -> None:
-        base_growth_rates = self.base_growth_rates
+    def apply_level_up(self, adventurer: "Adventurer") -> None:
+        base_growth_rates = self.growth_rates
 
         for stat, growth_rate in base_growth_rates.items():
-            if stat <= 7:
+            if growth_rate <= 7:
                 bonus_mult = 1
             else:
                 bonus_mult = 1.5
