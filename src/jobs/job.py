@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict
-from src.core import Adventurer
+from src.adventurers.adventurer import Adventurer
 
 
 class Job(ABC):
@@ -13,5 +13,5 @@ class Job(ABC):
         pass
 
     @abstractmethod
-    def on_level_up(self, adventurer: Adventurer) -> None:
+    def apply_level_up(self, adventurer: Adventurer) -> None:
         pass

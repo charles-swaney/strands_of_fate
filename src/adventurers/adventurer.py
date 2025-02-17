@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Dict
-from src.jobs.base import Job
+from src.jobs.job import Job
 
 @dataclass
 class Adventurer:
@@ -32,4 +32,4 @@ class Adventurer:
 
     def level_up(self):
         self.level += 1
-        self.job.on_level_up(self)
+        self.job.apply_level_up(self)
