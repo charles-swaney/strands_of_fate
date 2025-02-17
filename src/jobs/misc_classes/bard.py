@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 class Bard(Job):
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 50
+        # Total: 49
         return {
             "hp": 5,
             "mp": 5,
@@ -20,7 +20,7 @@ class Bard(Job):
             "intellect": 4,
             "wisdom": 4,
             "speed": 5,
-            "tenacity": 4,
+            "tenacity": 3,
             "charisma": 9,
             "luck": 8
         }
@@ -28,6 +28,10 @@ class Bard(Job):
     @property
     def class_aptitude(self) -> int:
         return 1
+    
+    @property
+    def job_name(self) -> str:
+        return "Bard"
 
     def apply_level_up(self, adventurer: "Adventurer") -> None:
         base_growth_rates = self.growth_rates

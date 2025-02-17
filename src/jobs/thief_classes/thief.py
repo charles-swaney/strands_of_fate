@@ -28,6 +28,10 @@ class Thief(Job):
     @property
     def class_aptitude(self) -> int:
         return 0
+    
+    @property
+    def job_name(self) -> str:
+        return "Thief"
 
     def apply_level_up(self, adventurer: "Adventurer") -> None:
         base_growth_rates = self.growth_rates
@@ -35,7 +39,7 @@ class Thief(Job):
         for stat, growth_rate in base_growth_rates.items():
             if growth_rate <= 3:
                 bonus_mult = 0.5
-            elif growth_rate >= 4 and stat <= 8:
+            elif growth_rate >= 4 and growth_rate <= 8:
                 bonus_mult = 1
             else:
                 bonus_mult = 1.5

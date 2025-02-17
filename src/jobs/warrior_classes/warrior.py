@@ -28,6 +28,10 @@ class Warrior(Job):
     @property
     def class_aptitude(self) -> int:
         return 0
+    
+    @property
+    def job_name(self) -> str:
+        return "Warrior"
 
     def apply_level_up(self, adventurer: "Adventurer") -> None:
         growth_rates = self.growth_rates
