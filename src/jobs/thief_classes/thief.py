@@ -38,6 +38,6 @@ class Thief(Job):
                 bonus_mult = 1.5
             stat_bonus = compute_stat_bonus(
                 base_aptitude=adventurer.aptitude,
-                class_aptitude=self.class_aptitude
-                )
+                class_aptitude=self.class_aptitude)
+            
             adventurer[stat] += growth_rate + bonus_mult * stat_bonus
