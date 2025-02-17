@@ -1,14 +1,14 @@
 import random
 
 
-def compute_stat_bonus(base_aptitude: float, class_aptitude: float) -> int:
+def compute_stat_bonus(base_aptitude: int, class_aptitude: float) -> int:
     """
     Compute the random stat growth based on aptitude. 
 
     Args:
-        base_aptitude: the adventurer's aptitude (expected range:
+        base_aptitude (int): the adventurer's aptitude (expected range:
             0 to 10)
-        class_aptitude: the aptitude associated with the adventurer's class
+        class_aptitude (float): the aptitude associated with the adventurer's class
             (expected range: -2 to 2)   
     
     Returns:
