@@ -1,5 +1,10 @@
 import random
 
+AVERAGE_APTITUDE = 5
+AVERAGE_PLUS_ONE_PROB = 1/4
+AVERAGE_PLUS_ZERO_PROB = 2/3
+APTITUDE_SCALING = 1.27
+
 
 def compute_stat_bonus(base_aptitude: int, class_aptitude: float) -> int:
     """
@@ -29,11 +34,11 @@ def compute_stat_bonus(base_aptitude: int, class_aptitude: float) -> int:
     aptitude = base_aptitude + class_aptitude
 
     if aptitude >= 5:
-        threshold_for_plus_one = 1/4 + ((aptitude - 5) ** 1.27) * 0.0549
-        threshold_for_plus_zero = 2/3 + ((aptitude - 5) ** 1.27) * 0.011
+        threshold_for_plus_one = AVERAGE_PLUS_ONE_PROB + ((aptitude - AVERAGE_APTITUDE) ** APTITUDE_SCALING) * 0.0549
+        threshold_for_plus_zero = AVERAGE_PLUS_ZERO_PROB + ((aptitude - AVERAGE_APTITUDE) ** APTITUDE_SCALING) * 0.011
     else:
         threshold_for_plus_one = 0.15 / 7 * aptitude + 1/7
-        threshold_for_plus_zero = 0.5 - (5 - aptitude) / 28
+        threshold_for_plus_zero = 0.5 - (AVERAGE_APTITUDE - aptitude) / 28
     
     check_plus_one = random.random()
     
