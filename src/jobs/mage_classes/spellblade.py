@@ -4,6 +4,7 @@ from src.adventurers.stat_growth import compute_stat_bonus
 
 if TYPE_CHECKING:
     from src.adventurers.adventurer import Adventurer
+    from src.jobs.job_requirements import StatRequirement, JobLevelRequirement
 
 
 class SpellBlade(Job):
@@ -47,6 +48,18 @@ class SpellBlade(Job):
     @property
     def job_name(self) -> str:
         return "SpellBlade"
+    
+    def stats_requirements(self) -> "StatRequirement":
+        return StatRequirement({
+            "strength": 60,
+            "intellect": 60
+        })
+    
+    def job_level_requirements(self) -> "JobLevelRequirement":
+        return JobLevelRequirement({
+            "BlackMage": 5,
+            "Warrior": 5
+        })
 
     def apply_level_up(self, adventurer: "Adventurer") -> None:
         growth_rates = self.growth_rates

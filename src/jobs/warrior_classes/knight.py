@@ -3,7 +3,8 @@ from typing import Dict, TYPE_CHECKING
 from src.adventurers.stat_growth import compute_stat_bonus
 
 if TYPE_CHECKING:
-    from src.jobs.job import Adventurer
+    from src.adventurers.adventurer import Adventurer
+    from src.jobs.job_requirements import StatRequirement, JobLevelRequirement
 
 
 class Knight(Job):
@@ -48,6 +49,19 @@ class Knight(Job):
     @property
     def job_name(self) -> str:
         return "Knight"
+    
+    def stats_requirements(self) -> "StatRequirement":
+        return StatRequirement({
+            "strength": 75,
+            "wisdom": 44,
+            "tenacity": 55
+        })
+    
+    def job_level_requirements(self) -> "JobLevelRequirement":
+        return JobLevelRequirement({
+            "Warrior": 5,
+            "WhiteMage": 5
+        })
 
     def apply_level_up(self, adventurer: "Adventurer") -> None:
         base_growth_rates = self.growth_rates

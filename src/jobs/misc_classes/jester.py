@@ -4,6 +4,7 @@ from src.adventurers.stat_growth import compute_stat_bonus
 
 if TYPE_CHECKING:
     from src.jobs.job import Adventurer
+    from src.jobs.job_requirements import StatRequirement, JobLevelRequirement
 
 
 class Jester(Job):
@@ -45,6 +46,18 @@ class Jester(Job):
     @property
     def job_name(self) -> str:
         return "Jester"
+    
+    def stats_requirements(self) -> "StatRequirement":
+        return StatRequirement({
+            "agility": 100,
+            "speed": 70,
+            "charisma": 90
+        })
+    
+    def job_level_requirements(self) -> "JobLevelRequirement":
+        return JobLevelRequirement({
+            "Thief": 5
+        })
 
     def apply_level_up(self, adventurer: "Adventurer") -> None:
         base_growth_rates = self.growth_rates

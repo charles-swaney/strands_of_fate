@@ -79,7 +79,6 @@ class Adventurer:
         total = self._base_stats.copy()
         for stat, bonus in self.equipment_bonuses.items():
             total[stat] += bonus
-            print('xd')
         return total
     
     @property
