@@ -1,6 +1,6 @@
 from src.jobs.job import Job
 from typing import Dict, TYPE_CHECKING
-from src.adventurers.stat_growth import compute_stat_bonus
+from src.utils.stat_calculations import compute_stat_bonus
 
 if TYPE_CHECKING:
     from src.jobs.job import Adventurer
