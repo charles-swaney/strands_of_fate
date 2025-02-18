@@ -71,4 +71,7 @@ class Thief(Job):
                 base_aptitude=adventurer.aptitude,
                 class_aptitude=self.class_aptitude)
             
-            adventurer.base_stats[stat] += growth_rate + (bonus_mult * stat_bonus)
+            adventurer.base_stats.add_to_stat(
+                stat,
+                growth_rate + (bonus_mult * stat_bonus)
+            )
