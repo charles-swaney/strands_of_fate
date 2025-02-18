@@ -27,7 +27,7 @@ class Adventurer:
             self.levels_gained = levels_gained.copy()
         self.aptitude = aptitude
 
-        self.base_stats: Dict[str, float] = {
+        self._base_stats: Dict[str, float] = {
             "hp": 0,
             "mp": 0,
             "strength": 0,
@@ -43,73 +43,99 @@ class Adventurer:
         }
 
         for stat, value in stat_overrides.items():
-            if stat in self.base_stats:
-                self.base_stats[stat] = value
+            if stat in self._base_stats:
+                self._base_stats[stat] = value
 
         self.equipment: Dict[str, Optional[Union[Weapon, Armor]]] = {
-            "weapon": Optional[Weapon],
-            "armor": Optional[Armor],
-            "gauntlet": Optional[Armor],
-            "greaves": Optional[Armor],
-            "helmet": Optional[Armor],
-            "accessory": Optional[Armor],
-            "shield": Optional[Armor],
+            "weapon": None,
+            "armor": None,
+            "gauntlet": None,
+            "greaves": None,
+            "helmet": None,
+            "accessory": None,
+            "shield": None,
         }
 
-        self.job.apply_level_up(self)
+        self.job.apply_level_up(self) # Start at level 1
 
     @property
-    def base_watk(self) -> float:
-        base = self.base_stats["strength"] + 0.03 * self.base_stats["luck"]
-        bonus = 0
+    def base_stats(self) -> Dict[str, float]:
+        """Base stats without equipment or other bonuses."""
+        return self._base_stats
+    
+    @property
+    def equipment_bonuses(self) -> Dict[str, float]:
+        """Stat bonuses from all equipment."""
+        bonuses = defaultdict(float)
         for equipment in self.equipment.values():
-            if equipment is not None:
-                bonus += equipment.watk
-        return base + bonus
+            if equipment and hasattr(equipment, 'equipment_stat_bonuses'):
+                for stat, value in equipment.equipment_stat_bonuses.items():
+                    bonuses[stat] += value
+        return bonuses
+
+    @property
+    def total_stats(self) -> Dict[str, float]:
+        """Total stats from base stats, equipment, and other bonuses."""
+        total = self._base_stats.copy()
+        for stat, bonus in self.equipment_bonuses.items():
+            total[stat] += bonus
+            print('xd')
+        return total
+    
+    @property
+    def base_watk(self) -> float:
+        """Damage dealt when attacking with a weapon."""
+        base = self.base_stats["strength"] + 0.03 * self.base_stats["luck"]
+        equipment_watk = sum(
+            eq.watk for eq in self.equipment.values() if eq is not None
+            )
+        stat_bonus = self.equipment_bonuses["strength"] + 0.03 * self.equipment_bonuses["luck"]
+        return base + equipment_watk + stat_bonus
     
     @property
     def base_wdef(self) -> float:
+        """Resistance to physical damage."""
         base = self.base_stats["toughness"] + 0.03 * self.base_stats["luck"]
-        bonus = 0
-        for equipment in self.equipment.values():
-            if equipment is not None:
-                bonus += equipment.wdef
-        return base + bonus
+        equipment_wdef = sum(
+            eq.wdef for eq in self.equipment.values() if eq is not None
+        )
+        stat_bonus = self.equipment_bonuses["toughness"] + 0.03 * self.equipment_bonuses["luck"]
+        return base + equipment_wdef + stat_bonus
     
     @property
     def base_matk(self) -> float:
+        """Damage dealt with spells."""
         base = (self.base_stats["intellect"] +
                 0.15 * self.base_stats["charisma"] +
                 0.03 * self.base_stats["luck"])
-        bonus = 0
-        for equipment in self.equipment.values():
-            if equipment is not None:
-                bonus += equipment.matk
-        return base + bonus
+        equipment_matk = sum(
+            eq.matk for eq in self.equipment.values() if eq is not None
+        )
+        stat_bonus = (self.equipment_bonuses["intellect"] +
+                      0.15 * self.equipment_bonuses["charisma"] +
+                      0.03 * self.equipment_bonuses["luck"])
+        return base + equipment_matk + stat_bonus
     
     @property
     def base_mdef(self) -> float:
+        """Resistence to magical damage."""
         base = (self.base_stats["wisdom"] +
                 0.15 * self.base_stats["tenacity"] +
                 0.03 * self.base_stats["luck"])
-        bonus = 0
-        for equipment in self.equipment.values():
-            if equipment is not None:
-                bonus += equipment.mdef
-        return base + bonus
-
-    def get_total_stats(self) -> None:
-        total_stats = self.base_stats.copy()
-        for item in self.equipment.values():
-            if item:
-                for stat, bonus in item.equipment_stat_bonuses.items():
-                    total_stats[stat] += bonus
-        return total_stats
+        equipment_mdef = sum(
+            eq.mdef for eq in self.equipment.values() if eq is not None
+        )
+        stat_bonus = (self.equipment_bonuses["wisdom"] +
+                      self.equipment_bonuses["tenacity"] +
+                      self.equipment_bonuses["luck"])
+        return base + equipment_mdef + stat_bonus
     
     def _add_level_gained(self) -> None:
+        """Log a level up within the Adventurer's current class."""
         self.levels_gained[self.job.job_name] += 1
 
     def level_up(self):
+        """Increase Adventurer level with stat growths and log level gained."""
         self.level += 1
         self.job.apply_level_up(self)
         self._add_level_gained()
