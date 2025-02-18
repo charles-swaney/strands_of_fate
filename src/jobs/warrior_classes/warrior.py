@@ -7,6 +7,22 @@ if TYPE_CHECKING:
 
 
 class Warrior(Job):
+    """
+    A moderately well-rounded melee damage class, with no particularly stand-out qualities.
+    The default starting class of melee combatants.
+
+    Key Traits:
+    - Balanced growth across hp, strength, toughness.
+    - Low magic abilities and charisma, below-average luck.
+    - Low speed growth and neutral aptitude.
+    - Abilities are simple and prioritize dealing damage.
+
+    Weapons:
+    - Swords, Axes, Hammers
+
+    Armor:
+    - Heavy armor, Light armor
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 44

@@ -7,18 +7,33 @@ if TYPE_CHECKING:
 
 
 class Gambler(Job):
+    """
+    A class centered almost entirely around luck-based mechanics.
+
+    Key Traits:
+    - Incredible luck growth.
+    - Extremely poor growth in magic-related skills, and extremely squishy overall.
+    - Abilities range from damage-dealing, debuffing, and buffing allies,
+        but always with a reliance random chance.
+
+    Weapons:
+    - Daggers
+
+    Armor:
+    - Light armor
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 56
+        # Total: 52
         return {
             "hp": 4,
             "mp": 6,
             "strength": 3,
             "toughness": 3,
-            "dexterity": 8,
-            "agility": 9,
+            "dexterity": 7,
+            "agility": 8,
             "intellect": 2,
-            "wisdom": 4,
+            "wisdom": 2,
             "speed": 7,
             "tenacity": 2,
             "charisma": 7,

@@ -7,6 +7,23 @@ if TYPE_CHECKING:
 
 
 class Thief(Job):
+    """
+    An agile class with moderate growths in the speed/agility/dexterity
+    departments. Focuses on curing/applying status effects and stealing
+    from the enemy.
+
+    Key Traits:
+    - Decent growth in agility, dexterity, speed.
+    - Weak defenses.
+    - Has abilities to cure/apply status effects.
+    - Has abilities to steal items from enemies.
+
+    Weapons:
+    - Swords, Daggers
+
+    Armor:
+    - Light armor
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 47

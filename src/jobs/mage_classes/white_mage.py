@@ -7,6 +7,21 @@ if TYPE_CHECKING:
 
 
 class WhiteMage(Job):
+    """
+    A mage class that focuses primarily on healing allies, and secondarily
+    on buffing them.
+
+    Key Traits:
+    - Strong wisdom growth.
+    - Reasonable toughness growth affords some tankiness, for a mage.
+    - Access to a wide range of healing spells.
+
+    Weapons:
+    - Rods, Hammers
+
+    Armor:
+    - Robes
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 43

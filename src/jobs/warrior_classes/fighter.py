@@ -7,6 +7,21 @@ if TYPE_CHECKING:
 
 
 class Fighter(Job):
+    """
+    A damage-oriented yet moderately well-rounded melee class.
+
+    Key Traits:
+    - Strong strength growth.
+    - Other growths are moderate across the board.
+    - Abilities exclusively focused on dealing damage in a wide
+        variety of ways
+
+    Weapons:
+    - Swords, Axes
+
+    Armor:
+    - Light armor
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 47

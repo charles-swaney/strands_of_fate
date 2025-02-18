@@ -7,9 +7,24 @@ if TYPE_CHECKING:
 
 
 class SpellBlade(Job):
+    """
+    A melee hybrid class that is able to attack competently with their weapons
+    and spells alike.
+
+    Key Traits:
+    - Very balanced stat growths, but weak defensive stats.
+    - Other growths are moderate across 
+    - Abilities allow them to deal damage in both melee and magical combat.
+
+    Weapons:
+    - Swords
+
+    Armor:
+    - Light armor, Robes
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 48
+        # Total: 51
         return {
             "hp": 6,
             "mp": 5,
@@ -21,8 +36,8 @@ class SpellBlade(Job):
             "wisdom": 4,
             "speed": 5,
             "tenacity": 3,
-            "charisma": 4,
-            "luck": 4
+            "charisma": 5,
+            "luck": 6
         }
 
     @property

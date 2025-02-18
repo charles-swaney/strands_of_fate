@@ -7,6 +7,21 @@ if TYPE_CHECKING:
 
 
 class BlackMage(Job):
+    """
+    The archetypical damage-dealing mage.
+
+    Key Traits:
+    - Good intellect and mp growth.
+    - Extremely squishy.
+    - Access to many elements to deal magic damage to single and multiple 
+        targets.
+
+    Weapons:
+    - Rods, Daggers
+
+    Armor:
+    - Robes
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 45

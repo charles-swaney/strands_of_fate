@@ -7,6 +7,21 @@ if TYPE_CHECKING:
 
 
 class Bard(Job):
+    """
+    A class entirely focused on buffing allies, and keeping morale high.
+
+    Key Traits:
+    - Very good charisma and luck growths.
+    - Other growths are somewhat balanced across the board, with less
+        emphasis on melee combat.
+    - Has access to the widest range of ally buffing abilities in the game.
+
+    Weapons:
+    - Swords, Bows, Poles
+
+    Armor:
+    - Light armor, Robes
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 49

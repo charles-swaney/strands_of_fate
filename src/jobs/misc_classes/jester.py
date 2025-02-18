@@ -7,22 +7,35 @@ if TYPE_CHECKING:
 
 
 class Jester(Job):
+    """
+    A class focused on sowing chaos and discord on the battlefield.
+
+    Key Traits:
+    - Very strong speed, charisma, agility, luck growths.
+    - Abilities focus on buffing allies and debuffing enemies.
+
+    Weapons:
+    - Daggers
+
+    Armor:
+    - Light armor
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 50
+        # Total: 54
         return {
             "hp": 5,
             "mp": 4,
             "strength": 4,
             "toughness": 3,
             "dexterity": 6,
-            "agility": 6,
+            "agility": 8,
             "intellect": 3,
             "wisdom": 4,
             "speed": 9,
             "tenacity": 1,
-            "charisma": 8,
-            "luck": 6
+            "charisma": 9,
+            "luck": 7
         }
     
     @property

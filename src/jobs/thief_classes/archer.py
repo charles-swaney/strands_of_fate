@@ -7,6 +7,21 @@ if TYPE_CHECKING:
 
 
 class Archer(Job):
+    """
+    A class that focuses on dealing damage from afar.
+
+    Key Traits:
+    - Strong dexterity, decent growths across the board.
+    - Low hp, toughness, tenacity, wisdom, lead to being quite squishy.
+    - Focuses on dealing damage without taking damage, as well as targeting
+        the enemy backline.
+
+    Weapons:
+    - Bows
+
+    Armor:
+    - Light armor
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 50

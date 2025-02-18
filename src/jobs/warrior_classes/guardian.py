@@ -7,6 +7,22 @@ if TYPE_CHECKING:
 
 
 class Guardian(Job):
+    """
+    An extremely tanky and support-oriented melee class. Primarily focuses on
+    surviving combat, and buffing and healing allies.
+
+    Key Traits:
+    - Incredible toughness and tenacity growth.
+    - Very low strength, dexterity, agility growth, for a melee fighter.
+    - Above-average charisma and wisdom for supporting teammates.
+    - Abilities focused on buffing and protecting allies.
+
+    Weapons:
+    - Hammers, Rods
+
+    Armor:
+    - Heavy armor, Robes
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 51

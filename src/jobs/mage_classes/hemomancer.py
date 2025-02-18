@@ -7,9 +7,26 @@ if TYPE_CHECKING:
 
 
 class Hemomancer(Job):
+    """
+    An advanced class that casts spells using hp instead of mp. Wields the 
+    formidable power of blood magic to heal themselves while dealing damage.
+
+    Key Traits:
+    - Incredible hp and intellect growth.
+    - Very poor other growths for an advanced class, and -1 aptitude.
+    - Abilities afford them massive tankiness and damage, provided
+        they have the hp to sustain their casting.
+    - Poor stat growth is offset by very strong class abilities.
+
+    Weapons:
+    - Rods, Daggers
+
+    Armor:
+    - Robes
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 41
+        # Total: 44
         return {
             "hp": 10,
             "mp": 1,
@@ -20,9 +37,9 @@ class Hemomancer(Job):
             "intellect": 9,
             "wisdom": 5,
             "speed": 5,
-            "tenacity": 3,
+            "tenacity": 4,
             "charisma": 1,
-            "luck": 3
+            "luck": 6
         }
 
     @property

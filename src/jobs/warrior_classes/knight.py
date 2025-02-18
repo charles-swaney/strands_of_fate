@@ -7,6 +7,22 @@ if TYPE_CHECKING:
 
 
 class Knight(Job):
+    """
+    A well-rounded melee class with high tenacity, strong defense, and access
+    to basic healing abilities.
+
+    Key Traits:
+    - Good growth in toughness and tenacity.
+    - Respectable wisdom growth allows for non-trivial healing.
+    - Low speed growth and worse offensive capabilities than Warriors.
+    - Abilities range from minor support to damage-dealing.
+
+    Weapons:
+    - Swords, Hammers
+
+    Armor:
+    - Heavy armor, Robes
+    """
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 49
