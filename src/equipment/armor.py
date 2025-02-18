@@ -6,12 +6,12 @@ class Armor(Equipment):
     def __init__(
             self,
             name: str,
-            type: str,
-            watk: int,
+            armor_type: str,
             wdef: int,
-            matk: int,
             mdef: int,
-            equipment_stat_bonuses: Dict[str, int]):
+            matk: int = 0,
+            watk: int = 0,
+            equipment_stat_bonuses: Dict[str, int] = 0):
         self.name = name
         self.type = type
         self._watk = watk
