@@ -12,7 +12,7 @@ class Hemomancer(Job):
         # Total: 41
         return {
             "hp": 10,
-            "mp": 0,
+            "mp": 1,
             "strength": 2,
             "toughness": 5,
             "dexterity": 4,
