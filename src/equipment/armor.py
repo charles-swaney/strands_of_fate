@@ -11,7 +11,7 @@ class Armor(Equipment):
             mdef: int,
             matk: int = 0,
             watk: int = 0,
-            equipment_stat_bonuses: Dict[str, int] = 0):
+            equipment_stat_bonuses: Dict[str, int] = {}):
         self.name = name
         self.type = type
         self._watk = watk
