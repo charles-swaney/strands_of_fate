@@ -19,12 +19,14 @@ def test_equip_unequip_item():
     )
     longsword = Weapon(
         name="longsword",
+        slot="weapon",
         item_type="sword",
         watk=17,
         wdef=2
     )
     broadsword = Weapon(
         name="Broadsword",
+        slot="weapon",
         item_type="sword",
         watk=25
     )
@@ -45,6 +47,7 @@ def test_simple_equipment_bonuses():
     )
     bonus_longsword = Weapon(
         name="bonus_longsword",
+        slot="weapon",
         item_type="sword",
         watk=17,
         wdef=2,
@@ -77,6 +80,7 @@ def test_complex_equipment_bonuses():
     )
     complex_sword = Weapon(
         name="complex_sword",
+        slot="weapon",
         item_type="sword",
         watk=10,
         wdef=5,
@@ -106,18 +110,21 @@ def test_multiple_simple_equipments():
     )
     helmet = Armor(
         name="helmet",
+        slot="helmet",
         item_type="light_armor",
         wdef=5,
         mdef=5
     )
     armor = Armor(
         name="armor",
+        slot="armor",
         item_type="light_armor",
         wdef=10,
         mdef=5
     )
     gauntlets = Armor(
         name="gauntlets",
+        slot="gauntlet",
         item_type="light_armor",
         wdef=5,
         mdef=0,
@@ -125,6 +132,7 @@ def test_multiple_simple_equipments():
     )
     sword = Weapon(
         name="sword",
+        slot="weapon",
         item_type="sword",
         watk=10
     )
@@ -159,6 +167,7 @@ def test_multiple_complex_equipments():
     )
     helmet = Armor(
         name="helmet",
+        slot="helmet",
         item_type="light_armor",
         wdef=5,
         mdef=5,
@@ -169,6 +178,7 @@ def test_multiple_complex_equipments():
     )
     armor = Armor(
         name="armor",
+        slot="armor",
         item_type="light_armor",
         wdef=10,
         mdef=5,
@@ -181,6 +191,7 @@ def test_multiple_complex_equipments():
     )
     gauntlets = Armor(
         name="gauntlets",
+        slot="gauntlet",
         item_type="light_armor",
         wdef=5,
         mdef=0,
@@ -193,6 +204,7 @@ def test_multiple_complex_equipments():
     )
     sword = Weapon(
         name="sword",
+        slot="weapon",
         item_type="sword",
         watk=10,
         equipment_stat_bonuses={
