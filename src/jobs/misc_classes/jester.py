@@ -38,15 +38,15 @@ class Jester(Job):
             "charisma": 9,
             "luck": 7
         }
-    
+
     @property
     def class_aptitude(self) -> int:
         return 0
-    
+
     @property
     def job_name(self) -> str:
         return "Jester"
-    
+
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
@@ -58,14 +58,14 @@ class Jester(Job):
             "accessory": ["ring", "necklace"],
             "shield": []
         }
-    
+
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({
             "agility": 100,
             "speed": 70,
             "charisma": 90
         })
-    
+
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({
             "Thief": 5

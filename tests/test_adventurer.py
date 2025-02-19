@@ -17,29 +17,29 @@ def test_adventurer_initialization():
 
     bard_job = Bard()
     adventurer_1 = Adventurer(
-    name="William",
-    job=bard_job,
-    level=0
+        name="William",
+        job=bard_job,
+        level=0
     )
     adventurer_2 = Adventurer(
-    name="Sarah",
-    job=bard_job,
-    level=0,
-    aptitude=10,
-    hp=17
+        name="Sarah",
+        job=bard_job,
+        level=0,
+        aptitude=10,
+        hp=17
     )
     assert adventurer_1.base_stats.get_stat("hp") == 5
     assert adventurer_1.aptitude == 5
     assert adventurer_1.base_stats.get_stat("luck") == 9.5
     assert adventurer_2.base_stats.get_stat("hp") == 17
     assert adventurer_2.aptitude == 10
-    assert (adventurer_2.base_stats.get_stat("charisma") > 
+    assert (adventurer_2.base_stats.get_stat("charisma") >
             adventurer_1.base_stats.get_stat("charisma"))
     for item in adventurer_1.equipment.items().values():
         assert item is None
     for bonus in adventurer_1.equipment_bonuses.items():
         assert bonus is None
-    
+
 
 def test_level_up():
     """
@@ -50,19 +50,18 @@ def test_level_up():
     - levels_gained counts properly across multiple classes
     """
     random.seed(1301)
-    gambler_job = Gambler()
     bard_job = Bard()
     adventurer_1 = Adventurer(
-    name="William",
-    job=bard_job,
-    level=0
+        name="William",
+        job=bard_job,
+        level=0
     )
     adventurer_2 = Adventurer(
-    name="Sarah",
-    job=bard_job,
-    level=0,
-    aptitude=10,
-    hp=17
+        name="Sarah",
+        job=bard_job,
+        level=0,
+        aptitude=10,
+        hp=17
     )
     for _ in range(50):
         adventurer_1.level_up()

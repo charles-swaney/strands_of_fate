@@ -45,11 +45,11 @@ class Warrior(Job):
     @property
     def class_aptitude(self) -> int:
         return 0
-    
+
     @property
     def job_name(self) -> str:
         return "Warrior"
-    
+
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
@@ -61,10 +61,10 @@ class Warrior(Job):
             "accessory": ["ring", "necklace"],
             "shield": ["shield"]
         }
-    
+
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({})
-    
+
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({})
 

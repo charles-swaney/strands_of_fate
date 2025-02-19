@@ -6,6 +6,7 @@ if TYPE_CHECKING:
     from equipment.equipment import Equipment
     from jobs.job import Job
 
+
 class EquipmentSlots:
     def __init__(self, valid_slots: Dict[str, List[str]]):
         """
@@ -14,13 +15,13 @@ class EquipmentSlots:
         Params:
             valid_slots: A dictionary whose keys are the equipment slot names
                 (e.g. armor) and whose values are lists of valid equipment
-                types (e.g. heavy_armor, light_armor, etc.) 
+                types (e.g. heavy_armor, light_armor, etc.)
         """
         self.valid_slots = valid_slots
         self.slots: Dict[str, Optional["Equipment"]] = {
             slot: None for slot in self.valid_slots
-        }
-    
+            }
+
     def equip(self, slot: str, item: Optional["Equipment"], job: "Job") -> None:
         """
         Equip a piece of equipment in the specified slot.
@@ -32,14 +33,14 @@ class EquipmentSlots:
         """
         if slot not in self.valid_slots:
             raise ValueError(f"Invalid slot: {slot}")
-        
+
         if item is not None:
             if item.slot != slot:
                 raise ValueError(f"Cannot equip {item.item_type} in {slot} slot.")
-            
+
             if item.item_type not in job.allowed_item_types[slot]:
                 raise ValueError(f"{job.job_name}s cannot equip {item.item_type}.")
-        
+
         self.slots[slot] = item
 
     def unequip(self, slot: str) -> None:
@@ -49,11 +50,11 @@ class EquipmentSlots:
     def get_item(self, slot: str) -> Optional["Equipment"]:
         """Return the item, if any, that is currently equipped in slot."""
         return self.slots.get(slot)
-    
+
     def items(self) -> Dict[str, Optional["Equipment"]]:
         """Return all equipped items in a dictionary."""
         return self.slots.copy()
-    
+
     def get_equipment_bonuses(self) -> "Attributes":
         """Return an Attributes object containing all equipment bonuses."""
         total_bonuses = Attributes({})

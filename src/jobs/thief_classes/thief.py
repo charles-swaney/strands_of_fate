@@ -42,15 +42,15 @@ class Thief(Job):
             "charisma": 4,
             "luck": 6
         }
-    
+
     @property
     def class_aptitude(self) -> int:
         return 0
-    
+
     @property
     def job_name(self) -> str:
         return "Thief"
-    
+
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
@@ -62,10 +62,10 @@ class Thief(Job):
             "accessory": ["ring", "necklace"],
             "shield": []
         }
-    
+
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({})
-    
+
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({})
 
@@ -82,7 +82,7 @@ class Thief(Job):
             stat_bonus = compute_stat_bonus(
                 base_aptitude=adventurer.aptitude,
                 class_aptitude=self.class_aptitude)
-            
+
             adventurer.base_stats.add_to_stat(
                 stat,
                 growth_rate + (bonus_mult * stat_bonus)

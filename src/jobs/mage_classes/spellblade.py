@@ -14,7 +14,7 @@ class SpellBlade(Job):
 
     Key Traits:
     - Very balanced stat growths, but weak defensive stats.
-    - Other growths are moderate across 
+    - Other growths are moderate across the board.
     - Abilities allow them to deal damage in both melee and magical combat.
 
     Weapons:
@@ -44,11 +44,11 @@ class SpellBlade(Job):
     @property
     def class_aptitude(self) -> int:
         return -0.5
-    
+
     @property
     def job_name(self) -> str:
         return "SpellBlade"
-    
+
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
@@ -60,13 +60,13 @@ class SpellBlade(Job):
             "accessory": ["ring", "necklace"],
             "shield": ["shield"]
         }
-    
+
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({
             "strength": 60,
             "intellect": 60
         })
-    
+
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({
             "BlackMage": 5,

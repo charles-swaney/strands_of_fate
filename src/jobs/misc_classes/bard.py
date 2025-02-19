@@ -40,15 +40,15 @@ class Bard(Job):
             "charisma": 9,
             "luck": 8
         }
-    
+
     @property
     def class_aptitude(self) -> int:
         return 1
-    
+
     @property
     def job_name(self) -> str:
         return "Bard"
-    
+
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
@@ -60,10 +60,10 @@ class Bard(Job):
             "accessory": ["ring", "necklace"],
             "shield": []
         }
-    
+
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({})
-    
+
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({})
 

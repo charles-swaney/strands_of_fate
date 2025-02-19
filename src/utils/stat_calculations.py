@@ -8,14 +8,14 @@ APTITUDE_SCALING = 1.27
 
 def compute_stat_bonus(base_aptitude: int, class_aptitude: float) -> int:
     """
-    Compute the random stat growth based on aptitude. 
+    Compute the random stat growth based on aptitude.
 
     Args:
         base_aptitude (int): the unit's aptitude (expected range:
             0 to 10)
         class_aptitude (float): the aptitude associated with the unit's class
-            (expected range: -2 to 2)   
-    
+            (expected range: -2 to 2)
+
     Returns:
         int: either 0, +1, or -1, representing an aptitude-based
             perturbation to the adventurer's stat growth.
@@ -34,17 +34,19 @@ def compute_stat_bonus(base_aptitude: int, class_aptitude: float) -> int:
     aptitude = base_aptitude + class_aptitude
 
     if aptitude >= 5:
-        threshold_for_plus_one = AVERAGE_PLUS_ONE_PROB + ((aptitude - AVERAGE_APTITUDE) ** APTITUDE_SCALING) * 0.0549
-        threshold_for_plus_zero = AVERAGE_PLUS_ZERO_PROB + ((aptitude - AVERAGE_APTITUDE) ** APTITUDE_SCALING) * 0.011
+        threshold_for_plus_one = (AVERAGE_PLUS_ONE_PROB +
+                                  ((aptitude - AVERAGE_APTITUDE) ** APTITUDE_SCALING) * 0.0549)
+        threshold_for_plus_zero = (AVERAGE_PLUS_ZERO_PROB +
+                                   ((aptitude - AVERAGE_APTITUDE) ** APTITUDE_SCALING) * 0.011)
     else:
         threshold_for_plus_one = 0.15 / 7 * aptitude + 1/7
         threshold_for_plus_zero = 0.5 - (AVERAGE_APTITUDE - aptitude) / 28
-    
+
     check_plus_one = random.random()
-    
+
     if check_plus_one < threshold_for_plus_one:
         return 1
-    
+
     else:
         check_plus_zero = random.random()
         if check_plus_zero < threshold_for_plus_zero:

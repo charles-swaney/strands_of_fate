@@ -1,17 +1,18 @@
 from core.stats.attributes import Attributes
-from typing import Optional, Dict, Union, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 
 if TYPE_CHECKING:
     from monsters.monster_species import MonsterSpecies
+
 
 class Monster:
 
     def __init__(
             self,
             monster_species: "MonsterSpecies",
-            level: int=0,
-            aptitude: float=5,
+            level: int = 0,
+            aptitude: float = 5,
             **stat_overrides: float):
 
         self.monster_species = monster_species
@@ -34,7 +35,7 @@ class Monster:
         }
 
         self._stats = Attributes(ZERO_STATS)
-                                      
+
         for _ in range(self.level):
             self.level_up()
         self._stats.update_override(stat_overrides)
@@ -42,7 +43,6 @@ class Monster:
     @property
     def stats(self) -> Attributes:
         return self._stats
-    
 
     def level_up(self):
         """Increase Monster level with stat growths."""

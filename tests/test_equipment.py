@@ -38,6 +38,7 @@ def test_equip_unequip_item():
     adventurer.unequip("weapon")
     assert adventurer.base_watk == THEORETICAL_BASE_WATK
 
+
 def test_simple_equipment_bonuses():
     random.seed(1301)
     fighter_job = Fighter()
@@ -63,13 +64,16 @@ def test_simple_equipment_bonuses():
     adventurer.equip("weapon", bonus_longsword)
     assert adventurer.base_stats.stats == old_base_stats.stats
     assert adventurer.total_stats.stats != old_total_stats.stats
-    assert adventurer.total_stats.get_stat("strength") == (adventurer.base_stats.get_stat("strength") + 10)
-    assert adventurer.total_stats.get_stat("toughness") == (adventurer.base_stats.get_stat("toughness") + 5)
+    assert adventurer.total_stats.get_stat("strength") == \
+        (adventurer.base_stats.get_stat("strength") + 10)
+    assert adventurer.total_stats.get_stat("toughness") == \
+        (adventurer.base_stats.get_stat("toughness") + 5)
     assert adventurer.base_watk == THEORETICAL_BASE_WATK + 27
     assert adventurer.base_wdef == THEORETICAL_BASE_WDEF + 7
     adventurer.unequip("weapon")
     assert adventurer.base_watk == THEORETICAL_BASE_WATK
     assert adventurer.base_wdef == THEORETICAL_BASE_WDEF
+
 
 def test_complex_equipment_bonuses():
     random.seed(1301)
@@ -100,6 +104,7 @@ def test_complex_equipment_bonuses():
     assert adventurer.base_stats.stats == old_base_stats.stats
     assert adventurer.base_watk == THEORETICAL_BASE_WATK + 10 + 10 + 0.3
     assert adventurer.base_mdef == THEORETICAL_BASE_MDEF + 1.5 + 0.3
+
 
 def test_multiple_simple_equipments():
     random.seed(1301)
@@ -139,7 +144,7 @@ def test_multiple_simple_equipments():
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF and
             adventurer.base_watk == THEORETICAL_BASE_WATK and
             adventurer.base_wdef == THEORETICAL_BASE_WDEF)
-    
+
     adventurer.equip("helmet", helmet)
     adventurer.equip("armor", armor)
     adventurer.equip("gauntlet", gauntlets)
@@ -148,7 +153,7 @@ def test_multiple_simple_equipments():
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF + 5 + 5 + 0 and
             adventurer.base_watk == THEORETICAL_BASE_WATK + 5 + 10 and
             adventurer.base_wdef == THEORETICAL_BASE_WDEF + 5 + 10 + 5)
-    
+
     adventurer.unequip("helmet")
     adventurer.unequip("armor")
     adventurer.unequip("gauntlet")
@@ -157,6 +162,7 @@ def test_multiple_simple_equipments():
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF and
             adventurer.base_watk == THEORETICAL_BASE_WATK and
             adventurer.base_wdef == THEORETICAL_BASE_WDEF)
+
 
 def test_multiple_complex_equipments():
     random.seed(1301)
@@ -218,16 +224,19 @@ def test_multiple_complex_equipments():
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF and
             adventurer.base_watk == THEORETICAL_BASE_WATK and
             adventurer.base_wdef == THEORETICAL_BASE_WDEF)
-    
+
     adventurer.equip("helmet", helmet)
     adventurer.equip("armor", armor)
     adventurer.equip("gauntlet", gauntlets)
     adventurer.equip("weapon", sword)
 
-    assert adventurer.base_mdef == approx(THEORETICAL_BASE_MDEF + 5 + 5 + 0 + (10 + 0.3 + 0.15 + 1.5 + 0.15 + 5 + 1.5 + 0.6))
-    assert adventurer.base_watk == approx(THEORETICAL_BASE_WATK + 5 + 10 + (10 + 0.15 + 10 + 0.15 + 2.2 + 0.6))
-    assert adventurer.base_wdef == approx(THEORETICAL_BASE_WDEF + 5 + 10 + 5 + (5 + 20 + 0.15 + 0.15 - 5 + 0.6))
-    
+    assert adventurer.base_mdef == approx(THEORETICAL_BASE_MDEF + 5 + 5 + 0 +
+                                          (10 + 0.3 + 0.15 + 1.5 + 0.15 + 5 + 1.5 + 0.6))
+    assert adventurer.base_watk == approx(THEORETICAL_BASE_WATK + 5 + 10 +
+                                          (10 + 0.15 + 10 + 0.15 + 2.2 + 0.6))
+    assert adventurer.base_wdef == approx(THEORETICAL_BASE_WDEF + 5 + 10 + 5 +
+                                          (5 + 20 + 0.15 + 0.15 - 5 + 0.6))
+
     adventurer.unequip("helmet")
     adventurer.unequip("armor")
     adventurer.unequip("gauntlet")
@@ -236,5 +245,3 @@ def test_multiple_complex_equipments():
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF and
             adventurer.base_watk == THEORETICAL_BASE_WATK and
             adventurer.base_wdef == THEORETICAL_BASE_WDEF)
-
-

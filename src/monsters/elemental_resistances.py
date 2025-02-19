@@ -7,6 +7,6 @@ class ElementalResistances:
 
     def get_resistance(self, element: str) -> float:
         return self.resistances.get(element, 0)
-    
+
     def set_resistance(self, element: str, new_value: float):
         self.resistances[element] = new_value

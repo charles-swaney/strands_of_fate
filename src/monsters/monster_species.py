@@ -1,17 +1,14 @@
 from abc import ABC, abstractmethod
-from typing import Dict, TYPE_CHECKING, List
+from typing import Dict
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
-
-if TYPE_CHECKING:
-    from monsters.monster import Monster
 
 
 class MonsterSpecies(ABC):
     """
     Base class defining general properties of a monster like resistances.
     """
-    
+
     @property
     @abstractmethod
     def growth_rates(self) -> Dict[str, int]:

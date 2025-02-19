@@ -4,7 +4,6 @@ from typing import Dict, TYPE_CHECKING, List
 if TYPE_CHECKING:
     from jobs.job_requirements import JobLevelRequirement, StatRequirement
     from src.adventurers.adventurer import Adventurer
-    from src.core.stats.attributes import Attributes
 
 
 class Job(ABC):

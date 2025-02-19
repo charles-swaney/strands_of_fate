@@ -41,15 +41,15 @@ class Knight(Job):
             "charisma": 5,
             "luck": 2
         }
-    
+
     @property
     def class_aptitude(self) -> int:
         return 0.5
-    
+
     @property
     def job_name(self) -> str:
         return "Knight"
-    
+
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
@@ -61,14 +61,14 @@ class Knight(Job):
             "accessory": ["ring", "necklace"],
             "shield": ["shield"]
         }
-    
+
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({
             "strength": 75,
             "wisdom": 44,
             "tenacity": 55
         })
-    
+
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({
             "Warrior": 5,

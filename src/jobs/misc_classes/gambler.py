@@ -40,15 +40,15 @@ class Gambler(Job):
             "charisma": 7,
             "luck": 11
         }
-    
+
     @property
     def class_aptitude(self) -> int:
         return 0
-    
+
     @property
     def job_name(self) -> str:
         return "Gambler"
-        
+
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
@@ -60,13 +60,13 @@ class Gambler(Job):
             "accessory": ["ring", "necklace"],
             "shield": []
         }
-    
+
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({
             "agility": 80,
-            "luck": 150 # Only the lucky can gamble !
+            "luck": 150  # Only the lucky can gamble !
         })
-    
+
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({
             "Jester": 5,

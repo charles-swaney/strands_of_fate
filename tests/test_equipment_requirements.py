@@ -1,4 +1,3 @@
-import random
 import pytest
 from adventurers.adventurer import Adventurer
 from jobs.mage_classes.hemomancer import Hemomancer
@@ -57,6 +56,7 @@ def test_invalid_for_slot():
     for bonus in adventurer.equipment_bonuses.items():
         assert bonus is None
 
+
 def test_invalid_item_type():
     gambler_class = Gambler()
     adventurer = Adventurer(
@@ -107,6 +107,7 @@ def test_invalid_item_type():
     for bonus in adventurer.equipment_bonuses.items():
         assert bonus is None
 
+
 def test_both_invalid():
     gambler_class = Gambler()
     adventurer = Adventurer(
@@ -122,6 +123,7 @@ def test_both_invalid():
     )
     with pytest.raises(ValueError):
         adventurer.equip("weapon", robe)
+
 
 def test_valid_equips():
     hemomancer_class = Hemomancer()

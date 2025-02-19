@@ -6,18 +6,18 @@ from equipment.equipment import Equipment
 
 if TYPE_CHECKING:
     from src.jobs.job import Job
-    
+
 
 class Adventurer:
 
     def __init__(
-        self,
-        name: str,
-        job: "Job",
-        level: int = 0,
-        levels_gained: Optional[Union[Dict[str, int], defaultdict]] = None,
-        aptitude: float = 5,
-        **stat_overrides: float):
+            self,
+            name: str,
+            job: "Job",
+            level: int = 0,
+            levels_gained: Optional[Union[Dict[str, int], defaultdict]] = None,
+            aptitude: float = 5,
+            **stat_overrides: float):
 
         self.name = name
         self.job = job
@@ -55,7 +55,7 @@ class Adventurer:
     def base_stats(self) -> Attributes:
         """Base stats without equipment or other bonuses."""
         return self._base_stats
-    
+
     @property
     def equipment_bonuses(self) -> Attributes:
         """Stat bonuses from all equipment."""
@@ -66,7 +66,7 @@ class Adventurer:
         """Total stats from base stats, equipment, and other bonuses."""
         total = self._base_stats.copy()
         return total.update(self.equipment_bonuses)
-    
+
     @property
     def base_watk(self) -> float:
         """Damage dealt when attacking with a weapon."""
@@ -76,7 +76,7 @@ class Adventurer:
             eq.watk for eq in self.equipment.slots.values() if eq is not None
             )
         return base + equipment_watk
-    
+
     @property
     def base_wdef(self) -> float:
         """Resistance to physical damage."""
@@ -86,7 +86,7 @@ class Adventurer:
             eq.wdef for eq in self.equipment.slots.values() if eq is not None
         )
         return base + equipment_wdef
-    
+
     @property
     def base_matk(self) -> float:
         """Damage dealt with spells."""
@@ -97,7 +97,7 @@ class Adventurer:
             eq.matk for eq in self.equipment.slots.values() if eq is not None
         )
         return base + equipment_matk
-    
+
     @property
     def base_mdef(self) -> float:
         """Resistence to magical damage."""
@@ -108,15 +108,15 @@ class Adventurer:
             eq.mdef for eq in self.equipment.slots.values() if eq is not None
         )
         return base + equipment_mdef
-    
+
     def equip(self, slot, item: Equipment):
         """Equip the given item in slot and update stats."""
         self.equipment.equip(slot, item, self.job)
-        
+
     def unequip(self, slot: str):
         """Unequip whatever is equipped in slot and update stats."""
         self.equipment.unequip(slot)
-    
+
     def _add_level_gained(self) -> None:
         """Log a level up within the Adventurer's current class."""
         self.levels_gained[self.job.job_name] += 1

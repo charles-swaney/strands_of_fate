@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 class Hemomancer(Job):
     """
-    An advanced class that casts spells using hp instead of mp. Wields the 
+    An advanced class that casts spells using hp instead of mp. Wields the
     formidable power of blood magic to heal themselves while dealing damage.
 
     Key Traits:
@@ -46,11 +46,11 @@ class Hemomancer(Job):
     @property
     def class_aptitude(self) -> int:
         return -1
-    
+
     @property
     def job_name(self) -> str:
         return "Hemomancer"
-    
+
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
@@ -62,13 +62,13 @@ class Hemomancer(Job):
             "accessory": ["ring", "necklace"],
             "shield": []
         }
-    
+
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({
             "hp": 200,
             "intellect": 100
         })
-    
+
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({})
 

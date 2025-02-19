@@ -25,28 +25,27 @@ class Armor(Equipment):
     @property
     def equipment_stat_bonuses(self) -> Dict[str, int]:
         return self._equipment_stat_bonuses
-    
+
     @property
     def slot(self) -> str:
         return self._slot
-    
+
     @property
     def item_type(self) -> str:
         return self._item_type
-    
+
     @property
     def watk(self) -> int:
         return self._watk
-    
+
     @property
     def wdef(self) -> int:
         return self._wdef
-    
+
     @property
     def matk(self) -> int:
         return self._matk
-    
+
     @property
     def mdef(self) -> int:
         return self._mdef
-    
