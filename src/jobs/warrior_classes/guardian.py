@@ -1,6 +1,6 @@
 from src.jobs.job import Job
 from typing import Dict, TYPE_CHECKING, List
-from src.utils.stat_calculations import compute_stat_bonus
+from utils.bonus_growth_calculations import compute_stat_bonus
 
 if TYPE_CHECKING:
     from src.jobs.job import Adventurer
@@ -22,7 +22,7 @@ class Guardian(Job):
     - Hammers, Rods, Staves
 
     Armor:
-    - Heavy armor, Robes
+    - Heavy armor, Light armor, Robes
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
@@ -54,10 +54,10 @@ class Guardian(Job):
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
             "weapon": ["rod", "hammer", "staff"],
-            "armor": ["heavy_armor", "robe"],
-            "gauntlet": ["heavy_armor", "robe"],
-            "greaves": ["heavy_armor", "robe"],
-            "helmet": ["heavy_armor", "robe"],
+            "armor": ["heavy_armor", "light_armor", "robe"],
+            "gauntlet": ["heavy_armor", "light_armor", "robe"],
+            "greaves": ["heavy_armor", "light_armor", "robe"],
+            "helmet": ["heavy_armor", "light_armor", "robe"],
             "accessory": ["ring", "necklace"],
             "shield": ["shield"]
         }
