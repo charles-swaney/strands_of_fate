@@ -14,7 +14,7 @@ class Adventurer:
             self,
             name: str,
             job: "Job",
-            level: int = 0,
+            level: int = 1,
             levels_gained: Optional[Union[Dict[str, int], defaultdict]] = None,
             aptitude: float = 5,
             **stat_overrides: float):
