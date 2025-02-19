@@ -1,5 +1,5 @@
 from src.jobs.job import Job
-from typing import Dict, TYPE_CHECKING
+from typing import Dict, TYPE_CHECKING, List
 from src.utils.stat_calculations import compute_stat_bonus
 
 if TYPE_CHECKING:
@@ -19,7 +19,7 @@ class Guardian(Job):
     - Abilities focused on buffing and protecting allies.
 
     Weapons:
-    - Hammers, Rods
+    - Hammers, Rods, Staves
 
     Armor:
     - Heavy armor, Robes
@@ -49,6 +49,18 @@ class Guardian(Job):
     @property
     def job_name(self) -> str:
         return "Guardian"
+    
+    @property
+    def allowed_item_types(self) -> Dict[str, List[str]]:
+        return {
+            "weapon": ["rod", "hammer", "staff"],
+            "armor": ["heavy_armor", "robe"],
+            "gauntlet": ["heavy_armor", "robe"],
+            "greaves": ["heavy_armor", "robe"],
+            "helmet": ["heavy_armor", "robe"],
+            "accessory": ["ring", "necklace"],
+            "shield": ["shield"]
+        }
     
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({
