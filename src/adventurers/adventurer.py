@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     
 
 class Adventurer:
-    
+
     def __init__(
         self,
         name: str,
@@ -47,8 +47,8 @@ class Adventurer:
         self._base_stats = Attributes(base_stats)
 
         self.equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
-
-        self.job.apply_level_up(self) # Start at level 1
+        for _ in range(self.level):
+            self.job.apply_level_up(self)
         self._base_stats.update_override(stat_overrides)
 
     @property
