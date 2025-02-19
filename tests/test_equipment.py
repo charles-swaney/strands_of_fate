@@ -19,21 +19,21 @@ def test_equip_unequip_item():
     )
     longsword = Weapon(
         name="longsword",
-        weapon_type="sword",
+        item_type="sword",
         watk=17,
         wdef=2
     )
     broadsword = Weapon(
         name="Broadsword",
-        weapon_type="sword",
+        item_type="sword",
         watk=25
     )
     assert adventurer.base_watk == THEORETICAL_BASE_WATK
-    adventurer.equipment["weapon"] = longsword
+    adventurer.equip("weapon", longsword)
     assert adventurer.base_watk == THEORETICAL_BASE_WATK + longsword.watk
-    adventurer.equipment["weapon"] = broadsword
+    adventurer.equip("weapon", broadsword)
     assert adventurer.base_watk == THEORETICAL_BASE_WATK + broadsword.watk
-    adventurer.equipment["weapon"] = None
+    adventurer.unequip("weapon")
     assert adventurer.base_watk == THEORETICAL_BASE_WATK
 
 def test_simple_equipment_bonuses():
@@ -45,7 +45,7 @@ def test_simple_equipment_bonuses():
     )
     bonus_longsword = Weapon(
         name="bonus_longsword",
-        weapon_type="sword",
+        item_type="sword",
         watk=17,
         wdef=2,
         equipment_stat_bonuses={
@@ -57,14 +57,14 @@ def test_simple_equipment_bonuses():
     old_total_stats = adventurer.total_stats
     assert adventurer.base_watk == THEORETICAL_BASE_WATK
     assert adventurer.base_wdef == THEORETICAL_BASE_WDEF
-    adventurer.equipment["weapon"] = bonus_longsword
+    adventurer.equip("weapon", bonus_longsword)
     assert adventurer.base_stats.stats == old_base_stats.stats
     assert adventurer.total_stats.stats != old_total_stats.stats
     assert adventurer.total_stats.get_stat("strength") == (adventurer.base_stats.get_stat("strength") + 10)
     assert adventurer.total_stats.get_stat("toughness") == (adventurer.base_stats.get_stat("toughness") + 5)
     assert adventurer.base_watk == THEORETICAL_BASE_WATK + 27
     assert adventurer.base_wdef == THEORETICAL_BASE_WDEF + 7
-    adventurer.equipment["weapon"] = None
+    adventurer.unequip("weapon")
     assert adventurer.base_watk == THEORETICAL_BASE_WATK
     assert adventurer.base_wdef == THEORETICAL_BASE_WDEF
 
@@ -77,7 +77,7 @@ def test_complex_equipment_bonuses():
     )
     complex_sword = Weapon(
         name="complex_sword",
-        weapon_type="sword",
+        item_type="sword",
         watk=10,
         wdef=5,
         equipment_stat_bonuses={
@@ -91,7 +91,7 @@ def test_complex_equipment_bonuses():
     old_base_stats = adventurer.base_stats
     assert adventurer.base_mdef == THEORETICAL_BASE_MDEF
     assert adventurer.base_watk == THEORETICAL_BASE_WATK
-    adventurer.equipment["weapon"] = complex_sword
+    adventurer.equip("weapon", complex_sword)
     assert adventurer.total_stats.get_stat("luck") == (adventurer.base_stats.get_stat("luck") + 10)
     assert adventurer.base_stats.stats == old_base_stats.stats
     assert adventurer.base_watk == THEORETICAL_BASE_WATK + 10 + 10 + 0.3
@@ -106,45 +106,45 @@ def test_multiple_simple_equipments():
     )
     helmet = Armor(
         name="helmet",
-        armor_type="helmet",
+        item_type="light_armor",
         wdef=5,
         mdef=5
     )
     armor = Armor(
         name="armor",
-        armor_type="armor",
+        item_type="light_armor",
         wdef=10,
         mdef=5
     )
     gauntlets = Armor(
         name="gauntlets",
-        armor_type="gauntlets",
+        item_type="light_armor",
         wdef=5,
         mdef=0,
         watk=5
     )
     sword = Weapon(
         name="sword",
-        weapon_type="sword",
+        item_type="sword",
         watk=10
     )
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF and
             adventurer.base_watk == THEORETICAL_BASE_WATK and
             adventurer.base_wdef == THEORETICAL_BASE_WDEF)
     
-    adventurer.equipment["helmet"] = helmet
-    adventurer.equipment["armor"] = armor
-    adventurer.equipment["gauntlets"] = gauntlets
-    adventurer.equipment["sword"] = sword
+    adventurer.equip("helmet", helmet)
+    adventurer.equip("armor", armor)
+    adventurer.equip("gauntlet", gauntlets)
+    adventurer.equip("weapon", sword)
 
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF + 5 + 5 + 0 and
             adventurer.base_watk == THEORETICAL_BASE_WATK + 5 + 10 and
             adventurer.base_wdef == THEORETICAL_BASE_WDEF + 5 + 10 + 5)
     
-    adventurer.equipment["helmet"] = None
-    adventurer.equipment["armor"] = None
-    adventurer.equipment["gauntlets"] = None
-    adventurer.equipment["sword"] = None
+    adventurer.unequip("helmet")
+    adventurer.unequip("armor")
+    adventurer.unequip("gauntlet")
+    adventurer.unequip("weapon")
 
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF and
             adventurer.base_watk == THEORETICAL_BASE_WATK and
@@ -159,7 +159,7 @@ def test_multiple_complex_equipments():
     )
     helmet = Armor(
         name="helmet",
-        armor_type="helmet",
+        item_type="light_armor",
         wdef=5,
         mdef=5,
         equipment_stat_bonuses={
@@ -169,7 +169,7 @@ def test_multiple_complex_equipments():
     )
     armor = Armor(
         name="armor",
-        armor_type="armor",
+        item_type="light_armor",
         wdef=10,
         mdef=5,
         equipment_stat_bonuses={
@@ -181,7 +181,7 @@ def test_multiple_complex_equipments():
     )
     gauntlets = Armor(
         name="gauntlets",
-        armor_type="gauntlets",
+        item_type="light_armor",
         wdef=5,
         mdef=0,
         watk=5,
@@ -193,7 +193,7 @@ def test_multiple_complex_equipments():
     )
     sword = Weapon(
         name="sword",
-        weapon_type="sword",
+        item_type="sword",
         watk=10,
         equipment_stat_bonuses={
             "strength": 2.2,
@@ -207,19 +207,19 @@ def test_multiple_complex_equipments():
             adventurer.base_watk == THEORETICAL_BASE_WATK and
             adventurer.base_wdef == THEORETICAL_BASE_WDEF)
     
-    adventurer.equipment["helmet"] = helmet
-    adventurer.equipment["armor"] = armor
-    adventurer.equipment["gauntlets"] = gauntlets
-    adventurer.equipment["sword"] = sword
+    adventurer.equip("helmet", helmet)
+    adventurer.equip("armor", armor)
+    adventurer.equip("gauntlet", gauntlets)
+    adventurer.equip("weapon", sword)
 
     assert adventurer.base_mdef == approx(THEORETICAL_BASE_MDEF + 5 + 5 + 0 + (10 + 0.3 + 0.15 + 1.5 + 0.15 + 5 + 1.5 + 0.6))
     assert adventurer.base_watk == approx(THEORETICAL_BASE_WATK + 5 + 10 + (10 + 0.15 + 10 + 0.15 + 2.2 + 0.6))
     assert adventurer.base_wdef == approx(THEORETICAL_BASE_WDEF + 5 + 10 + 5 + (5 + 20 + 0.15 + 0.15 - 5 + 0.6))
     
-    adventurer.equipment["helmet"] = None
-    adventurer.equipment["armor"] = None
-    adventurer.equipment["gauntlets"] = None
-    adventurer.equipment["sword"] = None
+    adventurer.unequip("helmet")
+    adventurer.unequip("armor")
+    adventurer.unequip("gauntlet")
+    adventurer.unequip("weapon")
 
     assert (adventurer.base_mdef == THEORETICAL_BASE_MDEF and
             adventurer.base_watk == THEORETICAL_BASE_WATK and
