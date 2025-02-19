@@ -36,7 +36,7 @@ class EquipmentSlots:
 
         if item is not None:
             if item.slot != slot:
-                raise ValueError(f"Cannot equip {item.item_type} in {slot} slot.")
+                raise ValueError(f"Cannot equip {item.slot} in {slot} slot.")
 
             if item.item_type not in job.allowed_item_types[slot]:
                 raise ValueError(f"{job.job_name}s cannot equip {item.item_type}.")
