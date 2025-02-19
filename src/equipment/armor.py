@@ -6,14 +6,14 @@ class Armor(Equipment):
     def __init__(
             self,
             name: str,
-            armor_type: str,
+            item_type: str,
             wdef: int,
             mdef: int,
             matk: int = 0,
             watk: int = 0,
             equipment_stat_bonuses: Dict[str, int] = {}):
         self.name = name
-        self.type = type
+        self._item_type = item_type
         self._watk = watk
         self._wdef = wdef
         self._matk = matk
@@ -23,6 +23,10 @@ class Armor(Equipment):
     @property
     def equipment_stat_bonuses(self) -> Dict[str, int]:
         return self._equipment_stat_bonuses
+    
+    @property
+    def item_type(self) -> str:
+        return self._item_type
     
     @property
     def watk(self) -> int:

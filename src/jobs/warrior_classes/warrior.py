@@ -1,5 +1,5 @@
 from src.jobs.job import Job
-from typing import Dict, TYPE_CHECKING
+from typing import Dict, TYPE_CHECKING, List
 from src.utils.stat_calculations import compute_stat_bonus
 
 if TYPE_CHECKING:
@@ -49,6 +49,18 @@ class Warrior(Job):
     @property
     def job_name(self) -> str:
         return "Warrior"
+    
+    @property
+    def allowed_item_types(self) -> Dict[str, List[str]]:
+        return {
+            "weapon": ["sword", "axe", "hammer"],
+            "armor": ["light_armor", "heavy_armor"],
+            "gauntlet": ["light_armor", "heavy_armor"],
+            "greaves": ["light_armor", "heavy_armor"],
+            "helmet": ["light_armor", "heavy_armor"],
+            "accessory": ["ring", "necklace"],
+            "shield": ["shield"]
+        }
     
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({})

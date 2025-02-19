@@ -35,9 +35,9 @@ def test_adventurer_initialization():
     assert adventurer_2.aptitude == 10
     assert (adventurer_2.base_stats.get_stat("charisma") > 
             adventurer_1.base_stats.get_stat("charisma"))
-    for _, item in adventurer_1.equipment.items():
+    for item in adventurer_1.equipment.items().values():
         assert item is None
-    for _, bonus in adventurer_1.equipment_bonuses.items():
+    for bonus in adventurer_1.equipment_bonuses.items():
         assert bonus is None
     
 

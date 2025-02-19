@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, TYPE_CHECKING
+from typing import Dict, TYPE_CHECKING, List
 
 if TYPE_CHECKING:
     from jobs.job_requirements import JobLevelRequirement, StatRequirement
@@ -27,6 +27,12 @@ class Job(ABC):
     @abstractmethod
     def class_aptitude(self) -> int:
         """Return class aptitude."""
+        pass
+
+    @property
+    @abstractmethod
+    def allowed_item_types(self) -> Dict[str, List[str]]:
+        """Return the item types the job can equip, within each slot."""
         pass
 
     @abstractmethod

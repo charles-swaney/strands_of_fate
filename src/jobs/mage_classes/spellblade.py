@@ -1,5 +1,5 @@
 from src.jobs.job import Job
-from typing import Dict, TYPE_CHECKING
+from typing import Dict, TYPE_CHECKING, List
 from src.utils.stat_calculations import compute_stat_bonus
 
 if TYPE_CHECKING:
@@ -18,7 +18,7 @@ class SpellBlade(Job):
     - Abilities allow them to deal damage in both melee and magical combat.
 
     Weapons:
-    - Swords
+    - Swords, Rods
 
     Armor:
     - Light armor, Robes
@@ -48,6 +48,18 @@ class SpellBlade(Job):
     @property
     def job_name(self) -> str:
         return "SpellBlade"
+    
+    @property
+    def allowed_item_types(self) -> Dict[str, List[str]]:
+        return {
+            "weapon": ["rod", "sword"],
+            "armor": ["robe", "light_armor"],
+            "gauntlet": ["robe", "light_armor"],
+            "greaves": ["robe", "light_armor"],
+            "helmet": ["robe", "light_armor"],
+            "accessory": ["ring", "necklace"],
+            "shield": ["shield"]
+        }
     
     def stats_requirements(self) -> "StatRequirement":
         return StatRequirement({
