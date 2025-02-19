@@ -46,7 +46,7 @@ class Adventurer:
 
         self._base_stats = Attributes(base_stats)
 
-        self.equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
+        self._equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
         for _ in range(self.level):
             self.job.apply_level_up(self)
         self._base_stats.update_override(stat_overrides)
@@ -66,6 +66,10 @@ class Adventurer:
         """Total stats from base stats, equipment, and other bonuses."""
         total = self._base_stats.copy()
         return total.update(self.equipment_bonuses)
+    
+    @property
+    def equipment(self) -> Equipment:
+        return self._equipment
 
     @property
     def base_watk(self) -> float:
