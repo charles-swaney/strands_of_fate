@@ -43,3 +43,9 @@ class Equipment(ABC):
     def item_type(self) -> str:
         """Return the item's item type."""
         pass
+
+    @property
+    @abstractmethod
+    def slot(self) -> str:
+        """Return the slot where the item is supposed to be worn."""
+        pass
