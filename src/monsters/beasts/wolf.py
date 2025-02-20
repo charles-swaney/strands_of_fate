@@ -6,7 +6,7 @@ from monsters.monster import Monster
 
 class Wolf(Monster):
     """
-    A wolf.
+    A wolf: known for being agile, strong attackers with relatively weak defenses.
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
