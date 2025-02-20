@@ -64,10 +64,10 @@ def test_simple_equipment_bonuses():
     adventurer.equip("weapon", bonus_longsword)
     assert adventurer.base_stats.stats == old_base_stats.stats
     assert adventurer.total_stats.stats != old_total_stats.stats
-    assert adventurer.total_stats.get_stat("strength") == \
-        (adventurer.base_stats.get_stat("strength") + 10)
-    assert adventurer.total_stats.get_stat("toughness") == \
-        (adventurer.base_stats.get_stat("toughness") + 5)
+    assert adventurer.get_total_stat("strength") == \
+        (adventurer.get_base_stat("strength") + 10)
+    assert adventurer.get_total_stat("toughness") == \
+        (adventurer.get_base_stat("toughness") + 5)
     assert adventurer.base_watk == THEORETICAL_BASE_WATK + 27
     assert adventurer.base_wdef == THEORETICAL_BASE_WDEF + 7
     adventurer.unequip("weapon")
@@ -100,7 +100,7 @@ def test_complex_equipment_bonuses():
     assert adventurer.base_mdef == THEORETICAL_BASE_MDEF
     assert adventurer.base_watk == THEORETICAL_BASE_WATK
     adventurer.equip("weapon", complex_sword)
-    assert adventurer.total_stats.get_stat("luck") == (adventurer.base_stats.get_stat("luck") + 10)
+    assert adventurer.get_total_stat("luck") == (adventurer.get_base_stat("luck") + 10)
     assert adventurer.base_stats.stats == old_base_stats.stats
     assert adventurer.base_watk == THEORETICAL_BASE_WATK + 10 + 10 + 0.3
     assert adventurer.base_mdef == THEORETICAL_BASE_MDEF + 1.5 + 0.3
