@@ -1,10 +1,7 @@
-from typing import Dict, TYPE_CHECKING
-from utils.bonus_growth_calculations import compute_stat_bonus
+from typing import Dict
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
-
-if TYPE_CHECKING:
-    from monsters.monster import Monster
+from monsters.monster import Monster
 
 
 class Wolf(Monster):
@@ -55,28 +52,15 @@ class Wolf(Monster):
         })
 
     @property
-    def class_aptitude(self) -> int:
-        return 0
-
-    @property
     def species_name(self) -> str:
         return "Wolf"
 
-    def apply_level_up(self, monster: "Monster") -> None:
-        growth_rates = self.growth_rates
+    @property
+    def class_aptitude(self) -> int:
+        return 0
 
-        for stat, growth_rate in growth_rates.items():
-            if growth_rate <= 3:
-                bonus_mult = 0.5
-            elif growth_rate >= 4 and growth_rate <= 8:
-                bonus_mult = 1
-            else:
-                bonus_mult = 1.5
-            stat_bonus = compute_stat_bonus(
-                base_aptitude=monster.aptitude,
-                class_aptitude=self.class_aptitude
-                )
-            monster.stats.add_to_stat(
-                stat,
-                growth_rate + (bonus_mult * stat_bonus)
-            )
+    def get_element_res(self, element: str) -> float:
+        return self.elemental_resistances.get_resistance(element=element)
+
+    def get_weapon_res(self, weapon_type: str) -> float:
+        return self.weapon_resistances.get_resistance(weapon_type=weapon_type)
