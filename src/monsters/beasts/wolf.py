@@ -59,6 +59,22 @@ class Wolf(Monster):
     def class_aptitude(self) -> int:
         return 0
 
+    @property
+    def watk(self) -> float:
+        return self.base_watk * 1.10
+
+    @property
+    def wdef(self) -> float:
+        return self.base_wdef * 0.90
+
+    @property
+    def matk(self) -> float:
+        return self.matk * 0.90
+
+    @property
+    def mdef(self) -> float:
+        return self.mdef * 0.85
+
     def get_element_res(self, element: str) -> float:
         return self.elemental_resistances.get_resistance(element=element)
 
