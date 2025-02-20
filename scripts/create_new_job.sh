@@ -36,7 +36,7 @@ class $CLASS_NAME(Job):
 
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 47
+        # Total: TODO
         return {
             "hp": TODO,
             "mp": TODO,
@@ -63,13 +63,13 @@ class $CLASS_NAME(Job):
     @property
     def allowed_item_types(self) -> Dict[str, List[str]]:
         return {
-            "weapon": ["sword", "axe"],
-            "armor": ["light_armor"],
-            "gauntlet": ["light_armor"],
-            "greaves": ["light_armor"],
-            "helmet": ["light_armor"],
+            "weapon": [],
+            "armor": ["heavy_armor", "light_armor", "robe"],
+            "gauntlet": [["heavy_armor", "light_armor", "robe"],
+            "greaves": ["heavy_armor", "light_armor", "robe"],
+            "helmet": ["heavy_armor", "light_armor", "robe"],
             "accessory": ["ring", "necklace"],
-            "shield": []
+            "shield": ["shield"]
         }
 
     def stats_requirements(self) -> "StatRequirement":
