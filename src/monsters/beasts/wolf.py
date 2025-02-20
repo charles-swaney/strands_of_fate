@@ -1,6 +1,5 @@
 from typing import Dict, TYPE_CHECKING
-from monsters.monster_species import MonsterSpecies
-from utils.stat_calculations import compute_stat_bonus
+from utils.bonus_growth_calculations import compute_stat_bonus
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
 
@@ -8,7 +7,7 @@ if TYPE_CHECKING:
     from monsters.monster import Monster
 
 
-class Wolf(MonsterSpecies):
+class Wolf(Monster):
     """
     A wolf.
     """
