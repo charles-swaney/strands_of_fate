@@ -66,7 +66,7 @@ class Adventurer:
         """Total stats from base stats, equipment, and other bonuses."""
         total = self._base_stats.copy()
         return total.update(self.equipment_bonuses)
-    
+
     @property
     def equipment(self) -> Equipment:
         return self._equipment
