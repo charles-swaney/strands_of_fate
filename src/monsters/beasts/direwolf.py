@@ -4,26 +4,26 @@ from monsters.weapon_resistances import WeaponResistances
 from monsters.monster import Monster
 
 
-class Wolf(Monster):
+class DireWolf(Monster):
     """
-    A wolf: known for being agile, strong attackers with relatively weak defenses.
+    A Dire Wolf: the natural evolution of a Wolf.
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 46
+        # Total: TODO
         return {
-            "hp": 12,
-            "mp": 2,
-            "strength": 9,
-            "toughness": 5,
-            "dexterity": 6,
-            "agility": 6,
-            "intellect": 2,
-            "wisdom": 3,
-            "speed": 6,
-            "tenacity": 4,
-            "charisma": 1,
-            "luck": 4
+            "hp": 15,
+            "mp": 3,
+            "strength": 11,
+            "toughness": 6,
+            "dexterity": 8,
+            "agility": 8,
+            "intellect": 3,
+            "wisdom": 4,
+            "speed": 8,
+            "tenacity": 5,
+            "charisma": 2,
+            "luck": 6
         }
 
     @property
@@ -33,9 +33,9 @@ class Wolf(Monster):
             "fire": 1.00,
             "water": 1.00,
             "earth": 1.00,
-            "wind": 1.0,
-            "lightning": 1.00,
-            "ice": 1.00,
+            "wind": 1.00,
+            "lightning": 0.75,
+            "ice": 0.75,
             "light": 1.00,
             "dark": 1.00
         })
@@ -44,8 +44,8 @@ class Wolf(Monster):
     def weapon_resistances(self) -> WeaponResistances:
         """Return the weapon type resistances of this species."""
         return WeaponResistances({
-            "slash": 1.25,
-            "stab": 1.25,
+            "slash": 1.00,
+            "stab": 1.00,
             "blunt": 1.00,
             "ranged": 1.25,
             "misc": 1.00
@@ -53,11 +53,11 @@ class Wolf(Monster):
 
     @property
     def species_name(self) -> str:
-        return "Wolf"
+        return "DireWolf"
 
     @property
     def class_aptitude(self) -> int:
-        return 0
+        return 0.5
 
     def get_element_res(self, element: str) -> float:
         return self.elemental_resistances.get_resistance(element=element)

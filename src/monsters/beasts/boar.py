@@ -4,38 +4,38 @@ from monsters.weapon_resistances import WeaponResistances
 from monsters.monster import Monster
 
 
-class Wolf(Monster):
+class Boar(Monster):
     """
-    A wolf: known for being agile, strong attackers with relatively weak defenses.
+    A Boar: A wild animal that is unpredictable, but strong and tough. Somewhat weak to magic.
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 46
+        # Total: 44
         return {
-            "hp": 12,
+            "hp": 14,
             "mp": 2,
-            "strength": 9,
-            "toughness": 5,
-            "dexterity": 6,
-            "agility": 6,
+            "strength": 8,
+            "toughness": 8,
+            "dexterity": 3,
+            "agility": 3,
             "intellect": 2,
-            "wisdom": 3,
-            "speed": 6,
-            "tenacity": 4,
-            "charisma": 1,
-            "luck": 4
+            "wisdom": 2,
+            "speed": 4,
+            "tenacity": 7,
+            "charisma": 2,
+            "luck": 5
         }
 
     @property
     def elemental_resistances(self) -> ElementalResistances:
         """Return the elemental resistances of this species."""
         return ElementalResistances({
-            "fire": 1.00,
+            "fire": 1.25,
             "water": 1.00,
-            "earth": 1.00,
-            "wind": 1.0,
-            "lightning": 1.00,
-            "ice": 1.00,
+            "earth": 0.75,
+            "wind": 1.50,
+            "lightning": 1.25,
+            "ice": 1.25,
             "light": 1.00,
             "dark": 1.00
         })
@@ -44,7 +44,7 @@ class Wolf(Monster):
     def weapon_resistances(self) -> WeaponResistances:
         """Return the weapon type resistances of this species."""
         return WeaponResistances({
-            "slash": 1.25,
+            "slash": 0.75,
             "stab": 1.25,
             "blunt": 1.00,
             "ranged": 1.25,
@@ -53,11 +53,11 @@ class Wolf(Monster):
 
     @property
     def species_name(self) -> str:
-        return "Wolf"
+        return "Boar"
 
     @property
     def class_aptitude(self) -> int:
-        return 0
+        return 0.5
 
     def get_element_res(self, element: str) -> float:
         return self.elemental_resistances.get_resistance(element=element)
