@@ -47,7 +47,10 @@ class Adventurer:
         self._base_stats = Attributes(base_stats)
 
         self._equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
-        for _ in range(self.level):
+
+        self.initialize_base_stats()
+
+        for _ in range(2, self.level + 1):
             self.job.apply_level_up(self)
         self._base_stats.update_override(stat_overrides)
 
@@ -124,6 +127,10 @@ class Adventurer:
     def _add_level_gained(self) -> None:
         """Log a level up within the Adventurer's current class."""
         self.levels_gained[self.job.job_name] += 1
+
+    def initialize_base_stats(self) -> None:
+        """Initialize adventurer with base stats."""
+        self.job.apply_level_up(self)
 
     def level_up(self):
         """Increase Adventurer level with stat growths and log level gained."""
