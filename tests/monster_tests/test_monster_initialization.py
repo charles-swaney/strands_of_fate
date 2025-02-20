@@ -14,6 +14,7 @@ def test_monster_initialization():
     assert wolf.get_element_res("lightning") == 1.0
     assert wolf.get_weapon_res("slash") == 1.25
 
+
 def test_monster_levelup():
     random.seed(1301)
     wolf = Wolf(
