@@ -73,48 +73,61 @@ class Adventurer:
     @property
     def equipment(self) -> Equipment:
         return self._equipment
+    
+    @property
+    def hp(self) -> float:
+        """Return the (current) hp."""
+        return self.total_stats.get_stat('hp')
 
     @property
-    def base_watk(self) -> float:
+    def watk(self) -> float:
         """Damage dealt when attacking with a weapon."""
-        base = (1.0 * self.total_stats.get_stat("strength") +
-                0.03 * self.total_stats.get_stat("luck"))
+        base = (1.0 * self.get_total_stat("strength") +
+                0.03 * self.get_total_stat("luck"))
         equipment_watk = sum(
             eq.watk for eq in self.equipment.slots.values() if eq is not None
             )
         return base + equipment_watk
 
     @property
-    def base_wdef(self) -> float:
+    def wdef(self) -> float:
         """Resistance to physical damage."""
-        base = (1.0 * self.total_stats.get_stat("toughness") +
-                0.03 * self.total_stats.get_stat("luck"))
+        base = (1.0 * self.get_total_stat("toughness") +
+                0.03 * self.get_total_stat("luck"))
         equipment_wdef = sum(
             eq.wdef for eq in self.equipment.slots.values() if eq is not None
         )
         return base + equipment_wdef
 
     @property
-    def base_matk(self) -> float:
+    def matk(self) -> float:
         """Damage dealt with spells."""
-        base = (1.0 * self.total_stats.get_stat("intellect") +
-                0.15 * self.total_stats.get_stat("charisma") +
-                0.03 * self.total_stats.get_stat("luck"))
+        base = (1.0 * self.get_total_stat("intellect") +
+                0.15 * self.get_total_stat("charisma") +
+                0.03 * self.get_total_stat("luck"))
         equipment_matk = sum(
             eq.matk for eq in self.equipment.slots.values() if eq is not None
         )
         return base + equipment_matk
 
     @property
-    def base_mdef(self) -> float:
+    def mdef(self) -> float:
         """Resistence to magical damage."""
-        base = (self.total_stats.get_stat("wisdom") +
-                0.15 * self.total_stats.get_stat("tenacity") +
-                0.03 * self.total_stats.get_stat("luck"))
+        base = (self.get_total_stat("wisdom") +
+                0.15 * self.get_total_stat("tenacity") +
+                0.03 * self.get_total_stat("luck"))
         equipment_mdef = sum(
             eq.mdef for eq in self.equipment.slots.values() if eq is not None
         )
         return base + equipment_mdef
+
+    def get_base_stat(self, stat: str) -> float:
+        """Conveniently return the base stat."""
+        return self.base_stats.get_stat(stat)
+
+    def get_total_stat(self, stat: str) -> float:
+        """Conveniently return the total stat."""
+        return self.total_stats.get_stat(stat)
 
     def equip(self, slot, item: Equipment):
         """Equip the given item in slot and update stats."""

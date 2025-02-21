@@ -70,6 +70,22 @@ class $MONSTER_NAME(Monster):
     def class_aptitude(self) -> int:
         return TODO
 
+    @property
+    def watk(self) -> float:
+        return self.base_watk * TODO
+    
+    @property
+    def wdef(self) -> float:
+        return self.base_wdef * TODO
+    
+    @property
+    def matk(self) -> float:
+        return self.matk * TODO
+    
+    @property
+    def mdef(self) -> float:
+        return self.mdef * 0.85 * TODO
+
     def get_element_res(self, element: str) -> float:
         return self.elemental_resistances.get_resistance(element=element)
 

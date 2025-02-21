@@ -1,5 +1,5 @@
 from core.stats.attributes import Attributes
-from typing import Dict
+from typing import Dict, Optional
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
 from abc import ABC, abstractmethod
@@ -10,12 +10,10 @@ class Monster(ABC):
 
     def __init__(
             self,
-            monster_species: str,
             level: int = 1,
             aptitude: float = 5,
             **stat_overrides: float):
 
-        self.monster_species = monster_species
         self.level = level
         self.aptitude = aptitude
 
@@ -83,6 +81,76 @@ class Monster(ABC):
         """Return the monster's aptitude."""
         pass
 
+    @property
+    def base_watk(self) -> float:
+        """
+        Return the monster's base weapon attack. Can be affected by monster-specific bonuses which
+        are handled within the species implementation.
+        """
+        strength = self.get_total_stat("strength")
+        luck = self.get_total_stat("luck")
+        return (1.0 * strength + 0.03 * luck)
+
+    @property
+    def base_wdef(self) -> float:
+        """
+        Return the monster's base weapon defense. Can be affected by monster-specific bonuses which
+        are handled within the species implementation.
+        """
+        toughness = self.get_total_stat("toughness")
+        luck = self.get_total_stat("luck")
+        return (1.0 * toughness + 0.03 * luck)
+
+    @property
+    def base_matk(self) -> float:
+        """
+        Return the monster's base magic attack. Can be affected by monster-specific bonuses which
+        are handled within the species implementation.
+        """
+        intellect = self.get_total_stat("intellect")
+        charisma = self.get_total_stat("charisma")
+        luck = self.get_total_stat("luck")
+        return (1.0 * intellect +
+                0.15 * charisma +
+                0.03 * luck)
+
+    @property
+    def base_mdef(self) -> float:
+        """
+        Return the monster's base magic defense. Can be affected by monster-specific bonuses which
+        are handled within the species implementation.
+        """
+        wisdom = self.get_total_stat("wisdom")
+        tenacity = self.get_total_stat("tenacity")
+        luck = self.get_total_stat("luck")
+        return (1.0 * wisdom +
+                0.15 * tenacity +
+                0.03 * luck)
+
+    @property
+    @abstractmethod
+    def watk(self) -> float:
+        """Total weapon attack, including bonuses."""
+        pass
+
+    @property
+    @abstractmethod
+    def wdef(self) -> float:
+        """Total weapon defense, including bonuses."""
+        pass
+
+    @property
+    @abstractmethod
+    def matk(self) -> float:
+        """Total magic attack, including bonuses."""
+        pass
+
+    @property
+    @abstractmethod
+    def mdef(self) -> float:
+        """Total magic defense, including bonuses."""
+        pass
+
     @abstractmethod
     def get_element_res(self, element: str) -> float:
         """Return the monster's resistance to element."""
@@ -97,6 +165,10 @@ class Monster(ABC):
         """Increase Monster level and apply stat growths."""
         self.level += 1
         self.apply_level_up()
+
+    def get_total_stat(self, stat: str) -> float:
+        """Return stat."""
+        return self.stats.get_stat(stat)
 
     def initialize_base_stats(self):
         """Apply level up without incrementing level."""

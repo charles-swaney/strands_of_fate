@@ -56,6 +56,22 @@ class Boar(Monster):
         return "Boar"
 
     @property
+    def watk(self) -> float:
+        return self.base_watk
+
+    @property
+    def wdef(self) -> float:
+        return self.base_wdef * 1.15
+
+    @property
+    def matk(self) -> float:
+        return self.base_matk * 0.85
+
+    @property
+    def mdef(self) -> float:
+        return self.base_mdef * 1.15
+
+    @property
     def class_aptitude(self) -> int:
         return 0.5
 
