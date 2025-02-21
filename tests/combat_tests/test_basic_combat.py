@@ -168,4 +168,3 @@ def test_magical_dmg():
     blackmage.unequip("armor")
     new_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
     assert new_dmg_fire < robes_dmg_fire
-
