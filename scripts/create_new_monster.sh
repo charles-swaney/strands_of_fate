@@ -80,11 +80,11 @@ class $MONSTER_NAME(Monster):
     
     @property
     def matk(self) -> float:
-        return self.matk * TODO
+        return self.base_matk * TODO
     
     @property
     def mdef(self) -> float:
-        return self.mdef * 0.85 * TODO
+        return self.base_mdef * TODO
 
     def get_element_res(self, element: str) -> float:
         return self.elemental_resistances.get_resistance(element=element)
