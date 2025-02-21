@@ -1,5 +1,5 @@
 from core.stats.attributes import Attributes
-from typing import Dict
+from typing import Dict, Optional
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
 from abc import ABC, abstractmethod
@@ -10,12 +10,10 @@ class Monster(ABC):
 
     def __init__(
             self,
-            monster_species: str,
             level: int = 1,
             aptitude: float = 5,
             **stat_overrides: float):
 
-        self.monster_species = monster_species
         self.level = level
         self.aptitude = aptitude
 
