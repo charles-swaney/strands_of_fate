@@ -12,7 +12,7 @@ class Boar(Monster):
     def growth_rates(self) -> Dict[str, int]:
         # Total: 44
         return {
-            "hp": 14,
+            "hp": 12,
             "mp": 2,
             "strength": 8,
             "toughness": 8,

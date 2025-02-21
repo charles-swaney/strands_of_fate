@@ -10,9 +10,9 @@ class DireWolf(Monster):
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: TODO
+        # Total: 61
         return {
-            "hp": 15,
+            "hp": 12,
             "mp": 3,
             "strength": 11,
             "toughness": 6,
