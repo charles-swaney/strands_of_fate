@@ -73,6 +73,11 @@ class Adventurer:
     @property
     def equipment(self) -> Equipment:
         return self._equipment
+    
+    @property
+    def hp(self) -> float:
+        """Return the (current) hp."""
+        return self.total_stats.get_stat('hp')
 
     @property
     def watk(self) -> float:
