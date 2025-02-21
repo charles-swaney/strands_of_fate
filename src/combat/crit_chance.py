@@ -10,7 +10,21 @@ def compute_critical_chance(
     attacker: Union[Monster, Adventurer],
     defender: Union[Monster, Adventurer],
     *other_multipliers: List[float]
-) -> float:
+        ) -> float:
+    """
+    A formula for computing the critical hit chance between attacker and defender.
+
+    Args:
+        attacker: the Monster or Adventurer doing the attack
+        defender: the Monster or Adventurer being attacked
+        other_multipliers: a list of other multipliers, e.g. bonuses to crit chance, etc.
+
+    Returns:
+        float: the probability that the attack is a critical strike.
+
+    Notes:
+        - The formula is based on only luck. Typical values are between 5 and 15%.
+    """
     attacker_luck = attacker.get_total_stat("luck")
     defender_luck = defender.get_total_stat("luck")
 
