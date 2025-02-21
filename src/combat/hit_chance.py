@@ -10,7 +10,7 @@ def compute_hit_chance(
         attacker: Union[Monster, Adventurer],
         defender: Union[Monster, Adventurer],
         *other_multipliers: List[float]
-) -> float:
+        ) -> float:
     """
     A formula for computing the hit chance between attacker and defender.
 
