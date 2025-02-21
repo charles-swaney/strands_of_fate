@@ -65,11 +65,11 @@ class Boar(Monster):
 
     @property
     def matk(self) -> float:
-        return self.matk * 0.85
+        return self.base_matk * 0.85
 
     @property
     def mdef(self) -> float:
-        return self.mdef * 1.15
+        return self.base_mdef * 1.15
 
     @property
     def class_aptitude(self) -> int:

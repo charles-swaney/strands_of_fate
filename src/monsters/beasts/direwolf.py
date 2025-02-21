@@ -69,11 +69,11 @@ class DireWolf(Monster):
 
     @property
     def matk(self) -> float:
-        return self.matk
+        return self.base_matk
 
     @property
     def mdef(self) -> float:
-        return self.mdef * 0.85
+        return self.base_mdef * 0.85
 
     def get_element_res(self, element: str) -> float:
         return self.elemental_resistances.get_resistance(element=element)
