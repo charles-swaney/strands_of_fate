@@ -12,6 +12,7 @@ class Monster(ABC):
             self,
             level: int = 1,
             aptitude: float = 5,
+            deterministic: bool = False,
             **stat_overrides: float):
 
         self.level = level
@@ -33,6 +34,7 @@ class Monster(ABC):
         }
 
         self._stats = Attributes(ZERO_STATS)
+        self.deterministic = deterministic
 
         self.initialize_base_stats()
 
@@ -177,14 +179,16 @@ class Monster(ABC):
     def apply_level_up(self) -> None:
         """Level up the monster, based on growth rates and aptitude."""
         growth_rates = self.growth_rates
-
         for stat, growth_rate in growth_rates.items():
-            if growth_rate <= 3:
-                bonus_mult = 0.5
-            elif growth_rate >= 4 and growth_rate <= 8:
-                bonus_mult = 1.0
+            if self.deterministic:
+                bonus_mult = 0
             else:
-                bonus_mult = 1.5
+                if growth_rate <= 3:
+                    bonus_mult = 0.5
+                elif growth_rate >= 4 and growth_rate <= 8:
+                    bonus_mult = 1.0
+                else:
+                    bonus_mult = 1.5
             stat_bonus = compute_stat_bonus(
                 base_aptitude=self.aptitude,
                 class_aptitude=self.class_aptitude

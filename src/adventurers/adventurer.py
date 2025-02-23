@@ -17,11 +17,13 @@ class Adventurer:
             level: int = 1,
             levels_gained: Optional[Union[Dict[str, int], defaultdict]] = None,
             aptitude: float = 5,
+            deterministic: bool = False,
             **stat_overrides: float):
 
         self.name = name
         self.job = job
         self.level = level
+        self.deterministic = deterministic
         self.levels_gained: defaultdict[str, int] = defaultdict(int)
         if isinstance(levels_gained, dict):
             self.levels_gained.update(levels_gained)
