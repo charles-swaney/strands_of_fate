@@ -1,21 +1,20 @@
-import random
 from pytest import approx
 from adventurers.adventurer import Adventurer
 from jobs.warrior_classes.fighter import Fighter
 from equipment.armor import Armor
 from equipment.weapon import Weapon
 
-THEORETICAL_BASE_WATK = 9.21
-THEORETICAL_BASE_WDEF = 5.21
-THEORETICAL_BASE_MDEF = 3.96
+THEORETICAL_BASE_WATK = 9.18
+THEORETICAL_BASE_WDEF = 5.18
+THEORETICAL_BASE_MDEF = 3.93
 
 
 def test_equip_unequip_item():
-    random.seed(1301)
     fighter_job = Fighter()
     adventurer = Adventurer(
         name="Joe",
-        job=fighter_job
+        job=fighter_job,
+        deterministic=True
     )
     longsword = Weapon(
         name="longsword",
@@ -40,11 +39,11 @@ def test_equip_unequip_item():
 
 
 def test_simple_equipment_bonuses():
-    random.seed(1301)
     fighter_job = Fighter()
     adventurer = Adventurer(
         name="Charlotte",
-        job=fighter_job
+        job=fighter_job,
+        deterministic=True
     )
     bonus_longsword = Weapon(
         name="bonus_longsword",
@@ -76,11 +75,11 @@ def test_simple_equipment_bonuses():
 
 
 def test_complex_equipment_bonuses():
-    random.seed(1301)
     fighter_job = Fighter()
     adventurer = Adventurer(
         name="Charlotte",
-        job=fighter_job
+        job=fighter_job,
+        deterministic=True
     )
     complex_sword = Weapon(
         name="complex_sword",
@@ -103,15 +102,15 @@ def test_complex_equipment_bonuses():
     assert adventurer.get_total_stat("luck") == (adventurer.get_base_stat("luck") + 10)
     assert adventurer.base_stats.stats == old_base_stats.stats
     assert adventurer.watk == THEORETICAL_BASE_WATK + 10 + 10 + 0.3
-    assert adventurer.mdef == THEORETICAL_BASE_MDEF + 1.5 + 0.3
+    assert adventurer.mdef == approx(THEORETICAL_BASE_MDEF + 1.5 + 0.3)
 
 
 def test_multiple_simple_equipments():
-    random.seed(1301)
     fighter_job = Fighter()
     adventurer = Adventurer(
         name="Charlotte",
-        job=fighter_job
+        job=fighter_job,
+        deterministic=True
     )
     helmet = Armor(
         name="helmet",
@@ -165,11 +164,11 @@ def test_multiple_simple_equipments():
 
 
 def test_multiple_complex_equipments():
-    random.seed(1301)
     fighter_job = Fighter()
     adventurer = Adventurer(
         name="Charlotte",
-        job=fighter_job
+        job=fighter_job,
+        deterministic=True
     )
     helmet = Armor(
         name="helmet",
