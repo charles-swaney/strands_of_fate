@@ -72,15 +72,18 @@ class Jester(Job):
         })
 
     def apply_level_up(self, adventurer: "Adventurer") -> None:
-        base_growth_rates = self.growth_rates
+        growth_rates = self.growth_rates
 
-        for stat, growth_rate in base_growth_rates.items():
-            if growth_rate <= 3:
-                bonus_mult = 0.5
-            elif growth_rate >= 4 and growth_rate <= 8:
-                bonus_mult = 1
+        for stat, growth_rate in growth_rates.items():
+            if adventurer.deterministic:
+                bonus_mult = 0
             else:
-                bonus_mult = 1.5
+                if growth_rate <= 3:
+                    bonus_mult = 0.5
+                elif growth_rate >= 4 and growth_rate <= 8:
+                    bonus_mult = 1
+                else:
+                    bonus_mult = 1.5
             stat_bonus = compute_stat_bonus(
                 base_aptitude=adventurer.aptitude,
                 class_aptitude=self.class_aptitude
