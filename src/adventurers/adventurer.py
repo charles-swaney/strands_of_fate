@@ -87,9 +87,7 @@ class Adventurer:
         """Damage dealt when attacking with a weapon."""
         base = (1.0 * self.get_total_stat("strength") +
                 0.03 * self.get_total_stat("luck"))
-        equipment_watk = sum(
-            eq.watk for eq in self.equipment.slots.values() if eq is not None
-            )
+        equipment_watk = self.get_equipment_combat_stat('watk')
         return base + equipment_watk
 
     @property
@@ -97,9 +95,7 @@ class Adventurer:
         """Resistance to physical damage."""
         base = (1.0 * self.get_total_stat("toughness") +
                 0.03 * self.get_total_stat("luck"))
-        equipment_wdef = sum(
-            eq.wdef for eq in self.equipment.slots.values() if eq is not None
-        )
+        equipment_wdef = self.get_equipment_combat_stat('wdef')
         return base + equipment_wdef
 
     @property
@@ -108,9 +104,7 @@ class Adventurer:
         base = (1.0 * self.get_total_stat("intellect") +
                 0.15 * self.get_total_stat("charisma") +
                 0.03 * self.get_total_stat("luck"))
-        equipment_matk = sum(
-            eq.matk for eq in self.equipment.slots.values() if eq is not None
-        )
+        equipment_matk = self.get_equipment_combat_stat('matk')
         return base + equipment_matk
 
     @property
@@ -119,10 +113,16 @@ class Adventurer:
         base = (self.get_total_stat("wisdom") +
                 0.15 * self.get_total_stat("tenacity") +
                 0.03 * self.get_total_stat("luck"))
-        equipment_mdef = sum(
-            eq.mdef for eq in self.equipment.slots.values() if eq is not None
-        )
+        equipment_mdef = self.get_equipment_combat_stat('mdef')
         return base + equipment_mdef
+    
+    def get_equipment_combat_stat(self, stat: str) -> float:
+        """Return the total combat stat (e.g. matk, wdef) from all equipment."""
+        stat_total = sum(
+            getattr(equipment, stat) for equipment in self.equipment.slots.values() if
+            equipment is not None
+        )
+        return stat_total
 
     def get_base_stat(self, stat: str) -> float:
         """Conveniently return the base stat."""
