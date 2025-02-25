@@ -24,6 +24,7 @@ class Adventurer:
         self.job = job
         self.level = level
         self.deterministic = deterministic
+        self._status_effects = []
         self.levels_gained: defaultdict[str, int] = defaultdict(int)
         if isinstance(levels_gained, dict):
             self.levels_gained.update(levels_gained)

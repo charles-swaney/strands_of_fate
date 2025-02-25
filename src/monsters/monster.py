@@ -35,6 +35,7 @@ class Monster(ABC):
 
         self._stats = Attributes(ZERO_STATS)
         self.deterministic = deterministic
+        self._status_effects = []
 
         self.initialize_base_stats()
 
