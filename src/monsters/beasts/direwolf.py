@@ -61,7 +61,7 @@ class DireWolf(Monster):
 
     @property
     def watk(self) -> float:
-        return self.base_watk * 1.25
+        return self.base_watk * 1.10
 
     @property
     def wdef(self) -> float:

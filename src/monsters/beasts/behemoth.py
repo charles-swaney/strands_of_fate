@@ -62,7 +62,7 @@ class Behemoth(Monster):
 
     @property
     def watk(self) -> float:
-        return self.base_watk * 1.10
+        return self.base_watk
 
     @property
     def wdef(self) -> float:
