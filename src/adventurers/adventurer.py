@@ -101,8 +101,7 @@ class Adventurer:
     @property
     def matk(self) -> float:
         """Damage dealt with spells."""
-        base = (1.0 * self.get_total_stat("intellect") +
-                0.15 * self.get_total_stat("charisma") +
+        base = (1.08 * self.get_total_stat("intellect") +
                 0.03 * self.get_total_stat("luck"))
         equipment_matk = self.get_equipment_combat_stat('matk')
         return base + equipment_matk
