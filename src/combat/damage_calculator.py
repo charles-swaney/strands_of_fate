@@ -78,6 +78,7 @@ def compute_damage_magical(
         float: the damage dealt.
     """
     elemental_bonus = 1.0
+
     if isinstance(defender, Monster):
         elemental_bonus = defender.get_element_res(element=attack_element)
 

@@ -23,7 +23,7 @@ def compute_critical_chance(
         float: the probability that the attack is a critical strike.
 
     Notes:
-        - The formula is based on only luck. Typical values are between 5 and 15%.
+        - The formula is based on only luck. Typical values are between 5% and 15%.
     """
     attacker_luck = attacker.get_total_stat("luck")
     defender_luck = defender.get_total_stat("luck")
@@ -35,7 +35,5 @@ def compute_critical_chance(
     )
 
     final_chance = base_chance * prod(other_multipliers) if other_multipliers else base_chance
-
-    final_chance += random.uniform(-0.02, 0.02)
 
     return max(0.01, min(0.240, final_chance))
