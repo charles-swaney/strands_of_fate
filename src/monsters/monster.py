@@ -1,9 +1,11 @@
 from core.stats.attributes import Attributes
-from typing import Dict, Optional
+from typing import Dict, List
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
 from abc import ABC, abstractmethod
 from utils.bonus_growth_calculations import compute_stat_bonus
+from actions.ability import Ability
+from actions.spell import Spell
 
 
 class Monster(ABC):
@@ -37,6 +39,10 @@ class Monster(ABC):
         self.deterministic = deterministic
         self._status_effects = []
 
+        self._known_spells = []
+
+        self._known_abilities = []
+
         self.initialize_base_stats()
 
         for _ in range(2, self.level + 1):
@@ -51,8 +57,31 @@ class Monster(ABC):
 
     @property
     def hp(self) -> float:
-        """Return the monster's hp."""
-        return self._stats.get_stat("hp")
+        """Return the monster's (current) hp."""
+        return self.stats.get_stat("hp")
+    
+    @property
+    def mp(self) -> float:
+        """Return the monster's (current) mp."""
+        return self.stats.get_stat("mp")
+    
+    @property
+    def abilities(self) -> List[Ability]:
+        """Return the list of known abilities."""
+        return self._known_abilities
+    
+    def learn_ability(self, ability: Ability) -> None:
+        """Learn the ability."""
+        self._known_abilities.append(ability)
+
+    @property
+    def spells(self) -> List[Spell]:
+        """Return the list of known spells."""
+        return self._known_spells
+    
+    def learn_spell(self, spell: Spell) -> None:
+        """Learn the spell."""
+        self._known_spells.append(spell)
 
     @property
     @abstractmethod
@@ -164,6 +193,12 @@ class Monster(ABC):
         """Return the monster's resistance to weapon_type."""
         pass
 
+    def abilities(self) -> float:
+        return self._known_abilities
+    
+    def spells(self) -> float:
+        return self._known_spells
+
     def level_up(self):
         """Increase Monster level and apply stat growths."""
         self.level += 1
@@ -195,3 +230,13 @@ class Monster(ABC):
                 class_aptitude=self.class_aptitude
             )
             self.stats.add_to_stat(stat, growth_rate + (bonus_mult * stat_bonus))
+
+    def update_hp(self, amount: float) -> None:
+        """A flexible health update to support either healing or taking damage."""
+        amount = Attributes({'hp': amount})
+        self.total_stats.update(amount)
+
+    def update_mp(self, amount: float) -> None:
+        """A flexible mana update to support either casting, or having mana replenished."""
+        amount = Attributes({'mp': amount})
+        self.total_stats.update(amount)

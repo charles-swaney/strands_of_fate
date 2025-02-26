@@ -1,8 +1,10 @@
-from typing import Optional, Dict, Union, TYPE_CHECKING
+from typing import Optional, Dict, Union, TYPE_CHECKING, List
 from collections import defaultdict
 from src.core.stats.attributes import Attributes
 from equipment.equipment_slots import EquipmentSlots
 from equipment.equipment import Equipment
+from actions.ability import Ability
+from actions.spell import Spell
 
 if TYPE_CHECKING:
     from src.jobs.job import Job
@@ -49,6 +51,10 @@ class Adventurer:
 
         self._base_stats = Attributes(base_stats)
 
+        self._known_spells = []
+
+        self._known_abilities = []
+
         self._equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
 
         self.initialize_base_stats()
@@ -72,6 +78,24 @@ class Adventurer:
         """Total stats from base stats, equipment, and other bonuses."""
         total = self._base_stats.copy()
         return total.update(self.equipment_bonuses)
+    
+    @property
+    def abilities(self) -> List[Ability]:
+        """Return the list of known abilities."""
+        return self._known_abilities
+    
+    def learn_ability(self, ability: Ability) -> None:
+        """Learn the ability."""
+        self._known_abilities.append(ability)
+
+    @property
+    def spells(self) -> List[Spell]:
+        """Return the list of known spells."""
+        return self._known_spells
+    
+    def learn_spell(self, spell: Spell) -> None:
+        """Learn the spell."""
+        self._known_spells.append(spell)
 
     @property
     def equipment(self) -> Equipment:
@@ -81,7 +105,11 @@ class Adventurer:
     def hp(self) -> float:
         """Return the (current) hp."""
         return self.total_stats.get_stat('hp')
-
+    
+    @property
+    def mp(self) -> float:
+        """Return the (current) mp."""
+        return self.total_stats.get_stat('mp')
     @property
     def watk(self) -> float:
         """Damage dealt when attacking with a weapon."""
@@ -152,3 +180,13 @@ class Adventurer:
         self.level += 1
         self.job.apply_level_up(self)
         self._add_level_gained()
+
+    def update_hp(self, amount: float) -> None:
+        """A flexible health update to support either healing or taking damage."""
+        amount = Attributes({'hp': amount})
+        self.total_stats.update(amount)
+
+    def update_mp(self, amount: float) -> None:
+        """A flexible mana update to support either casting, or having mana replenished."""
+        amount = Attributes({'mp': amount})
+        self.total_stats.update(amount)
