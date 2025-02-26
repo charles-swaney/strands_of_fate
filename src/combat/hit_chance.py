@@ -35,14 +35,12 @@ def compute_hit_chance(
     defender_agi = defender.get_total_stat("agility")
     defender_luck = defender.get_total_stat("luck")
 
-    main_contribution = ((BASE_HIT_CHANCE * 2) *
-                         1.02 * attacker_dex / (attacker_dex + defender_agi))
+    main_contribution = ((BASE_HIT_CHANCE) *
+                         2.04 * attacker_dex / (attacker_dex + defender_agi))
     luck_ratio = 1 + (0.10 * attacker_luck / (attacker_luck + 1.20 * defender_luck))
 
     base_chance = main_contribution * luck_ratio
 
     final_chance = base_chance * prod(other_multipliers) if other_multipliers else base_chance
-
-    final_chance += random.uniform(-0.05, 0.05)
 
     return max(0.10, min(0.995, final_chance))

@@ -24,12 +24,12 @@ def compute_stat_bonus(base_aptitude: int, class_aptitude: float) -> int:
         Note that a base aptitude of 5 is considered "average" as reflected in
         the expectation of the bonus equalling zero.
 
-        Aptitude = -2: -1 (67.5%), 0 (22.5%), +1 (10%)
-        Aptitude = 1: -1 (53.72%), 0 (29.85%), +1 (16.43%)
-        Aptitude = 5: -1 (25%), 0 (50%), +1 (25%)
-        Aptitude = 8: -1 (15.27%), 0 (37.57%), +1 (47.16%)
-        Aptitude = 10: -1 (8.1%), 0 (24.51%), +1 (67.39%)
-        Aptitude = 12: -1 (2.03%), 0 (7.98%), +1 (90%)
+        Aptitude = -2: -1 (67.5%) | 0 (22.5%)  | +1 (10%)
+        Aptitude = 1: -1 (53.72%) | 0 (29.85%) | +1 (16.43%)
+        Aptitude = 5: -1 (25.00%) | 0 (50.00%) | +1 (25.00%)
+        Aptitude = 8: -1 (15.27%) | 0 (37.57%) | +1 (47.16%)
+        Aptitude = 10: -1 (8.1%)  | 0 (24.51%) | +1 (67.39%)
+        Aptitude = 12: -1 (2.03%) | 0 (7.98%)  | +1 (90%)
     """
     aptitude = base_aptitude + class_aptitude
 
