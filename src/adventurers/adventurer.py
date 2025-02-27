@@ -9,7 +9,6 @@ if TYPE_CHECKING:
     from src.jobs.job import Job
     from actions.ability import Ability
     from actions.spell import Spell
-    from actions.attack import Attack
     from combat.status_effects.status_effect import StatusEffect
 
 class Adventurer:
@@ -23,7 +22,7 @@ class Adventurer:
             aptitude: float = 5,
             deterministic: bool = False,
             **stat_overrides: float):
-
+        
         self.name = name
         self.job = job
         self.level = level
@@ -50,7 +49,7 @@ class Adventurer:
             "charisma": 0,
             "luck": 0,
         }
-
+        from actions.attack import Attack
         self._attack = Attack()
 
         self._base_stats = Attributes(base_stats)
@@ -195,10 +194,12 @@ class Adventurer:
         amount = Attributes({'mp': amount})
         self.total_stats.update(amount)
 
+    @property
     def equipped_weapon(self) -> Optional[Weapon]:
         """Return the equipped weapon, if any."""
         return self.equipment.get_item("weapon")
 
+    @property
     def weapon_type(self) -> str:
         """Return the weapon type of the weapon the adventurer has equipped."""
         if not self.equipped_weapon:
