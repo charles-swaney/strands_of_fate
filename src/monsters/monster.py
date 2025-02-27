@@ -1,12 +1,15 @@
 from core.stats.attributes import Attributes
-from typing import Dict, List
+from typing import Dict, List, TYPE_CHECKING
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
 from abc import ABC, abstractmethod
 from utils.bonus_growth_calculations import compute_stat_bonus
-from actions.ability import Ability
-from actions.spell import Spell
 
+
+if TYPE_CHECKING:
+    from actions.ability import Ability
+    from actions.spell import Spell
+    from combat.status_effects.status_effect import StatusEffect
 
 class Monster(ABC):
 
@@ -66,20 +69,20 @@ class Monster(ABC):
         return self.stats.get_stat("mp")
     
     @property
-    def abilities(self) -> List[Ability]:
+    def abilities(self) -> List["Ability"]:
         """Return the list of known abilities."""
         return self._known_abilities
     
-    def learn_ability(self, ability: Ability) -> None:
+    def learn_ability(self, ability: "Ability") -> None:
         """Learn the ability."""
         self._known_abilities.append(ability)
 
     @property
-    def spells(self) -> List[Spell]:
+    def spells(self) -> List["Spell"]:
         """Return the list of known spells."""
         return self._known_spells
     
-    def learn_spell(self, spell: Spell) -> None:
+    def learn_spell(self, spell: "Spell") -> None:
         """Learn the spell."""
         self._known_spells.append(spell)
 
@@ -193,6 +196,11 @@ class Monster(ABC):
         """Return the monster's resistance to weapon_type."""
         pass
 
+    @abstractmethod
+    def weapon_type(self) -> str:
+        """Return the monster's weapon type."""
+        pass
+
     def abilities(self) -> float:
         return self._known_abilities
     
@@ -240,3 +248,6 @@ class Monster(ABC):
         """A flexible mana update to support either casting, or having mana replenished."""
         amount = Attributes({'mp': amount})
         self.total_stats.update(amount)
+
+    def status_effects(self) -> List["StatusEffect"]:
+        return self._status_effects
