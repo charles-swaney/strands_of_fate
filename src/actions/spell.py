@@ -1,4 +1,4 @@
-from typing import Union, Optional, List
+from typing import Union, Optional, List, TYPE_CHECKING
 from actions.action import Action
 from monsters.monster import Monster
 from adventurers.adventurer import Adventurer
@@ -6,6 +6,10 @@ from combat.damage_calculator import compute_damage_magical
 from combat.debuff_hit_chance import compute_debuff_chance
 from combat.status_effects.status_effect import StatusEffect
 import random
+
+if TYPE_CHECKING:
+    from adventurers.adventurer import Adventurer
+    from monsters.monster import Monster
 
 
 class Spell(Action):
@@ -72,7 +76,7 @@ class Spell(Action):
 
         self.remaining_cooldown = self._cooldown
 
-    def can_be_cast(self):
+    def can_be_used(self):
         return self.remaining_cooldown == 0
         
 

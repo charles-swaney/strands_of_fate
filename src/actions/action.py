@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Union, Optional
+from typing import Union, TYPE_CHECKING
 from monsters.monster import Monster
 from adventurers.adventurer import Adventurer
+
+if TYPE_CHECKING:
+    from adventurers.adventurer import Adventurer
+    from monsters.monster import Monster
 
 
 class Action(ABC):
@@ -19,7 +23,7 @@ class Action(ABC):
         pass
 
     @abstractmethod
-    def can_be_cast(self) -> bool:
+    def can_be_used(self) -> bool:
         """Returns True if caster can currently cast spell."""
         pass
     
