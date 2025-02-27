@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 from core.stats.attributes import Attributes
-from adventurers.adventurer import Adventurer
-from monsters.monster import Monster
-from typing import Union
+from typing import Union, TYPE_CHECKING
 from math import prod
 from enum import Enum, auto
+
+if TYPE_CHECKING:
+    from adventurers.adventurer import Adventurer
+    from monsters.monster import Monster
 
 
 class StatusType(Enum):
