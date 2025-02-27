@@ -36,6 +36,7 @@ class Attack(Action):
     def execute(self,
                 attacker: Union["Adventurer", "Monster"],
                 targets: List[Union["Adventurer", "Monster"]]):
+
         if not self.can_be_used(attacker):
             raise ValueError(f"Cannot attack right now.")
         
@@ -44,15 +45,10 @@ class Attack(Action):
             hit_roll = random.random()
 
             if hit_roll < hit_chance:
-                crit_chance = compute_critical_chance(attacker, target)
-                crit_roll = random.random()
-                crit_dmg_mult = CRIT_DAMAGE_MULT if crit_roll < crit_chance else 1.0
-
                 damage = compute_damage_physical(attacker,
                                                 target,
                                                 "standard",
-                                                attacker.weapon_type,
-                                                crit_dmg_mult)
+                                                attacker.weapon_type)
                 target.update_hp(-damage)
             else:
                 pass
@@ -61,7 +57,7 @@ class Attack(Action):
         """
         A unit can always attack, unless they have a blocking status effect.
         """
-        for status in attacker.status_effects:
+        for status in attacker.status_effects():
             if status.name in BLOCKING_EFFECTS:
                 return False
         return True
