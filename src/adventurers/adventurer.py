@@ -3,12 +3,13 @@ from collections import defaultdict
 from src.core.stats.attributes import Attributes
 from equipment.equipment_slots import EquipmentSlots
 from equipment.equipment import Equipment
-from actions.ability import Ability
-from actions.spell import Spell
+from equipment.weapon import Weapon
 
 if TYPE_CHECKING:
     from src.jobs.job import Job
-
+    from actions.ability import Ability
+    from actions.spell import Spell
+    from combat.status_effects.status_effect import StatusEffect
 
 class Adventurer:
 
@@ -80,25 +81,25 @@ class Adventurer:
         return total.update(self.equipment_bonuses)
     
     @property
-    def abilities(self) -> List[Ability]:
+    def abilities(self) -> List["Ability"]:
         """Return the list of known abilities."""
         return self._known_abilities
     
-    def learn_ability(self, ability: Ability) -> None:
+    def learn_ability(self, ability: "Ability") -> None:
         """Learn the ability."""
         self._known_abilities.append(ability)
 
     @property
-    def spells(self) -> List[Spell]:
+    def spells(self) -> List["Spell"]:
         """Return the list of known spells."""
         return self._known_spells
     
-    def learn_spell(self, spell: Spell) -> None:
+    def learn_spell(self, spell: "Spell") -> None:
         """Learn the spell."""
         self._known_spells.append(spell)
 
     @property
-    def equipment(self) -> Equipment:
+    def equipment(self) -> EquipmentSlots:
         return self._equipment
     
     @property
@@ -190,3 +191,18 @@ class Adventurer:
         """A flexible mana update to support either casting, or having mana replenished."""
         amount = Attributes({'mp': amount})
         self.total_stats.update(amount)
+
+    def equipped_weapon(self) -> Optional[Weapon]:
+        """Return the equipped weapon, if any."""
+        return self.equipment.get_item("weapon")
+
+    def weapon_type(self) -> str:
+        """Return the weapon type of the weapon the adventurer has equipped."""
+        if not self.equipped_weapon:
+            return "blunt"
+        else:
+            return self.equipped_weapon.item_type
+        
+    def status_effects(self) -> List["StatusEffect"]:
+        """Return the list of StatusEffects."""
+        return self._status_effects
