@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from src.jobs.job import Job
     from actions.ability import Ability
     from actions.spell import Spell
+    from actions.attack import Attack
     from combat.status_effects.status_effect import StatusEffect
 
 class Adventurer:
@@ -49,6 +50,8 @@ class Adventurer:
             "charisma": 0,
             "luck": 0,
         }
+
+        self._attack = Attack()
 
         self._base_stats = Attributes(base_stats)
 
@@ -206,3 +209,6 @@ class Adventurer:
     def status_effects(self) -> List["StatusEffect"]:
         """Return the list of StatusEffects."""
         return self._status_effects
+    
+    def attack(self, target):
+        self._attack.execute(self, [target])

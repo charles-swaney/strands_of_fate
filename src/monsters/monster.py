@@ -9,6 +9,7 @@ from utils.bonus_growth_calculations import compute_stat_bonus
 if TYPE_CHECKING:
     from actions.ability import Ability
     from actions.spell import Spell
+    from actions.attack import Attack
     from combat.status_effects.status_effect import StatusEffect
 
 class Monster(ABC):
@@ -37,6 +38,8 @@ class Monster(ABC):
             "charisma": 0,
             "luck": 0,
         }
+
+        self._attack = Attack()
 
         self._stats = Attributes(ZERO_STATS)
         self.deterministic = deterministic
@@ -251,3 +254,6 @@ class Monster(ABC):
 
     def status_effects(self) -> List["StatusEffect"]:
         return self._status_effects
+    
+    def attack(self, target):
+        self._attack.execute(self, [target])
