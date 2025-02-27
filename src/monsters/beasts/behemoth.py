@@ -81,3 +81,6 @@ class Behemoth(Monster):
 
     def get_weapon_res(self, weapon_type: str) -> float:
         return self.weapon_resistances.get_resistance(weapon_type=weapon_type)
+
+    def weapon_type(self):
+        return "blunt"
