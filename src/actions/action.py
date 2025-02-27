@@ -18,7 +18,7 @@ class Action(ABC):
         self._cooldown = cooldown
 
     @abstractmethod
-    def cast(self, caster: Union[Adventurer, Monster], target: Union[Adventurer, Monster]) -> None:
+    def execute(self, caster: Union[Adventurer, Monster], target: Union[Adventurer, Monster]) -> None:
         """Defines how the spell or ability is cast or performed."""
         pass
 

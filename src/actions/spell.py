@@ -41,7 +41,7 @@ class Spell(Action):
         self.status_effect = status_effect
         self.remaining_cooldown = 0
 
-    def cast(self,
+    def execute(self,
              caster: Union[Adventurer, Monster],
              targets: List[Union[Adventurer, Monster]]) -> None:
 

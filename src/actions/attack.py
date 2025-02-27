@@ -1,12 +1,14 @@
-from typing import Union, List
+from typing import Union, List, TYPE_CHECKING
 import random
 
 from actions.action import Action
-from monsters.monster import Monster
-from adventurers.adventurer import Adventurer
 from combat.damage_calculator import compute_damage_physical
 from combat.hit_chance import compute_hit_chance
 from combat.crit_chance import compute_critical_chance
+
+if TYPE_CHECKING:
+    from monsters.monster import Monster
+    from adventurers.adventurer import Adventurer
 
 CRIT_DAMAGE_MULT = 1.50
 BLOCKING_EFFECTS = {
@@ -32,8 +34,8 @@ class Attack(Action):
         self.remaining_cooldown = 0
     
     def execute(self,
-                attacker: Union[Adventurer, Monster],
-                targets: List[Union[Adventurer, Monster]]):
+                attacker: Union["Adventurer", "Monster"],
+                targets: List[Union["Adventurer", "Monster"]]):
         if not self.can_be_used(attacker):
             raise ValueError(f"Cannot attack right now.")
         
@@ -55,7 +57,7 @@ class Attack(Action):
             else:
                 pass
 
-    def can_be_used(self, attacker: Union[Adventurer, Monster]) -> bool:
+    def can_be_used(self, attacker: Union["Adventurer", "Monster"]) -> bool:
         """
         A unit can always attack, unless they have a blocking status effect.
         """
