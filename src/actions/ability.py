@@ -1,9 +1,10 @@
 from typing import Union, Optional
 from monsters.monster import Monster
 from adventurers.adventurer import Adventurer
+from actions.action import Action
 
 
-def Ability(Action):
+class Ability(Action):
     """A class defining magic spells."""
     def __init__(self,
                  name: str,
