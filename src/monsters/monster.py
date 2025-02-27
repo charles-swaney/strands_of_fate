@@ -9,7 +9,6 @@ from utils.bonus_growth_calculations import compute_stat_bonus
 if TYPE_CHECKING:
     from actions.ability import Ability
     from actions.spell import Spell
-    from actions.attack import Attack
     from combat.status_effects.status_effect import StatusEffect
 
 class Monster(ABC):
@@ -39,6 +38,7 @@ class Monster(ABC):
             "luck": 0,
         }
 
+        from actions.attack import Attack
         self._attack = Attack()
 
         self._stats = Attributes(ZERO_STATS)
@@ -57,19 +57,19 @@ class Monster(ABC):
         self._stats.update_override(stat_overrides)
 
     @property
-    def stats(self) -> Attributes:
+    def total_stats(self) -> Attributes:
         """Return the Attributes class containing the monster's stats."""
         return self._stats
 
     @property
     def hp(self) -> float:
         """Return the monster's (current) hp."""
-        return self.stats.get_stat("hp")
+        return self.total_stats.get_stat("hp")
     
     @property
     def mp(self) -> float:
         """Return the monster's (current) mp."""
-        return self.stats.get_stat("mp")
+        return self.total_stats.get_stat("mp")
     
     @property
     def abilities(self) -> List["Ability"]:
@@ -217,7 +217,7 @@ class Monster(ABC):
 
     def get_total_stat(self, stat: str) -> float:
         """Return stat."""
-        return self.stats.get_stat(stat)
+        return self.total_stats.get_stat(stat)
 
     def initialize_base_stats(self):
         """Apply level up without incrementing level."""
@@ -240,7 +240,7 @@ class Monster(ABC):
                 base_aptitude=self.aptitude,
                 class_aptitude=self.class_aptitude
             )
-            self.stats.add_to_stat(stat, growth_rate + (bonus_mult * stat_bonus))
+            self.total_stats.add_to_stat(stat, growth_rate + (bonus_mult * stat_bonus))
 
     def update_hp(self, amount: float) -> None:
         """A flexible health update to support either healing or taking damage."""
