@@ -43,7 +43,7 @@ def compute_damage_physical(
     watk = attacker.watk
     wdef = defender.wdef
 
-    main_dmg = 0.85 * (watk / 2.25 - wdef / 3.75) * weapon_bonus
+    main_dmg = 0.85 * (watk / 1.75 - wdef / 3.75) * weapon_bonus
 
     final_dmg = main_dmg * prod(other_multipliers) if other_multipliers else main_dmg
 
