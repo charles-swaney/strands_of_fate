@@ -8,6 +8,7 @@ class Weapon(Equipment):
             name: str,
             slot: str,
             item_type: str,
+            damage_type: str,
             watk: int,
             wdef: int = 0,
             matk: int = 0,
@@ -17,6 +18,7 @@ class Weapon(Equipment):
         self.name = name
         self._slot = slot
         self._item_type = item_type
+        self.damage_type = damage_type
         self._watk = watk
         self._wdef = wdef
         self._matk = matk
