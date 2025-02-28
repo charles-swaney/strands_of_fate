@@ -20,6 +20,7 @@ def test_equip_unequip_item():
         name="longsword",
         slot="weapon",
         item_type="sword",
+        damage_type="slash",
         watk=17,
         wdef=2
     )
@@ -27,6 +28,7 @@ def test_equip_unequip_item():
         name="Broadsword",
         slot="weapon",
         item_type="sword",
+        damage_type="slash",
         watk=25
     )
     assert adventurer.watk == THEORETICAL_BASE_WATK
@@ -49,6 +51,7 @@ def test_simple_equipment_bonuses():
         name="bonus_longsword",
         slot="weapon",
         item_type="sword",
+        damage_type="slash",
         watk=17,
         wdef=2,
         equipment_stat_bonuses={
@@ -85,6 +88,7 @@ def test_complex_equipment_bonuses():
         name="complex_sword",
         slot="weapon",
         item_type="sword",
+        damage_type="slash",
         watk=10,
         wdef=5,
         equipment_stat_bonuses={
@@ -138,6 +142,7 @@ def test_multiple_simple_equipments():
         name="sword",
         slot="weapon",
         item_type="sword",
+        damage_type="slash",
         watk=10
     )
     assert (adventurer.mdef == THEORETICAL_BASE_MDEF and
@@ -211,6 +216,7 @@ def test_multiple_complex_equipments():
         name="sword",
         slot="weapon",
         item_type="sword",
+        damage_type="slash",
         watk=10,
         equipment_stat_bonuses={
             "strength": 2.2,

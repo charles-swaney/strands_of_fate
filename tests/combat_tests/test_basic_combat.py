@@ -1,170 +1,178 @@
-from combat.damage_calculator import compute_damage_magical, compute_damage_physical
 from adventurers.adventurer import Adventurer
-from jobs.mage_classes.black_mage import BlackMage
+from jobs.warrior_classes.fighter import Fighter
 from jobs.warrior_classes.guardian import Guardian
+from jobs.thief_classes.archer import Archer
 from monsters.beasts.direwolf import DireWolf
+from combat.damage_calculator import compute_damage_physical
+import random
 from equipment.armor import Armor
 from equipment.weapon import Weapon
-import random
 
 
-def test_physical_dmg():
-    # Checks that physical dmg works with different wdef and damage type vs monsters
+def test_simple_combat():
     random.seed(1301)
-    bm = BlackMage()
-    gd = Guardian()
+    direwolf = DireWolf(level=10, deterministic=True)
+    f = Fighter()
+    a = Archer()
 
-    blackmage = Adventurer(
-        name="1",
-        job=bm,
-        level=10
+    fighter = Adventurer(
+        name="",
+        job=f,
+        level=10,
+        deterministic=True
+    )
+    archer = Adventurer(
+        name="",
+        job=a,
+        level=10,
+        deterministic=True
+    )
+    assert direwolf.hp == 120
+    fighter.attack(direwolf)
+    assert direwolf.hp < 93
+    archer.attack(direwolf)
+    assert direwolf.hp < 75
+    direwolf.attack(fighter)
+    assert fighter.hp < 35
+    direwolf.attack(fighter)
+    assert fighter.hp <= 0
+
+def test_equipment_combat():
+    random.seed(1301)
+    direwolf = DireWolf(level=25, deterministic=True)
+    a = Archer()
+    g = Guardian()
+
+    archer = Adventurer(
+        name="",
+        job=a,
+        level=25,
+        deterministic=True,
     )
 
     guardian = Adventurer(
-        name="2",
-        job=gd,
-        level=10
+        name="",
+        job=g,
+        level=50,
+        deterministic=True
     )
 
-    direwolf = DireWolf(
-        level=10
-    )
-    dmg1 = compute_damage_physical(direwolf, blackmage, "standard", "slash")
-    dmg2 = compute_damage_physical(direwolf, guardian, "standard", "slash")
-    dmg3 = compute_damage_physical(guardian, direwolf, "standard", "blunt")
-    dmg4 = compute_damage_physical(guardian, direwolf, "standard", "ranged")
-    assert dmg1 > dmg2
-    assert dmg2 > dmg3
-    assert dmg4 > dmg3
-
-
-def test_physical_equipment():
-    # check that equipping and unequipping equipment works with dmg including stat bonuses
-    random.seed(1301)
-    gd = Guardian()
-
-    guardian = Adventurer(
-        name="2",
-        job=gd,
-        level=10
+    bow = Weapon(
+        name="",
+        slot="weapon",
+        item_type="bow",
+        damage_type="ranged",
+        watk=17
     )
 
-    direwolf = DireWolf(
-        level=10
-    )
-    dmg1 = compute_damage_physical(direwolf, guardian, "standard", "slash")
+    assert direwolf.hp == 300
+    archer.attack(direwolf)
+    assert direwolf.hp < 265
+    archer.equip("weapon", bow)
+    archer.attack(direwolf)
+
+    assert direwolf.hp < 210
+    assert guardian.hp == 400
+    direwolf.attack(guardian)
+    assert guardian.hp < 380
+
     armor = Armor(
-        name="1",
+        name="",
         slot="armor",
         item_type="heavy_armor",
-        wdef=20,
-        mdef=10
+        wdef=50,
+        mdef=5
     )
     guardian.equip("armor", armor)
-    dmg2 = compute_damage_physical(direwolf, guardian, "standard", "slash")
+    assert guardian.hp < 376
+    assert guardian.hp > 375
+    direwolf.attack(guardian)
+    assert guardian.hp > 363
     guardian.unequip("armor")
-    dmg3 = compute_damage_physical(direwolf, guardian, "standard", "slash")
-    assert dmg2 < dmg1
-    assert dmg2 < dmg3
-    guardian.equip("armor", armor)
-    gauntlets = Armor(
-        name="2",
-        slot="gauntlet",
-        item_type="heavy_armor",
+    direwolf.attack(guardian)
+    assert guardian.hp < 341
+    assert guardian.hp > 339
+
+
+def test_bonus_equipment_combat():
+    random.seed(1332)
+    g = Guardian()
+
+    guardian = Adventurer(
+        name="",
+        job=g,
+        level=65,
+        deterministic=True
+    )
+    f = Fighter()
+
+    fighter = Adventurer(
+        name="",
+        job=f,
+        level=65,
+        deterministic=True
+    )
+
+    reg_sword = Weapon(
+        name="",
+        slot="weapon",
+        item_type="sword",
+        damage_type="slash",
+        watk=50,
+        wdef=10)
+
+    bonus_sword = Weapon(
+        name="",
+        slot="weapon",
+        item_type="sword",
+        damage_type="slash",
+        watk=50,
         wdef=10,
-        mdef=10
-    )
-    guardian.equip("gauntlet", gauntlets)
-    dmg4 = compute_damage_physical(direwolf, guardian, "standard", "slash")
-    assert dmg4 < dmg2
-
-    good_armor = Armor(
-        name="2",
-        slot="armor",
-        item_type="heavy_armor",
-        wdef=20,
-        mdef=10,
         equipment_stat_bonuses={
-            "toughness": 50
+            "strength": 25,
+            "toughness": 30
         }
     )
-    guardian.equip("armor", good_armor)
-    dmg5 = compute_damage_physical(direwolf, guardian, "standard", "slash")
-    assert dmg5 < dmg4
+    old_hp = 520
+    assert guardian.hp == 520
+    fighter.attack(guardian)
+    new_hp_1 = guardian.hp
+    print(guardian.hp)
+    dmg_no_equip = old_hp - new_hp_1
+    print(f"theoretical dmg without equip: ")
+    print(compute_damage_physical(
+        fighter,
+        guardian,
+        "standard",
+        "blunt"
+    ))
+    print(f"damage without equipment: {dmg_no_equip}")
+    fighter.equip("weapon", reg_sword)
+    print(f"theoretical dmg  reg sword: ")
+    print(compute_damage_physical(
+        fighter,
+        guardian,
+        "standard",
+        "slash"
+    ))
+    fighter.attack(guardian)
+    new_hp_2 = guardian.hp
+    dmg_reg_sword = new_hp_1 - new_hp_2
+    print(f"damage with reg sword: {dmg_reg_sword}")
+    print(guardian.hp)
 
-    guard_dmg1 = compute_damage_physical(guardian, direwolf, "standard", "blunt")
-    hammer = Weapon(
-        name="3",
-        slot="weapon",
-        item_type="hammer",
-        watk=25
-    )
-    guardian.equip("weapon", hammer)
-    guard_dmg2 = compute_damage_physical(guardian, direwolf, "standard", "blunt")
-    assert guard_dmg2 > guard_dmg1
-    guardian.unequip("weapon")
-    guard_dmg3 = compute_damage_physical(guardian, direwolf, "standard", "blunt")
-    assert guard_dmg2 > guard_dmg3
-
-    good_hammer = Weapon(
-        name="3",
-        slot="weapon",
-        item_type="hammer",
-        watk=25,
-        equipment_stat_bonuses={
-            "strength": 25
-        }
-    )
-    guardian.equip("weapon", good_hammer)
-    guard_dmg4 = compute_damage_physical(guardian, direwolf, "standard", "blunt")
-    assert guard_dmg4 > guard_dmg2
-
-
-def test_magical_dmg():
-    # test that magical dmg works with elemental resistances, equipping and unequipping
-    random.seed(1301)
-    bm = BlackMage()
-
-    blackmage = Adventurer(
-        name="1",
-        job=bm,
-        level=10
-    )
-
-    direwolf = DireWolf(
-        level=10
-    )
-
-    base_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
-    dmg_lightning = compute_damage_magical(blackmage, direwolf, "lightning")
-    assert base_dmg_fire > dmg_lightning
-
-    robes = Armor(
-        name="1",
-        slot="armor",
-        item_type="robe",
-        wdef=1,
-        mdef=10,
-        matk=10
-    )
-    blackmage.equip("armor", robes)
-    robes_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
-    assert robes_dmg_fire > base_dmg_fire
-
-    good_robes = Armor(
-        name="1",
-        slot="armor",
-        item_type="robe",
-        wdef=1,
-        mdef=10,
-        matk=10,
-        equipment_stat_bonuses={
-            "intellect": 100
-        }
-    )
-    blackmage.equip("armor", good_robes)
-    good_robes_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
-    assert good_robes_dmg_fire > robes_dmg_fire
-    blackmage.unequip("armor")
-    new_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
-    assert new_dmg_fire < robes_dmg_fire
+    fighter.equip("weapon", bonus_sword)
+    print(f"theoretical dmg bonus sword: ")
+    print(compute_damage_physical(
+        fighter,
+        guardian,
+        "standard",
+        "slash"
+    ))
+    fighter.attack(guardian)
+    new_hp_3 = guardian.hp
+    dmg_bonus_sword = new_hp_2 - new_hp_3
+    print(f"damage with bonus sword: {dmg_bonus_sword}")
+    assert dmg_bonus_sword > dmg_reg_sword
+    assert dmg_reg_sword > dmg_no_equip
+    print(guardian.hp)

@@ -37,6 +37,7 @@ def test_invalid_for_slot():
         name="dagger",
         slot="weapon",
         item_type="dagger",
+        damage_type="stab",
         watk=5
     )
     with pytest.raises(ValueError):
@@ -88,6 +89,7 @@ def test_invalid_item_type():
         name="dagger",
         slot="weapon",
         item_type="hammer",
+        damage_type="blunt",
         watk=5
     )
     with pytest.raises(ValueError):
@@ -130,7 +132,7 @@ def test_valid_equips():
     adventurer = Adventurer(name="joe", job=hemomancer_class)
 
     robe = Armor(name="robe", slot="armor", item_type="robe", wdef=2, mdef=20)
-    dagger = Weapon(name="dagger", slot="weapon", item_type="dagger", watk=5)
+    dagger = Weapon(name="dagger", slot="weapon", item_type="dagger", damage_type="stab", watk=5)
 
     adventurer.equip("armor", robe)
     adventurer.equip("weapon", dagger)
