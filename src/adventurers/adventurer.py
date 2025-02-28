@@ -80,7 +80,8 @@ class Adventurer:
     def total_stats(self) -> Attributes:
         """Total stats from base stats, equipment, and other bonuses."""
         total = self._base_stats.copy()
-        return total.update(self.equipment_bonuses)
+        total.update(self.equipment_bonuses)
+        return total
     
     @property
     def abilities(self) -> List["Ability"]:
@@ -187,7 +188,7 @@ class Adventurer:
     def update_hp(self, amount: float) -> None:
         """A flexible health update to support either healing or taking damage."""
         amount = Attributes({'hp': amount})
-        self.total_stats.update(amount)
+        self.base_stats.update(amount)
 
     def update_mp(self, amount: float) -> None:
         """A flexible mana update to support either casting, or having mana replenished."""
@@ -205,7 +206,7 @@ class Adventurer:
         if not self.equipped_weapon:
             return "blunt"
         else:
-            return self.equipped_weapon.item_type
+            return self.equipped_weapon.damage_type
         
     def status_effects(self) -> List["StatusEffect"]:
         """Return the list of StatusEffects."""
