@@ -148,9 +148,7 @@ class Monster(ABC):
         intellect = self.get_total_stat("intellect")
         charisma = self.get_total_stat("charisma")
         luck = self.get_total_stat("luck")
-        return (1.0 * intellect +
-                0.15 * charisma +
-                0.03 * luck)
+        return (1.08 * intellect + 0.03 * luck)
 
     @property
     def base_mdef(self) -> float:
@@ -199,6 +197,7 @@ class Monster(ABC):
         """Return the monster's resistance to weapon_type."""
         pass
 
+    @property
     @abstractmethod
     def weapon_type(self) -> str:
         """Return the monster's weapon type."""
