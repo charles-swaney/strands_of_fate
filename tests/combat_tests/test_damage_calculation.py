@@ -137,8 +137,8 @@ def test_magical_dmg():
         level=10
     )
 
-    base_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
-    dmg_lightning = compute_damage_magical(blackmage, direwolf, "lightning")
+    base_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire", 1.0)
+    dmg_lightning = compute_damage_magical(blackmage, direwolf, "lightning", 1.0)
     assert base_dmg_fire > dmg_lightning
 
     robes = Armor(
@@ -150,7 +150,7 @@ def test_magical_dmg():
         matk=10
     )
     blackmage.equip("armor", robes)
-    robes_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
+    robes_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire", 1.0)
     assert robes_dmg_fire > base_dmg_fire
 
     good_robes = Armor(
@@ -165,8 +165,8 @@ def test_magical_dmg():
         }
     )
     blackmage.equip("armor", good_robes)
-    good_robes_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
+    good_robes_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire", 1.0)
     assert good_robes_dmg_fire > robes_dmg_fire
     blackmage.unequip("armor")
-    new_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire")
+    new_dmg_fire = compute_damage_magical(blackmage, direwolf, "fire", 1.0)
     assert new_dmg_fire < robes_dmg_fire
