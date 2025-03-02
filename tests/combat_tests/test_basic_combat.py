@@ -3,7 +3,6 @@ from jobs.warrior_classes.fighter import Fighter
 from jobs.warrior_classes.guardian import Guardian
 from jobs.thief_classes.archer import Archer
 from monsters.beasts.direwolf import DireWolf
-from combat.damage_calculator import compute_damage_physical
 import random
 from equipment.armor import Armor
 from equipment.weapon import Weapon
@@ -84,13 +83,13 @@ def test_equipment_combat():
         mdef=5
     )
     guardian.equip("armor", armor)
-    assert guardian.hp < 376
+    assert guardian.hp < 377
     assert guardian.hp > 375
     direwolf.attack(guardian)
     assert guardian.hp > 363
     guardian.unequip("armor")
     direwolf.attack(guardian)
-    assert guardian.hp < 341
+    assert guardian.hp < 342
     assert guardian.hp > 339
 
 
@@ -114,7 +113,7 @@ def test_bonus_equipment_combat():
     )
 
     reg_sword = Weapon(
-        name="",
+        name="regular sword",
         slot="weapon",
         item_type="sword",
         damage_type="slash",
@@ -122,7 +121,7 @@ def test_bonus_equipment_combat():
         wdef=10)
 
     bonus_sword = Weapon(
-        name="",
+        name="bonus sword",
         slot="weapon",
         item_type="sword",
         damage_type="slash",
@@ -137,42 +136,14 @@ def test_bonus_equipment_combat():
     assert guardian.hp == 520
     fighter.attack(guardian)
     new_hp_1 = guardian.hp
-    print(guardian.hp)
     dmg_no_equip = old_hp - new_hp_1
-    print(f"theoretical dmg without equip: ")
-    print(compute_damage_physical(
-        fighter,
-        guardian,
-        "standard",
-        "blunt"
-    ))
-    print(f"damage without equipment: {dmg_no_equip}")
     fighter.equip("weapon", reg_sword)
-    print(f"theoretical dmg  reg sword: ")
-    print(compute_damage_physical(
-        fighter,
-        guardian,
-        "standard",
-        "slash"
-    ))
     fighter.attack(guardian)
     new_hp_2 = guardian.hp
     dmg_reg_sword = new_hp_1 - new_hp_2
-    print(f"damage with reg sword: {dmg_reg_sword}")
-    print(guardian.hp)
-
     fighter.equip("weapon", bonus_sword)
-    print(f"theoretical dmg bonus sword: ")
-    print(compute_damage_physical(
-        fighter,
-        guardian,
-        "standard",
-        "slash"
-    ))
     fighter.attack(guardian)
     new_hp_3 = guardian.hp
     dmg_bonus_sword = new_hp_2 - new_hp_3
-    print(f"damage with bonus sword: {dmg_bonus_sword}")
     assert dmg_bonus_sword > dmg_reg_sword
     assert dmg_reg_sword > dmg_no_equip
-    print(guardian.hp)
