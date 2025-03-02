@@ -4,7 +4,6 @@ import random
 from actions.action import Action
 from combat.damage_calculator import compute_damage_physical
 from combat.hit_chance import compute_hit_chance
-from combat.crit_chance import compute_critical_chance
 
 if TYPE_CHECKING:
     from monsters.monster import Monster
@@ -19,7 +18,7 @@ BLOCKING_EFFECTS = {
 
 
 class Attack(Action):
-    """A class representing a basic physical attack."""
+    """A class defining basic physical attacks."""
     def __init__(self,
                  name: str="Attack",
                  cost: int=0,
