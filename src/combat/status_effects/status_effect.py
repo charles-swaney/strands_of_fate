@@ -54,7 +54,7 @@ class StatusEffect(ABC):
     def max_stacks(self) -> str:
         return self._max_stacks
     
-    def base_strength(self, caster: Union[Adventurer, Monster], *other_factors) -> float:
+    def base_strength(self, caster: Union["Adventurer", "Monster"], *other_factors) -> float:
         if isinstance(self.status_type, StatusType.DEBUFF):
             extra_mult = prod(other_factors) if other_factors else 1.0
             strength = 0.40 * caster.get_total_stat("intellect") * extra_mult
@@ -66,7 +66,7 @@ class StatusEffect(ABC):
         return strength
     
     @abstractmethod
-    def calculate_strength(self, caster: Union[Adventurer, Monster], *scaling_factors) -> int:
+    def calculate_strength(self, caster: Union["Adventurer", "Monster"], *scaling_factors) -> int:
         pass
     
     @abstractmethod
@@ -86,7 +86,7 @@ class StatusEffect(ABC):
             return True
         return False
     
-    def apply_to(self, target: Union[Adventurer, Monster]) -> None:
+    def apply_to(self, target: Union["Adventurer", "Monster"]) -> None:
         target._status_effects.append(self)
 
     
