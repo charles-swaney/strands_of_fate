@@ -4,6 +4,7 @@ from monsters.monster import Monster
 from adventurers.adventurer import Adventurer
 from combat.damage_calculator import compute_damage_magical
 from combat.debuff_hit_chance import compute_debuff_chance
+from combat.hit_chance import compute_hit_chance
 from combat.status_effects.status_effect import StatusEffect
 import random
 
@@ -43,16 +44,17 @@ class Spell(Action):
 
     def execute(self,
              caster: Union[Adventurer, Monster],
-             targets: List[Union[Adventurer, Monster]]) -> None:
+             targets: List[Union[Adventurer, Monster]],
+             *other_multipliers) -> None:
 
-        if not self.can_be_cast():
+        if not self.can_be_used():
             raise ValueError(f"Cannot cast {self.name}.")
 
         if self.cost_type == 'mp':
             if caster.mp < self.cost:
                 raise ValueError("Not enough mp.")
             caster.update_mp(-self.cost)
-        else:
+        elif self.cost_type == 'hp':
             if caster.hp < self.cost:
                 raise ValueError("Not enough hp.")
             caster.update_hp(-self.cost)
@@ -60,8 +62,11 @@ class Spell(Action):
         # Apply spell effect
         if self.spell_type == 'damage':
             for target in targets:
-                damage = compute_damage_magical(caster, target)
-                target.update_hp(-damage)
+                damage = compute_damage_magical(caster, target, *other_multipliers)
+                hit_chance = compute_hit_chance(caster, target, 1.05)
+                hit_roll = random.random()
+                if hit_roll < hit_chance:
+                    target.update_hp(-damage)
 
         elif self.spell_type == 'heal':
             raise NotImplementedError
@@ -76,8 +81,8 @@ class Spell(Action):
 
         self.remaining_cooldown = self._cooldown
 
-    def can_be_used(self):
-        return self.remaining_cooldown == 0
+    def can_be_used(self, caster: Union[Adventurer, Monster]):
+        return self.remaining_cooldown == 0 and self in caster.spells
         
 
     def tick_cooldown(self):
