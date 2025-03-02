@@ -10,10 +10,11 @@ if TYPE_CHECKING:
 
 class Action(ABC):
     """A class representing the actions a unit can take."""
-    def __init__(self, name: str, cost_type: str, cost: int, target_type: str, cooldown: int):
+    def __init__(self, name: str, cost_type: str, base_cost: int, cost_scaling: float, target_type: str, cooldown: int):
         self.name = name
         self.cost_type = cost_type
-        self.cost = cost
+        self.base_cost = base_cost
+        self.cost_scaling = cost_scaling
         self.target_type = target_type
         self._cooldown = cooldown
 
