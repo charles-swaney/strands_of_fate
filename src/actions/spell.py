@@ -17,7 +17,8 @@ class Spell(Action):
     """A class defining magic spells."""
     def __init__(self,
                  name: str,
-                 cost: int,
+                 base_cost: int,
+                 cost_scaling: float,
                  spell_type: str,
                  magnitude: float,
                  cooldown: int,
@@ -27,7 +28,8 @@ class Spell(Action):
         """
         Args:
             name (str): the name of the spell
-            cost (int): the mp cost of the spell
+            base_cost (int): the mp cost of the spell at level 1
+            cost_scaling (float): the additional mp cost per level^0.6 gained
             spell_type (str): 'damage', 'heal', 'buff', 'debuff'
             magnitude: the multiplier that roughly measures how powerful the spell is
             cooldown: the number of turns before the spell can be cast again
@@ -35,7 +37,7 @@ class Spell(Action):
             element: the element damage that the spell deals
             status_effect: the status  
         """
-        super().__init__(name, cost_type, cost, "single", cooldown)
+        super().__init__(name, cost_type, base_cost, cost_scaling, "single", cooldown)
         self.spell_type = spell_type
         self.magnitude = magnitude
         self.element = element
@@ -43,8 +45,8 @@ class Spell(Action):
         self.remaining_cooldown = 0
 
     def execute(self,
-             caster: Union[Adventurer, Monster],
-             targets: List[Union[Adventurer, Monster]],
+             caster: Union["Adventurer", "Monster"],
+             targets: List[Union["Adventurer", "Monster"]],
              *other_multipliers) -> None:
 
         if not self.can_be_used():
@@ -62,7 +64,7 @@ class Spell(Action):
         # Apply spell effect
         if self.spell_type == 'damage':
             for target in targets:
-                damage = compute_damage_magical(caster, target, *other_multipliers)
+                damage = compute_damage_magical(caster, target, magnitude=self.magnitude, *other_multipliers)
                 hit_chance = compute_hit_chance(caster, target, 1.05)
                 hit_roll = random.random()
                 if hit_roll < hit_chance:
@@ -81,10 +83,14 @@ class Spell(Action):
 
         self.remaining_cooldown = self._cooldown
 
-    def can_be_used(self, caster: Union[Adventurer, Monster]):
+    def can_be_used(self, caster: Union["Adventurer", "Monster"]):
         return self.remaining_cooldown == 0 and self in caster.spells
         
 
     def tick_cooldown(self):
         if self.remaining_cooldown > 0:
             self.remaining_cooldown -= 1
+
+    def cost(self, caster: Union["Adventurer", "Monster"]) -> float:
+        """Return the cost of the spell."""
+        return self.base_cost + self.cost_scaling * (caster.level ** 0.6)
