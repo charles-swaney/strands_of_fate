@@ -61,6 +61,7 @@ def compute_damage_magical(
         attacker: Union[Monster, Adventurer],
         defender: Union[Monster, Adventurer],
         attack_element: str,
+        magnitude: float,
         *other_multipliers: List[float]
         ) -> float:
     """
@@ -85,7 +86,7 @@ def compute_damage_magical(
     matk = attacker.matk
     mdef = defender.mdef
 
-    main_dmg = 1.15 * (matk / 2 - mdef / 4) * elemental_bonus
+    main_dmg = 1.15 * (matk / 2 - mdef / 4) * magnitude * elemental_bonus
 
     final_dmg = main_dmg * prod(other_multipliers) if other_multipliers else main_dmg
 
