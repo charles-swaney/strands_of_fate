@@ -21,13 +21,14 @@ class Attack(Action):
     """A class defining basic physical attacks."""
     def __init__(self,
                  name: str="Attack",
-                 cost: int=0,
+                 base_cost: int=0,
+                 cost_scaling: float=0,
                  target_type: str="single",
                  cost_type: str="mp",
                  cooldown: int=0):
-        super().__init__(name, cost, target_type, cost_type, cooldown)
+        super().__init__(name, base_cost, cost_scaling, target_type, cost_type, cooldown)
         self.name = name
-        self.cost = cost
+        self.cost = 0
         self.target_type = target_type
         self.cost_type = cost_type
         self.remaining_cooldown = 0
