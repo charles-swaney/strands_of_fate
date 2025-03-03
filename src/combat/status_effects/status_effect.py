@@ -88,5 +88,3 @@ class StatusEffect(ABC):
     
     def apply_to(self, target: Union["Adventurer", "Monster"]) -> None:
         target._status_effects.append(self)
-
-    
