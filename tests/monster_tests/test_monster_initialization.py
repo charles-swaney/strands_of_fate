@@ -8,7 +8,7 @@ def test_monster_initialization():
         aptitude=10,
         deterministic=True
     )
-    assert wolf.hp == 11.0
+    assert wolf.hp == 44
     assert wolf.get_total_stat("strength") == 9
     assert wolf.class_aptitude == 0
     assert wolf.aptitude == 10

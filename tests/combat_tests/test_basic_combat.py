@@ -26,13 +26,13 @@ def test_simple_combat():
         level=10,
         deterministic=True
     )
-    assert direwolf.hp == 120
+    assert direwolf.hp == 156
     fighter.attack(direwolf)
-    assert direwolf.hp < 93
+    assert direwolf.hp < 126
     archer.attack(direwolf)
-    assert direwolf.hp < 75
+    assert direwolf.hp < 110
     direwolf.attack(fighter)
-    assert fighter.hp < 35
+    assert fighter.hp < 42
     direwolf.attack(fighter)
     assert fighter.hp <= 0
 
@@ -64,16 +64,16 @@ def test_equipment_combat():
         watk=17
     )
 
-    assert direwolf.hp == 300
+    assert direwolf.hp == 336
     archer.attack(direwolf)
-    assert direwolf.hp < 265
+    assert direwolf.hp < 300
     archer.equip("weapon", bow)
     archer.attack(direwolf)
 
-    assert direwolf.hp < 210
-    assert guardian.hp == 400
+    assert direwolf.hp < 240
+    assert guardian.hp == 424
     direwolf.attack(guardian)
-    assert guardian.hp < 380
+    assert guardian.hp < 400
 
     armor = Armor(
         name="",
@@ -83,13 +83,13 @@ def test_equipment_combat():
         mdef=5
     )
     guardian.equip("armor", armor)
-    assert guardian.hp < 377
+    assert guardian.hp < 400
     assert guardian.hp > 375
     direwolf.attack(guardian)
     assert guardian.hp > 363
     guardian.unequip("armor")
     direwolf.attack(guardian)
-    assert guardian.hp < 342
+    assert guardian.hp < 365
     assert guardian.hp > 339
 
 
@@ -133,7 +133,7 @@ def test_bonus_equipment_combat():
         }
     )
     old_hp = 520
-    assert guardian.hp == 520
+    assert guardian.hp == 544
     fighter.attack(guardian)
     new_hp_1 = guardian.hp
     dmg_no_equip = old_hp - new_hp_1

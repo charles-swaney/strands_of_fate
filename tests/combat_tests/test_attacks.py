@@ -17,7 +17,7 @@ def test_fixed_damage():
         deterministic=True
     )
     init_hp = wolf.hp
-    assert init_hp == 12 * 25
+    assert init_hp == 12 * 28
     EXPECTED_DAMAGE = 0.85 * (ronin.watk / 1.75 - wolf.wdef / 3.75)
     with patch("random.random", side_effect=[0, 1.00]), \
                patch("random.uniform", return_value=1.00):
@@ -37,7 +37,7 @@ def test_crit_damage():
         deterministic=True
     )
     init_hp = wolf.hp
-    assert init_hp == 12 * 25
+    assert init_hp == 12 * 28
     EXPECTED_DAMAGE = 0.85 * (ronin.watk / 1.75 - wolf.wdef / 3.75) * 1.5
     with patch("random.random", side_effect=[0, 0]), \
                patch("random.uniform", return_value=1.00):
@@ -57,7 +57,7 @@ def test_miss_no_damage():
         deterministic=True
     )
     init_hp = wolf.hp
-    assert init_hp == 12 * 25
+    assert init_hp == 12 * 28
     EXPECTED_DAMAGE = 0
     with patch("random.random", side_effect=[1.00, 0]), \
                patch("random.uniform", return_value=1.00):
@@ -85,7 +85,7 @@ def test_weapon_resistance_baseline():
     )
     ronin.equip("weapon", ranged)
     init_hp = wolf.hp
-    assert init_hp == 12 * 25
+    assert init_hp == 12 * 28
     EXPECTED_DAMAGE = 0.85 * (ronin.watk / 1.75 - wolf.wdef / 3.75) * 1.25
     with patch("random.random", side_effect=[0, 1.00]), \
                patch("random.uniform", return_value=1.00):
@@ -113,7 +113,7 @@ def test_multiple_interactions():
     )
     ronin.equip("weapon", ranged)
     init_hp = wolf.hp
-    assert init_hp == 12 * 25
+    assert init_hp == 12 * 28
     EXPECTED_DAMAGE = 0.85 * (ronin.watk / 1.75 - wolf.wdef / 3.75) * 1.25 * 1.5 * 1.04
     with patch("random.random", side_effect=[0, 0]), \
                patch("random.uniform", return_value=1.04):
@@ -132,8 +132,8 @@ def test_costs():
         level=12,
         deterministic=True
     )
-    START_HP = 12 * 99
-    THEORETICAL_MP = 36
+    START_HP = 12 * 102
+    THEORETICAL_MP = 45
     THEORETICAL_HP = START_HP - 344
     assert ronin.mp == THEORETICAL_MP
     assert wolf.hp == START_HP
@@ -144,5 +144,5 @@ def test_costs():
                 ronin.attack(wolf)
 
     assert ronin.mp == THEORETICAL_MP
-    assert ronin.hp == 6 * 12
+    assert ronin.hp == 6 * 15
     assert wolf.hp == THEORETICAL_HP

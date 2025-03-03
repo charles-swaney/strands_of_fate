@@ -99,8 +99,8 @@ def test_spell_costs():
     blackmage.learn_skill(fire_spell)
     assert fire_spell.cost(blackmage) == LVL_1_COST
     blackmage.use(fire_spell, behemoth)
-    assert blackmage.mp == 2
-    assert blackmage.hp == 4
+    assert blackmage.mp == 23
+    assert blackmage.hp == 16
 
     blackmage2 = Adventurer(
         name="",
@@ -109,12 +109,12 @@ def test_spell_costs():
         deterministic=True
     )
     blackmage2.learn_skill(fire_spell)
-    assert blackmage2.mp == 7 * 25
+    assert blackmage2.mp == 7 * 28
     assert fire_spell.cost(blackmage2) == approx(LVL_25_COST)
     fire_spell.tick_cooldown()
     fire_spell.tick_cooldown()
     blackmage2.use(fire_spell, behemoth)
-    assert blackmage2.mp == approx(175 - LVL_25_COST)
+    assert blackmage2.mp == approx(7 * 28 - LVL_25_COST)
 
     blackmage3 = Adventurer(
         name="",
@@ -124,12 +124,12 @@ def test_spell_costs():
     )
 
     blackmage3.learn_skill(fire_spell)
-    assert blackmage3.mp == 7 * 99
+    assert blackmage3.mp == 7 * 102
     assert fire_spell.cost(blackmage3) == approx(LVL_99_COST)
     fire_spell.tick_cooldown()
     fire_spell.tick_cooldown()
     blackmage3.use(fire_spell, behemoth)
-    assert blackmage3.mp == approx(7 * 99 - LVL_99_COST)
+    assert blackmage3.mp == approx(7 * 102 - LVL_99_COST)
 
 
 def test_mana_costs():
@@ -146,6 +146,11 @@ def test_mana_costs():
     )
     blackmage.learn_skill(fire_spell)
     assert fire_spell.can_be_used(blackmage) == True
+    for _ in range(4):
+        blackmage.use(fire_spell, behemoth)
+        fire_spell.tick_cooldown()
+        fire_spell.tick_cooldown()
+        assert fire_spell.can_be_used(blackmage) == True
     blackmage.use(fire_spell, behemoth)
     fire_spell.tick_cooldown()
     fire_spell.tick_cooldown()

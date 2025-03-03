@@ -86,4 +86,4 @@ def test_spell_miss():
     after_fire_hp = behemoth.hp
     fire_dmg = start_hp - after_fire_hp
     assert fire_dmg == approx(THEORETICAL_FIRE_DMG)
-    assert blackmage.mp < 7 * 99
+    assert blackmage.mp < 7 * 103

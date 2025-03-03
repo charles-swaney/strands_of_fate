@@ -25,7 +25,7 @@ def test_adventurer_initialization():
         deterministic=True,
         hp=17,
     )
-    assert adventurer_1.base_stats.get_stat("hp") == 5
+    assert adventurer_1.base_stats.get_stat("hp") == 20
     assert adventurer_1.aptitude == 5
     assert adventurer_1.base_stats.get_stat("luck") == 8
     assert adventurer_2.base_stats.get_stat("hp") == 17
@@ -69,7 +69,7 @@ def test_level_up():
         adventurer_2.level_up()
     assert adventurer_1.level == 75
     assert adventurer_1.aptitude == 5
-    assert adventurer_1.base_stats.get_stat("hp") == 375
+    assert adventurer_1.base_stats.get_stat("hp") == 390
     assert adventurer_1.levels_gained["Bard"] == 74
     assert adventurer_2.base_stats.get_stat("hp") == 362
     assert adventurer_2.levels_gained["Bard"] == 49
