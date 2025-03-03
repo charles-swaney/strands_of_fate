@@ -49,22 +49,24 @@ class Spell(Action):
              targets: List[Union["Adventurer", "Monster"]],
              *other_multipliers) -> None:
 
-        if not self.can_be_used():
+        if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")
 
+        cost = self.cost(caster)
+
         if self.cost_type == 'mp':
-            if caster.mp < self.cost:
+            if caster.mp < cost:
                 raise ValueError("Not enough mp.")
-            caster.update_mp(-self.cost)
+            caster.update_mp(-cost)
         elif self.cost_type == 'hp':
-            if caster.hp < self.cost:
+            if caster.hp < cost:
                 raise ValueError("Not enough hp.")
-            caster.update_hp(-self.cost)
+            caster.update_hp(-cost)
 
         # Apply spell effect
         if self.spell_type == 'damage':
             for target in targets:
-                damage = compute_damage_magical(caster, target, magnitude=self.magnitude, *other_multipliers)
+                damage = compute_damage_magical(caster, target, attack_element=self.element, magnitude=self.magnitude, *other_multipliers)
                 hit_chance = compute_hit_chance(caster, target, 1.05)
                 hit_roll = random.random()
                 if hit_roll < hit_chance:
@@ -84,13 +86,17 @@ class Spell(Action):
         self.remaining_cooldown = self._cooldown
 
     def can_be_used(self, caster: Union["Adventurer", "Monster"]):
-        return self.remaining_cooldown == 0 and self in caster.spells
+        cost = self.cost(caster)
+        if self.cost_type == "mp":
+            return self.remaining_cooldown == 0 and cost <= caster.mp
+        elif self.cost_type == "hp":
+            return self.remaining_cooldown == 0 and cost <= caster.hp
         
 
     def tick_cooldown(self):
         if self.remaining_cooldown > 0:
             self.remaining_cooldown -= 1
-
+    
     def cost(self, caster: Union["Adventurer", "Monster"]) -> float:
         """Return the cost of the spell."""
         return self.base_cost + self.cost_scaling * (caster.level ** 0.6)
