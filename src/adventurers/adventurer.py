@@ -4,10 +4,11 @@ from src.core.stats.attributes import Attributes
 from equipment.equipment_slots import EquipmentSlots
 from equipment.equipment import Equipment
 from equipment.weapon import Weapon
+from monsters.monster import Monster
 
 if TYPE_CHECKING:
     from src.jobs.job import Job
-    from actions.ability import Ability
+    from actions.action import Action
     from actions.spell import Spell
     from combat.status_effects.status_effect import StatusEffect
 
@@ -54,9 +55,13 @@ class Adventurer:
 
         self._base_stats = Attributes(base_stats)
 
-        self._known_spells = []
+        self._all_known_skills = defaultdict(list)
 
-        self._known_abilities = []
+        from core.skillsets.skillset import Skillset
+        self._skillset = Skillset(all_skills=self._all_known_skills,
+                                  primary_job=self.job.job_name,
+                                  secondary_job=None,
+                                  passive=None)
 
         self._equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
 
@@ -82,24 +87,24 @@ class Adventurer:
         total = self._base_stats.copy()
         total.update(self.equipment_bonuses)
         return total
-    
-    @property
-    def abilities(self) -> List["Ability"]:
-        """Return the list of known abilities."""
-        return self._known_abilities
-    
-    def learn_ability(self, ability: "Ability") -> None:
-        """Learn the ability."""
-        self._known_abilities.append(ability)
 
     @property
-    def spells(self) -> List["Spell"]:
-        """Return the list of known spells."""
-        return self._known_spells
+    def skills(self) -> Dict[str, List["Action"]]:
+        """Return the list of known skills within each class.   """
+        return self._all_known_skills
     
-    def learn_spell(self, spell: "Spell") -> None:
+    @property
+    def skillset(self):
+        """Return the current skillset."""
+        return self._skillset
+    
+    def learn_skill(self, skill: "Action") -> None:
         """Learn the spell."""
-        self._known_spells.append(spell)
+        current_job = self.job.job_name
+        if skill not in self.skillset.primary_skillset:
+            self.skillset.primary_skillset.append(skill)
+        if skill not in self._all_known_skills[current_job]:
+            self._all_known_skills[current_job].append(skill)
 
     @property
     def equipment(self) -> EquipmentSlots:
@@ -193,7 +198,7 @@ class Adventurer:
     def update_mp(self, amount: float) -> None:
         """A flexible mana update to support either casting, or having mana replenished."""
         amount = Attributes({'mp': amount})
-        self.total_stats.update(amount)
+        self.base_stats.update(amount)
 
     @property
     def equipped_weapon(self) -> Optional[Weapon]:
@@ -214,3 +219,19 @@ class Adventurer:
     
     def attack(self, target):
         self._attack.execute(self, [target])
+
+    def can_access(self, skill: "Action") -> bool:
+        """Return whether skill can be cast."""
+        # First check if it's one of the primary or secondary skills.
+        if skill in self.skillset.primary_skillset or \
+            skill in self.skillset.secondary_skillset:
+            return True
+        return False
+    
+    def use(self, skill: "Action", targets: Union[Union["Adventurer", Monster], List[Union["Adventurer", Monster]]]) -> None:
+        """Cast skill on target."""
+        from monsters.monster import Monster
+        if isinstance(targets, Adventurer) or isinstance(targets, Monster):
+            skill.execute(self, [targets])
+        else:
+            skill.execute(self, targets)
