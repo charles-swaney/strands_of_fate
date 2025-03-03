@@ -51,6 +51,9 @@ class Monster(ABC):
 
         self.initialize_base_stats()
 
+        self.update_hp(self.hp * 3)
+        self.update_mp(self.mp * 3)
+
         for _ in range(2, self.level + 1):
             self.level_up()
 
