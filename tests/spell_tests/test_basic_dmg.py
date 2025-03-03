@@ -1,9 +1,9 @@
 from unittest.mock import patch
 from pytest import approx
 from adventurers.adventurer import Adventurer
-from combat.spells.shared.fire import Fire
-from combat.spells.shared.earth import Earth
-from combat.spells.shared.light import Light
+from combat.skills.shared.fire import Fire
+from combat.skills.shared.earth import Earth
+from combat.skills.shared.light import Light
 from jobs.mage_classes.black_mage import BlackMage
 from monsters.beasts.behemoth import Behemoth
 
