@@ -34,7 +34,7 @@ class DireWolf(Monster):
             "water": 1.00,
             "earth": 1.00,
             "wind": 1.00,
-            "lightning": 0.75,
+            "lightning": 1.00,
             "ice": 0.75,
             "light": 1.00,
             "dark": 1.00
