@@ -1,4 +1,4 @@
-from typing import Union, Optional, List, TYPE_CHECKING
+from typing import Union, Optional, List, TYPE_CHECKING, Dict
 from actions.action import Action
 from monsters.monster import Monster
 from adventurers.adventurer import Adventurer
@@ -35,7 +35,7 @@ class Spell(Action):
             cooldown: the number of turns before the spell can be cast again
             cost_type: whether the spell costs hp or mp to cast
             element: the element damage that the spell deals
-            status_effect: the status  
+            status_effect: the status effect conferred by the spell.
         """
         super().__init__(name, cost_type, base_cost, cost_scaling, "single", cooldown)
         self.spell_type = spell_type
@@ -46,8 +46,11 @@ class Spell(Action):
 
     def execute(self,
              caster: Union["Adventurer", "Monster"],
-             targets: List[Union["Adventurer", "Monster"]],
+             targets: Union["Adventurer", "Monster", List["Adventurer"], List["Monster"]],
              *other_multipliers) -> None:
+        
+        if not isinstance(targets, (list, tuple)):
+            targets = [targets]
 
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")
