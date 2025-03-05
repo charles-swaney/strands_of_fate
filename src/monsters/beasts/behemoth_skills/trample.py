@@ -1,0 +1,51 @@
+from typing import List
+from actions.spell import Spell
+from monsters.monster import Monster
+from adventurers.adventurer import Adventurer
+from combat.damage_calculator import compute_damage_physical
+from combat.hit_chance import compute_hit_chance
+import random
+
+
+class Trample(Spell):
+    def __init__(self):
+        super().__init__(
+            name="Trample",
+            cost_type="mp",
+            base_cost=8,
+            cost_scaling=2.0,
+            cooldown=3,
+            magnitude=0.75,
+            element="earth",
+            spell_type="damage"
+        )
+        self.target_type="all"
+
+    def execute(self,
+                caster: Monster,
+                targets: List[Adventurer],
+                *other_multipliers) -> None:
+        if not self.can_be_used(caster):
+            raise ValueError(f"Cannot cast {self.name}.")
+        
+        cost = self.cost(caster)
+        if caster.mp < cost:
+            raise ValueError("Not enough mp.")
+        if caster.hp < cost:
+            raise ValueError("Not enough hp.")
+        caster.update_hp(-cost)
+        caster.update_mp(-cost)
+
+        for target in targets:
+            damage = compute_damage_physical(
+                caster,
+                target,
+                "ability",
+                "blunt",
+                self.magnitude
+            )
+            hit_chance = compute_hit_chance(caster, target, 0.85)
+            hit_roll = random.random()
+            if hit_roll < hit_chance:
+                target.update_hp(-damage)
+        self.remaining_cooldown = self._cooldown
