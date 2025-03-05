@@ -8,9 +8,9 @@ class Thunderbolt(Spell):
             cost_type="mp",
             base_cost=12,
             cost_scaling=1.25,
-            cooldown = 3,
+            cooldown=3,
             magnitude=1.25,
-            element = "lightning",
+            element="lightning",
             spell_type="damage"
         )
-        self.target_type = "multiple"
+        self.target_type="multiple"

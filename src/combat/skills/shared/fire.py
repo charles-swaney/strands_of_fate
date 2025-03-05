@@ -8,9 +8,9 @@ class Fire(Spell):
             cost_type="mp",
             base_cost=4,
             cost_scaling=1.0,
-            cooldown = 2,
+            cooldown=2,
             magnitude=1.0,
-            element = "fire",
+            element="fire",
             spell_type="damage"
         )
-        self.target_type = "single"
+        self.target_type="single"

@@ -1,6 +1,4 @@
-from typing import Union, Optional
-from monsters.monster import Monster
-from adventurers.adventurer import Adventurer
+from typing import Optional
 from actions.action import Action
 
 
@@ -20,4 +18,3 @@ class Ability(Action):
         self.magnitude = magnitude
         self.element = element
         self.status_effect = status_effect
-    

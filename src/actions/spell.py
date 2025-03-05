@@ -1,7 +1,5 @@
-from typing import Union, Optional, List, TYPE_CHECKING, Dict
+from typing import Union, Optional, List, TYPE_CHECKING
 from actions.action import Action
-from monsters.monster import Monster
-from adventurers.adventurer import Adventurer
 from combat.damage_calculator import compute_damage_magical
 from combat.debuff_hit_chance import compute_debuff_chance
 from combat.hit_chance import compute_hit_chance
@@ -45,9 +43,9 @@ class Spell(Action):
         self.remaining_cooldown = 0
 
     def execute(self,
-             caster: Union["Adventurer", "Monster"],
-             targets: Union["Adventurer", "Monster", List["Adventurer"], List["Monster"]],
-             *other_multipliers) -> None:
+                caster: Union["Adventurer", "Monster"],
+                targets: Union["Adventurer", "Monster", List["Adventurer"], List["Monster"]],
+                *other_multipliers) -> None:
         
         if not isinstance(targets, (list, tuple)):
             targets = [targets]

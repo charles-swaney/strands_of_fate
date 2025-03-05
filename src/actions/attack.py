@@ -20,35 +20,35 @@ BLOCKING_EFFECTS = {
 class Attack(Action):
     """A class defining basic physical attacks."""
     def __init__(self,
-                 name: str="Attack",
-                 base_cost: int=0,
-                 cost_scaling: float=0,
-                 target_type: str="single",
-                 cost_type: str="mp",
-                 cooldown: int=0):
+                 name: str = "Attack",
+                 base_cost: int = 0,
+                 cost_scaling: float = 0,
+                 target_type: str = "single",
+                 cost_type: str = "mp",
+                 cooldown: int = 0):
         super().__init__(name, base_cost, cost_scaling, target_type, cost_type, cooldown)
         self.name = name
         self.cost = 0
         self.target_type = target_type
         self.cost_type = cost_type
         self.remaining_cooldown = 0
-    
+
     def execute(self,
                 attacker: Union["Adventurer", "Monster"],
                 targets: List[Union["Adventurer", "Monster"]]):
 
         if not self.can_be_used(attacker):
-            raise ValueError(f"Cannot attack right now.")
-        
+            raise ValueError("Cannot attack right now.")
+
         for target in targets:
             hit_chance = compute_hit_chance(attacker, target)
             hit_roll = random.random()
 
             if hit_roll < hit_chance:
                 damage = compute_damage_physical(attacker,
-                                                target,
-                                                "standard",
-                                                attacker.weapon_type)
+                                                    target,
+                                                    "standard",
+                                                    attacker.weapon_type)
                 target.update_hp(-damage)
             else:
                 pass
@@ -61,7 +61,7 @@ class Attack(Action):
             if status.name in BLOCKING_EFFECTS:
                 return False
         return True
-    
+
     def tick_cooldown(self) -> None:
         if self.remaining_cooldown > 0:
             self.remaining_cooldown -= 1
