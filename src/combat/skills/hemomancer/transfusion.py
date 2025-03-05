@@ -12,18 +12,18 @@ class Transfusion(Spell):
             cost_type="mp",
             base_cost=0,
             cost_scaling=2.0,
-            cooldown = 2,
+            cooldown=2,
             magnitude=0.75,
-            element = "fire",  # Temporarily, until I implement a neutral elemental damage type.
+            element="neutral",
             spell_type="damage"
         )
-        self.target_type = "single"
-        self.drain_factor = 0.40
+        self.target_type="single"
+        self.drain_factor=0.40
 
     def execute(self,
-             caster,
-             targets,
-             *other_multipliers) -> None:
+                caster,
+                targets,
+                *other_multipliers) -> None:
 
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")

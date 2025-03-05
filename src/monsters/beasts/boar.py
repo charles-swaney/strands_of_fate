@@ -37,7 +37,8 @@ class Boar(Monster):
             "lightning": 1.25,
             "ice": 1.25,
             "light": 1.00,
-            "dark": 1.00
+            "dark": 1.00,
+            "neutral": 1.00
         })
 
     @property

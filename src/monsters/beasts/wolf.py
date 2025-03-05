@@ -37,7 +37,8 @@ class Wolf(Monster):
             "lightning": 1.00,
             "ice": 1.00,
             "light": 1.00,
-            "dark": 1.00
+            "dark": 1.00,
+            "neutral": 1.00
         })
 
     @property

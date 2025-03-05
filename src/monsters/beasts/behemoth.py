@@ -38,7 +38,8 @@ class Behemoth(Monster):
             "lightning": 0.75,
             "ice": 0.75,
             "light": 1.00,
-            "dark": 0.50
+            "dark": 0.50,
+            "neutral": 0.75
         })
 
     @property

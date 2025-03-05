@@ -37,7 +37,8 @@ class DireWolf(Monster):
             "lightning": 1.00,
             "ice": 0.75,
             "light": 1.00,
-            "dark": 1.00
+            "dark": 1.00,
+            "neutral": 1.00
         })
 
     @property
