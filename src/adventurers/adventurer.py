@@ -30,6 +30,7 @@ class Adventurer:
         self.deterministic = deterministic
         self._status_effects = []
         self.levels_gained: defaultdict[str, int] = defaultdict(int)
+
         if isinstance(levels_gained, dict):
             self.levels_gained.update(levels_gained)
         elif isinstance(levels_gained, defaultdict):
@@ -50,10 +51,20 @@ class Adventurer:
             "charisma": 0,
             "luck": 0,
         }
+        self._base_stats = Attributes(base_stats)
+
+        self._equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
+        
+        self.initialize_base_stats()
+
+        for _ in range(2, self.level + 1):
+            self.job.apply_level_up(self)
+
+        self._hp = self.total_stats.get_stat("hp")
+        self._mp = self.total_stats.get_stat("mp")
+
         from actions.attack import Attack
         self._attack = Attack()
-
-        self._base_stats = Attributes(base_stats)
 
         self._all_known_skills = defaultdict(list)
 
@@ -63,14 +74,6 @@ class Adventurer:
                                   secondary_job=None,
                                   passive=None)
 
-        self._equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
-
-        self.initialize_base_stats()
-        self.update_hp(self.hp * 3)
-        self.update_mp(self.mp * 3)
-
-        for _ in range(2, self.level + 1):
-            self.job.apply_level_up(self)
         self._base_stats.update_override(stat_overrides)
 
     @property
@@ -115,12 +118,23 @@ class Adventurer:
     @property
     def hp(self) -> float:
         """Return the (current) hp."""
-        return self.total_stats.get_stat('hp')
+        return self._hp
     
+    @hp.setter
+    def hp(self, value):
+        """Clamps hp between 0 and max hp."""
+        self._hp = max(0, min(value, self.total_stats.get_stat("hp")))
+
     @property
     def mp(self) -> float:
         """Return the (current) mp."""
-        return self.total_stats.get_stat('mp')
+        return self._mp
+    
+    @mp.setter
+    def mp(self, value):
+        """Clamps mp between 0 and max mp."""
+        self._mp = max(0, min(value, self.total_stats.get_stat("mp")))
+
     @property
     def watk(self) -> float:
         """Damage dealt when attacking with a weapon."""
@@ -185,6 +199,14 @@ class Adventurer:
     def initialize_base_stats(self) -> None:
         """Initialize adventurer with base stats."""
         self.job.apply_level_up(self)
+        base_hp = self.base_stats.get_stat("hp")
+        base_mp = self.base_stats.get_stat("mp")
+        self._base_stats.update(Attributes(
+            {
+            "hp": 3 * base_hp,
+            "mp": 3 * base_mp
+            }
+        ))
 
     def level_up(self):
         """Increase Adventurer level with stat growths and log level gained."""
@@ -194,13 +216,11 @@ class Adventurer:
 
     def update_hp(self, amount: float) -> None:
         """A flexible health update to support either healing or taking damage."""
-        amount = Attributes({'hp': amount})
-        self.base_stats.update(amount)
+        self.hp += amount
 
     def update_mp(self, amount: float) -> None:
         """A flexible mana update to support either casting, or having mana replenished."""
-        amount = Attributes({'mp': amount})
-        self.base_stats.update(amount)
+        self.mp += amount
 
     @property
     def equipped_weapon(self) -> Optional[Weapon]:
@@ -237,3 +257,6 @@ class Adventurer:
             skill.execute(self, [targets])
         else:
             skill.execute(self, targets)
+
+    def compute_max_hp(self):
+        return self.base_stats.get
