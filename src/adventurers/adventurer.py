@@ -116,6 +116,16 @@ class Adventurer:
         return self._equipment
     
     @property
+    def max_hp(self) -> float:
+        """Return the adventuer's max hp."""
+        return self.total_stats.get_stat("hp")
+    
+    @property
+    def max_mp(self) -> float:
+        """Return the adventurer's max mp."""
+        return self.total_stats.get_stat("mp")
+    
+    @property
     def hp(self) -> float:
         """Return the (current) hp."""
         return self._hp
@@ -123,7 +133,7 @@ class Adventurer:
     @hp.setter
     def hp(self, value):
         """Clamps hp between 0 and max hp."""
-        self._hp = max(0, min(value, self.total_stats.get_stat("hp")))
+        self._hp = max(0, min(value, self.max_hp))
 
     @property
     def mp(self) -> float:
@@ -133,7 +143,7 @@ class Adventurer:
     @mp.setter
     def mp(self, value):
         """Clamps mp between 0 and max mp."""
-        self._mp = max(0, min(value, self.total_stats.get_stat("mp")))
+        self._mp = max(0, min(value, self.max_mp))
 
     @property
     def watk(self) -> float:
