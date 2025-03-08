@@ -1,6 +1,5 @@
 from actions.spell import Spell
 from combat.damage_calculator import compute_damage_magical
-from combat.debuff_hit_chance import compute_debuff_chance
 from combat.hit_chance import compute_hit_chance
 import random
 
@@ -8,12 +7,12 @@ import random
 class Transfusion(Spell):
     def __init__(self):
         super().__init__(
-            name="Fire",
-            cost_type="mp",
-            base_cost=0,
+            name="Transfusion",
+            cost_type="hp",
+            base_cost=4,
             cost_scaling=2.0,
             cooldown=2,
-            magnitude=0.75,
+            magnitude=0.80,
             element="neutral",
             spell_type="damage"
         )
@@ -40,6 +39,9 @@ class Transfusion(Spell):
             hit_roll = random.random()
             if hit_roll < hit_chance:
                 target.update_hp(-damage)
-                caster.update_hp(self.drain_factor * damage)
+                healing = min(caster.total_stats.get_stat("hp") - caster.hp, self.drain_factor * damage)
+                caster.update_hp(healing)
+                if caster.hp > caster.total_stats.get_stat("hp"):
+                    caster.hp = caster.total_stats.get_stat("hp")
 
         self.remaining_cooldown = self._cooldown
