@@ -1,5 +1,5 @@
 from core.stats.attributes import Attributes
-from typing import Dict, List, TYPE_CHECKING
+from typing import Dict, List, Union, TYPE_CHECKING
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
 from abc import ABC, abstractmethod
@@ -7,7 +7,8 @@ from utils.bonus_growth_calculations import compute_stat_bonus
 
 
 if TYPE_CHECKING:
-    from actions.ability import Ability
+    from actions.ability import Action
+    from adventurers.adventurer import Adventurer
     from actions.spell import Spell
     from combat.status_effects.status_effect import StatusEffect
 
@@ -42,12 +43,9 @@ class Monster(ABC):
         self._attack = Attack()
 
         self._stats = Attributes(ZERO_STATS)
+        self._all_known_skills = []
         self.deterministic = deterministic
         self._status_effects = []
-
-        self._known_spells = []
-
-        self._known_abilities = []
 
         self.initialize_base_stats()
 
@@ -55,7 +53,7 @@ class Monster(ABC):
         self.update_mp(self.mp * 3)
 
         for _ in range(2, self.level + 1):
-            self.level_up()
+            self.apply_level_up()
 
         self._stats.update_override(stat_overrides)
 
@@ -73,24 +71,16 @@ class Monster(ABC):
     def mp(self) -> float:
         """Return the monster's (current) mp."""
         return self.total_stats.get_stat("mp")
-    
-    @property
-    def abilities(self) -> List["Ability"]:
-        """Return the list of known abilities."""
-        return self._known_abilities
-    
-    def learn_ability(self, ability: "Ability") -> None:
-        """Learn the ability."""
-        self._known_abilities.append(ability)
 
     @property
-    def spells(self) -> List["Spell"]:
+    def skills(self) -> List["Spell"]:
         """Return the list of known spells."""
-        return self._known_spells
+        return self._all_known_skills
     
-    def learn_spell(self, spell: "Spell") -> None:
-        """Learn the spell."""
-        self._known_spells.append(spell)
+    def learn_skill(self, skill: "Spell") -> None:
+        """Learn the skill, i.e., add it to known skills."""
+        if skill not in self.skills:
+            self._all_known_skills.append(skill)
 
     @property
     @abstractmethod
@@ -206,12 +196,6 @@ class Monster(ABC):
         """Return the monster's weapon type."""
         pass
 
-    def abilities(self) -> float:
-        return self._known_abilities
-    
-    def spells(self) -> float:
-        return self._known_spells
-
     def level_up(self):
         """Increase Monster level and apply stat growths."""
         self.level += 1
@@ -259,3 +243,15 @@ class Monster(ABC):
     
     def attack(self, target):
         self._attack.execute(self, [target])
+
+    def can_access(self, skill: "Action") -> bool:
+        """Return whether skill can be accessed."""
+        return skill in self.skills
+    
+    def use(self, skill: "Action", targets: Union[List["Adventurer"], "Adventurer"]):
+        """Cast skill on targets."""
+        from adventurers.adventurer import Adventurer
+        if isinstance(targets, Adventurer) or isinstance(targets, Monster):
+            skill.execute(self, [targets])
+        else:
+            skill.execute(self, targets)
