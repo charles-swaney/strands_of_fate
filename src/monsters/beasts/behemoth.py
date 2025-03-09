@@ -47,9 +47,9 @@ class Behemoth(Monster):
         """Return the weapon type resistances of this species."""
         return WeaponResistances({
             "slash": 0.75,
-            "stab": 1.00,
-            "blunt": 0.75,
-            "ranged": 1.00,
+            "stab": 0.75,
+            "blunt": 1.00,
+            "ranged": 0.75,
             "misc": 0.50
         })
 
