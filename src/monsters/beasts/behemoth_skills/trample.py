@@ -25,14 +25,12 @@ class Trample(Spell):
                 caster: Monster,
                 targets: List[Adventurer],
                 *other_multipliers) -> None:
+
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")
         
         cost = self.cost(caster)
-        if caster.mp < cost:
-            raise ValueError("Not enough mp.")
-        if caster.hp < cost:
-            raise ValueError("Not enough hp.")
+
         caster.update_hp(-cost)
         caster.update_mp(-cost)
 
@@ -42,10 +40,20 @@ class Trample(Spell):
                 target,
                 "ability",
                 "blunt",
-                self.magnitude
+                self.magnitude,
+                *other_multipliers
             )
+            # Spell is slightly inaccurate
             hit_chance = compute_hit_chance(caster, target, 0.85)
             hit_roll = random.random()
             if hit_roll < hit_chance:
                 target.update_hp(-damage)
         self.remaining_cooldown = self._cooldown
+
+    def can_be_used(self, caster: Monster):
+        cost = self.cost(caster)
+        if caster.mp < cost or self.remaining_cooldown > 0:
+            return False
+        if caster.hp < cost or self.remaining_cooldown > 0:
+            return False
+        return True
