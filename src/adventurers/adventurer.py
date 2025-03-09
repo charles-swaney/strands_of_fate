@@ -4,12 +4,11 @@ from src.core.stats.attributes import Attributes
 from equipment.equipment_slots import EquipmentSlots
 from equipment.equipment import Equipment
 from equipment.weapon import Weapon
-from monsters.monster import Monster
 
 if TYPE_CHECKING:
     from src.jobs.job import Job
     from actions.action import Action
-    from actions.spell import Spell
+    from monsters.monster import Monster
     from combat.status_effects.status_effect import StatusEffect
 
 class Adventurer:
@@ -253,20 +252,17 @@ class Adventurer:
         self._attack.execute(self, [target])
 
     def can_access(self, skill: "Action") -> bool:
-        """Return whether skill can be cast."""
+        """Return whether skill can be accessed."""
         # First check if it's one of the primary or secondary skills.
         if skill in self.skillset.primary_skillset or \
             skill in self.skillset.secondary_skillset:
             return True
         return False
     
-    def use(self, skill: "Action", targets: Union[Union["Adventurer", Monster], List[Union["Adventurer", Monster]]]) -> None:
-        """Cast skill on target."""
+    def use(self, skill: "Action", targets: Union[Union["Adventurer", "Monster"], List[Union["Adventurer", "Monster"]]]) -> None:
+        """Cast skill on targets."""
         from monsters.monster import Monster
         if isinstance(targets, Adventurer) or isinstance(targets, Monster):
             skill.execute(self, [targets])
         else:
             skill.execute(self, targets)
-
-    def compute_max_hp(self):
-        return self.base_stats.get
