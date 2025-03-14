@@ -3,6 +3,8 @@ from monsters.beasts.behemoth import Behemoth
 from adventurers.adventurer import Adventurer
 from jobs.warrior_classes.guardian import Guardian
 from monsters.beasts.behemoth_skills.trample import Trample
+from monsters.beasts.behemoth_skills.iron_hide import IronHide
+import monsters.beasts.behemoth_skills as bsk
 from pytest import approx
 from unittest.mock import patch
 
@@ -39,11 +41,8 @@ def test_attack(behemoth_, guardian_factory):
     assert after_attack_hp - after_crit_hp == approx(THEORETICAL_DMG * 1.50)
 
 
-def test_learn_skills():
-    b = Behemoth(
-        level=50,
-        deterministic=True
-    )
+def test_learn_skills(behemoth_):
+    b = behemoth_
     trample = Trample()
     assert not b.can_access(trample)
     assert len(b.skills) == 0
@@ -104,3 +103,37 @@ def test_trample(behemoth_, guardian_factory):
     assert b.hp == approx(init_b_hp - 3 * THEORETICAL_COST)
     assert b.mp == approx(init_b_mp - 3 * THEORETICAL_COST)
     assert advs[1].hp == approx(464 - 2 * THEORETICAL_DAMAGE)
+
+
+def test_ironhide(behemoth_, guardian_factory):
+    b = behemoth_
+    g = guardian_factory()
+    for _ in range(44):
+        g.level_up()
+    print(b.total_stats.stats)
+    BASE_HP = 742
+    BASE_MP = 212
+    BASE_TGH = 500
+    BASE_TEN = 700
+    COST = 12 + 1.75 * 50 ** 0.6
+    assert (b.total_stats.get_stat("toughness") == BASE_TGH and
+            b.total_stats.get_stat("tenacity") == BASE_TEN)
+    BASE_DMG = 53.89647619047619
+    with patch("random.random", side_effect=[0, 1]), \
+               patch("random.uniform", return_value=1.00):
+        g.attack(b) 
+    assert b.hp == approx(BASE_HP - BASE_DMG)
+    ih = IronHide()
+    b.learn_skill(ih)
+    assert len(b.skills) == 1
+    b.use(ih, b)
+    assert b.mp == BASE_MP - COST
+    print(b.total_stats.stats)
+    assert (b.total_stats.get_stat("toughness") == BASE_TGH + 0.25 * BASE_TEN and
+            b.total_stats.get_stat("tenacity") == BASE_TEN + 0.25 * BASE_TGH)
+    print(b.wdef)
+    NEW_DMG = 4.313142857142851
+    with patch("random.random", side_effect=[0, 1]), \
+               patch("random.uniform", return_value=1.00):
+        g.attack(b) 
+    assert b.hp == approx(BASE_HP - BASE_DMG - NEW_DMG)
