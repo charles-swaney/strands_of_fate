@@ -23,8 +23,7 @@ class IronHide(Spell):
 
     def execute(self,
                 caster: Monster,
-                target: Monster,
-                *other_multipliers) -> None:
+                targets: Monster) -> None:
 
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")
@@ -33,15 +32,17 @@ class IronHide(Spell):
 
         caster.update_mp(-cost)
 
-        tenacity_bonus = target.total_stats.get_stat("toughness") * 0.25
-        toughness_bonus = target.total_stats.get_stat("tenacity") * 0.25
+        for target in targets:
 
-        target.total_stats.update(
-            {
-                "toughness": toughness_bonus,
-                "tenacity": tenacity_bonus
-            }
-        )
+            tenacity_bonus = target.total_stats.get_stat("toughness") * 0.25
+            toughness_bonus = target.total_stats.get_stat("tenacity") * 0.25
+
+            target.total_stats.update(
+                {
+                    "toughness": toughness_bonus,
+                    "tenacity": tenacity_bonus
+                }
+            )
         # Need to add some sort of logic that makes this only last for 3 rounds or so   
 
         self.remaining_cooldown = self._cooldown

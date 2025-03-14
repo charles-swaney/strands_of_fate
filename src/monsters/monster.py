@@ -248,7 +248,8 @@ class Monster(ABC):
         """Return whether skill can be accessed."""
         return skill in self.skills
     
-    def use(self, skill: "Action", targets: Union[List["Adventurer"], "Adventurer"]):
+    def use(self, skill: "Action",
+            targets: Union["Adventurer", "Monster", List["Adventurer"], List["Monster"]]):
         """Cast skill on targets."""
         from adventurers.adventurer import Adventurer
         if isinstance(targets, Adventurer) or isinstance(targets, Monster):
