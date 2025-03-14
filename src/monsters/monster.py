@@ -252,6 +252,8 @@ class Monster(ABC):
         """Cast skill on targets."""
         from adventurers.adventurer import Adventurer
         if isinstance(targets, Adventurer) or isinstance(targets, Monster):
-            skill.execute(self, [targets])
+            skill.execute(caster=self, 
+                          targets=[targets])
         else:
-            skill.execute(self, targets)
+            skill.execute(caster=self,
+                          targets=targets)
