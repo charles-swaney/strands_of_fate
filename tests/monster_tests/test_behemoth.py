@@ -1,3 +1,4 @@
+import pytest
 from monsters.beasts.behemoth import Behemoth
 from adventurers.adventurer import Adventurer
 from jobs.warrior_classes.guardian import Guardian
@@ -6,25 +7,30 @@ from pytest import approx
 from unittest.mock import patch
 
 
-def test_attack():
+@pytest.fixture
+def behemoth_():
     b = Behemoth(
         level=50,
         deterministic=True
     )
-    g = Guardian()
-    guardian = Adventurer(
-        name="",
-        job=g,
-        level=80,
-        deterministic=True
-    )
+    return b
+
+@pytest.fixture
+def guardian_factory():
+    def create_guardian():
+        g = Guardian()
+        return Adventurer(name="", job=g, level=55, deterministic=True)
+    return create_guardian
+
+def test_attack(behemoth_, guardian_factory):
+    b = behemoth_
+    guardian = guardian_factory()
     init_hp = guardian.hp
-    print(guardian.hp)
     with patch("random.random", side_effect=[0, 1.00]), \
                patch("random.uniform", return_value=1.00):
         b.attack(guardian)
         after_attack_hp = guardian.hp
-    THEORETICAL_DMG = 94.1573333
+    THEORETICAL_DMG = 84.31352
     assert init_hp - after_attack_hp == approx(THEORETICAL_DMG)
     with patch("random.random", side_effect=[0, 0]), \
                patch("random.uniform", return_value=1.00):
@@ -36,13 +42,6 @@ def test_attack():
 def test_learn_skills():
     b = Behemoth(
         level=50,
-        deterministic=True
-    )
-    g = Guardian()
-    g1 = Adventurer(
-        name="",
-        job=g,
-        level=55,
         deterministic=True
     )
     trample = Trample()
@@ -65,59 +64,25 @@ def test_learn_skills():
     assert b.mp == 1
     assert not trample.can_be_used(b)
 
-def test_trample_multiple():
-    b = Behemoth(
-        level=50,
-        deterministic=True
-    )
+def test_trample(behemoth_, guardian_factory):
+    b = behemoth_
+    advs = [guardian_factory() for _ in range(4)]
 
     trample = Trample()
     b.learn_skill(trample)
 
-    g = Guardian()
-    g1 = Adventurer(
-        name="",
-        job=g,
-        level=55,
-        deterministic=True
-    )
-
-    g2 = Adventurer(
-        name="",
-        job=g,
-        level=55,
-        deterministic=True
-    )
-
-    g3 = Adventurer(
-        name="",
-        job=g,
-        level=55,
-        deterministic=True
-    )
-
-    g4 = Adventurer(
-        name="",
-        job=g,
-        level=55,
-        deterministic=True
-    )
     assert b.level == 50
-    assert g4.level == 55
     init_b_hp = 14 * (50 + 3)
     init_b_mp = 4 * (50 + 3)
     assert b.hp == init_b_hp
     assert b.mp == init_b_mp
     # Trample has a random uniform roll for damage noise and a
     # random.random roll for hitting or not, for each target.
-    advs = [g1, g2, g3, g4]
-    for adv in advs:
-        print(adv.hp)
     with patch("random.random", side_effect=[0, 0, 0, 0]), \
                patch("random.uniform", return_value=1.00):
         b.use(trample, advs)
         trample.remaining_cooldown = 0
-    THEORETICAL_DAMAGE = 117.878
+    THEORETICAL_DAMAGE = 84.3135238095238 * 0.75
     THEORETICAL_COST = 28.91279105182546
     assert b.hp == approx(init_b_hp - THEORETICAL_COST)
     assert b.mp == approx(init_b_mp - THEORETICAL_COST)
@@ -125,17 +90,17 @@ def test_trample_multiple():
         assert adv.hp == approx(464 - THEORETICAL_DAMAGE)
     with patch("random.random", side_effect=[0, 0, 0, 0]), \
                patch("random.uniform", return_value=1.00):
-        b.use(trample, [g1, g3])
+        b.use(trample, [advs[1], advs[3]])
         trample.remaining_cooldown = 0
     assert b.hp == approx(init_b_hp - 2 * THEORETICAL_COST)
     assert b.mp == approx(init_b_mp - 2 * THEORETICAL_COST)
-    assert g1.hp == approx(464 - 2 * THEORETICAL_DAMAGE)
-    assert g3.hp == approx(464 - 2 * THEORETICAL_DAMAGE)
+    assert advs[1].hp == approx(464 - 2 * THEORETICAL_DAMAGE)
+    assert advs[3].hp == approx(464 - 2 * THEORETICAL_DAMAGE)
 
     with patch("random.random", side_effect=[1]), \
                patch("random.uniform", return_value=1.00):
-        b.use(trample, [g1])
+        b.use(trample, advs[1])
         trample.remaining_cooldown = 0
     assert b.hp == approx(init_b_hp - 3 * THEORETICAL_COST)
     assert b.mp == approx(init_b_mp - 3 * THEORETICAL_COST)
-    assert g1.hp == approx(464 - 2 * THEORETICAL_DAMAGE)
+    assert advs[1].hp == approx(464 - 2 * THEORETICAL_DAMAGE)
