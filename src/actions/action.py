@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Union, List
 from monsters.monster import Monster
 from adventurers.adventurer import Adventurer
 
@@ -21,7 +21,9 @@ class Action(ABC):
         self._cooldown = cooldown
 
     @abstractmethod
-    def execute(self, caster: Union[Adventurer, Monster], target: Union[Adventurer, Monster]) -> None:
+    def execute(self,
+                caster: Union["Adventurer", "Monster"],
+                targets: Union["Adventurer", "Monster", List["Adventurer"], List["Monster"]]) -> None:
         """Defines how the spell or ability is cast or performed."""
         pass
 

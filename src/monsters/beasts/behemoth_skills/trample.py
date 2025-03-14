@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from actions.spell import Spell
 from monsters.monster import Monster
 from adventurers.adventurer import Adventurer
@@ -22,7 +22,7 @@ class Trample(Spell):
         self.target_type="all"
 
     def execute(self,
-                caster: Monster,
+                caster: Union[Adventurer, Monster],
                 targets: List[Adventurer],
                 *other_multipliers) -> None:
 
@@ -36,15 +36,14 @@ class Trample(Spell):
 
         for target in targets:
             damage = compute_damage_physical(
-                caster,
-                target,
-                "ability",
-                "blunt",
-                self.magnitude,
-                *other_multipliers
+                attacker=caster,
+                defender=target,
+                attack_type="ability",
+                weapon_dmg_type="misc",
+                multipliers=[self.magnitude] + list(other_multipliers)
             )
             # Spell is slightly inaccurate
-            hit_chance = compute_hit_chance(caster, target, 0.85)
+            hit_chance = compute_hit_chance(caster, target, 0.90)
             hit_roll = random.random()
             if hit_roll < hit_chance:
                 target.update_hp(-damage)

@@ -15,7 +15,7 @@ class Behemoth(Monster):
         return {
             "hp": 14,
             "mp": 4,
-            "strength": 12,
+            "strength": 9,
             "toughness": 10,
             "dexterity": 6,
             "agility": 7,
