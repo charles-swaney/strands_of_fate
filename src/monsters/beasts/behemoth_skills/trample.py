@@ -1,5 +1,5 @@
 from typing import List, Union
-from actions.spell import Spell
+from actions.skill import Skill
 from monsters.monster import Monster
 from adventurers.adventurer import Adventurer
 from combat.damage_calculator import compute_damage_physical
@@ -7,7 +7,7 @@ from combat.hit_chance import compute_hit_chance
 import random
 
 
-class Trample(Spell):
+class Trample(Skill):
     def __init__(self):
         super().__init__(
             name="Trample",
@@ -17,7 +17,7 @@ class Trample(Spell):
             cooldown=3,
             magnitude=0.75,
             element="earth",
-            spell_type="damage"
+            skill_type="damage"
         )
         self.target_type="all"
 
@@ -42,7 +42,7 @@ class Trample(Spell):
                 weapon_dmg_type="misc",
                 multipliers=[self.magnitude] + list(other_multipliers)
             )
-            # Spell is slightly inaccurate
+            # Skill is slightly inaccurate
             hit_chance = compute_hit_chance(caster, target, 0.90)
             hit_roll = random.random()
             if hit_roll < hit_chance:

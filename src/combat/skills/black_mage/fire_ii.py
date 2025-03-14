@@ -1,7 +1,7 @@
-from actions.spell import Spell
+from actions.skill import Skill
 
 
-class Fire(Spell):
+class Fire(Skill):
     def __init__(self):
         super().__init__(
             name="Fire",
@@ -11,6 +11,6 @@ class Fire(Spell):
             cooldown=3,
             magnitude=1.10,
             element="fire",
-            spell_type="damage"
+            skill_type="damage"
         )
         self.target_type="multiple"

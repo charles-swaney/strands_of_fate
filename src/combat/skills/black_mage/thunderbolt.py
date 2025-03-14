@@ -1,7 +1,7 @@
-from actions.spell import Spell
+from actions.skill import Skill
 
 
-class Thunderbolt(Spell):
+class Thunderbolt(Skill):
     def __init__(self):
         super().__init__(
             name="Thunderbolt",
@@ -11,6 +11,6 @@ class Thunderbolt(Spell):
             cooldown=3,
             magnitude=1.25,
             element="lightning",
-            spell_type="damage"
+            skill_type="damage"
         )
         self.target_type="multiple"

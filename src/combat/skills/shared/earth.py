@@ -1,7 +1,7 @@
-from actions.spell import Spell
+from actions.skill import Skill
 
 
-class Earth(Spell):
+class Earth(Skill):
     def __init__(self):
         super().__init__(
             name="Earth",
@@ -11,6 +11,6 @@ class Earth(Spell):
             cooldown=2,
             magnitude=1.0,
             element="earth",
-            spell_type="damage"
+            skill_type="damage"
         )
         self.target_type="single"
