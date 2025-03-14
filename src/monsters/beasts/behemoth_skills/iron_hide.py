@@ -1,9 +1,9 @@
 from typing import List
-from actions.spell import Spell
+from actions.skill import Skill
 from monsters.monster import Monster
 
 
-class IronHide(Spell):
+class IronHide(Skill):
     def __init__(self):
         """
         Raises toughness proportional to the unit's tenacity, and raises tenacity proportional
@@ -17,13 +17,13 @@ class IronHide(Spell):
             cooldown=5,
             magnitude=0.75,
             element="neutral",
-            spell_type="buff"
+            skill_type="buff"
         )
         self.target_type="self"
 
     def execute(self,
                 caster: Monster,
-                targets: Monster) -> None:
+                targets: List[Monster]) -> None:
 
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")

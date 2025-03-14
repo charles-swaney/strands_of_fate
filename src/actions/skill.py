@@ -11,13 +11,13 @@ if TYPE_CHECKING:
     from monsters.monster import Monster
 
 
-class Spell(Action):
-    """A class defining magic spells."""
+class Skill(Action):
+    """A class defining skills."""
     def __init__(self,
                  name: str,
                  base_cost: int,
                  cost_scaling: float,
-                 spell_type: str,
+                 skill_type: str,
                  magnitude: float,
                  cooldown: int,
                  cost_type: str = 'mp',
@@ -25,18 +25,18 @@ class Spell(Action):
                  status_effect: Optional[StatusEffect] = None):
         """
         Args:
-            name (str): the name of the spell
-            base_cost (int): the mp cost of the spell at level 1
+            name (str): the name of the skill
+            base_cost (int): the mp cost of the skill at level 1
             cost_scaling (float): the additional mp cost per level^0.6 gained
-            spell_type (str): 'damage', 'heal', 'buff', 'debuff'
-            magnitude: the multiplier that roughly measures how powerful the spell is
-            cooldown: the number of turns before the spell can be cast again
-            cost_type: whether the spell costs hp or mp to cast
-            element: the element damage that the spell deals
-            status_effect: the status effect conferred by the spell.
+            skill_type (str): 'damage', 'heal', 'buff', 'debuff'
+            magnitude: the multiplier that roughly measures how powerful the skill is
+            cooldown: the number of turns before the skill can be cast again
+            cost_type: whether the skill costs hp or mp to cast
+            element: the element damage that the skill deals
+            status_effect: the status effect conferred by the skill.
         """
         super().__init__(name, cost_type, base_cost, cost_scaling, "single", cooldown)
-        self.spell_type = spell_type
+        self.skill_type = skill_type
         self.magnitude = magnitude
         self.element = element
         self.status_effect = status_effect
@@ -64,8 +64,8 @@ class Spell(Action):
                 raise ValueError("Not enough hp.")
             caster.update_hp(-cost)
 
-        # Apply spell effect
-        if self.spell_type == 'damage':
+        # Apply skill effect
+        if self.skill_type == 'damage':
             for target in targets:
                 damage = compute_damage_magical(caster, target, attack_element=self.element, magnitude=self.magnitude, *other_multipliers)
                 hit_chance = compute_hit_chance(caster, target, 1.05)
@@ -73,10 +73,10 @@ class Spell(Action):
                 if hit_roll < hit_chance:
                     target.update_hp(-damage)
 
-        elif self.spell_type == 'heal':
+        elif self.skill_type == 'heal':
             raise NotImplementedError
         
-        elif self.spell_type == 'debuff':
+        elif self.skill_type == 'debuff':
             if self.status_effect:
                 for target in targets:
                     success_chance = compute_debuff_chance(caster, target)
@@ -99,5 +99,5 @@ class Spell(Action):
             self.remaining_cooldown -= 1
     
     def cost(self, caster: Union["Adventurer", "Monster"]) -> float:
-        """Return the cost of the spell."""
+        """Return the cost of the skill."""
         return self.base_cost + self.cost_scaling * (caster.level ** 0.6)

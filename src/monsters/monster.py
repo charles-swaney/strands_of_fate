@@ -7,9 +7,9 @@ from utils.bonus_growth_calculations import compute_stat_bonus
 
 
 if TYPE_CHECKING:
-    from actions.ability import Action
+    from actions.action import Action
     from adventurers.adventurer import Adventurer
-    from actions.spell import Spell
+    from actions.skill import Skill
     from combat.status_effects.status_effect import StatusEffect
 
 class Monster(ABC):
@@ -73,11 +73,11 @@ class Monster(ABC):
         return self.total_stats.get_stat("mp")
 
     @property
-    def skills(self) -> List["Spell"]:
-        """Return the list of known spells."""
+    def skills(self) -> List["Skill"]:
+        """Return the list of known skills."""
         return self._all_known_skills
     
-    def learn_skill(self, skill: "Spell") -> None:
+    def learn_skill(self, skill: "Skill") -> None:
         """Learn the skill, i.e., add it to known skills."""
         if skill not in self.skills:
             self._all_known_skills.append(skill)

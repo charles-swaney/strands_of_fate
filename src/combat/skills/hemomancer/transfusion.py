@@ -1,10 +1,10 @@
-from actions.spell import Spell
+from actions.skill import Skill
 from combat.damage_calculator import compute_damage_magical
 from combat.hit_chance import compute_hit_chance
 import random
 
 
-class Transfusion(Spell):
+class Transfusion(Skill):
     def __init__(self):
         super().__init__(
             name="Transfusion",
@@ -14,7 +14,7 @@ class Transfusion(Spell):
             cooldown=2,
             magnitude=0.80,
             element="neutral",
-            spell_type="damage"
+            skill_type="damage"
         )
         self.target_type="single"
         self.drain_factor=0.40
@@ -32,7 +32,6 @@ class Transfusion(Spell):
             raise ValueError("Not enough hp.")
         caster.update_hp(-cost)
 
-        # Apply spell effect
         for target in targets:
             damage = compute_damage_magical(caster, target, attack_element=self.element, magnitude=self.magnitude, *other_multipliers)
             hit_chance = compute_hit_chance(caster, target, 1.05)
