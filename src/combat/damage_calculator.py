@@ -13,7 +13,7 @@ def compute_damage_physical(
     defender: Union[Monster, Adventurer],
     attack_type: str,
     weapon_dmg_type: str,
-    *other_multipliers: List[float]
+    multipliers: List[float] = []
         ) -> float:
     """
     Compute the damage dealt when attacker hits defender with a physical attack. 
@@ -33,8 +33,11 @@ def compute_damage_physical(
 
     Note: casting a physical ability with a certain weapon equipped will STILL apply the weapon
         type bonus, even if technically the ability does not involve literally "swinging" or
-        using the weapon. However, it a physical ability will NEVER crit. 
+        using the weapon. However, a physical ability will NEVER crit. 
     """
+    if multipliers is None:
+        multipliers = []
+
     weapon_bonus = 1.0
 
     if isinstance(defender, Monster):
@@ -45,7 +48,7 @@ def compute_damage_physical(
 
     main_dmg = 0.85 * (watk / 1.75 - wdef / 3.75) * weapon_bonus
 
-    final_dmg = main_dmg * prod(other_multipliers) if other_multipliers else main_dmg
+    final_dmg = main_dmg * prod(multipliers) if multipliers else main_dmg
 
     final_dmg *= random.uniform(0.95, 1.05)
 
