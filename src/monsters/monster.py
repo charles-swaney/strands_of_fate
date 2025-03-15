@@ -291,3 +291,53 @@ class Monster(ABC):
         else:
             skill.execute(caster=self,
                           targets=targets)
+
+    @property
+    def strength(self) -> float:
+        """Return the unit's total strength."""
+        return self.total_stats.get_stat("strength")
+
+    @property
+    def toughness(self) -> float:
+        """Return the unit's total toughness."""
+        return self.total_stats.get_stat("toughness")
+
+    @property
+    def dexterity(self) -> float:
+        """Return the unit's total dexterity."""
+        return self.total_stats.get_stat("dexterity")
+
+    @property
+    def agility(self) -> float:
+        """Return the unit's total agility."""
+        return self.total_stats.get_stat("agility")
+
+    @property
+    def intellect(self) -> float:
+        """Return the unit's total intellect."""
+        return self.total_stats.get_stat("intellect")
+
+    @property
+    def wisdom(self) -> float:
+        """Return the unit's total wisdom."""
+        return self.total_stats.get_stat("wisdom")
+
+    @property
+    def speed(self) -> float:
+        """Return the unit's total speed."""
+        return self.total_stats.get_stat("speed")
+
+    @property
+    def tenacity(self) -> float:
+        """Return the unit's total tenacity."""
+        return self.total_stats.get_stat("tenacity")
+
+    @property
+    def charisma(self) -> float:
+        """Return the unit's total charisma."""
+        return self.total_stats.get_stat("charisma")
+
+    @property
+    def luck(self) -> float:
+        """Return the unit's total luck."""
+        return self.total_stats.get_stat("luck")
