@@ -5,10 +5,10 @@ from core.stats.attributes import Attributes
 from math import prod
 
 BASE_BUFF = 5
-CHARISMA_MULT = 0.25
-LUCK_MULT = 0.05
+CHARISMA_MULT = 0.33
+LUCK_MULT = 0.06
 BASE_TARGET_STAT_MULT = 0.05
-CHARISMA_TARGET_STAT_MULT = 0.0004
+CHARISMA_TARGET_STAT_MULT = 0.0001
 
 def compute_stat_buff(caster: Union[Adventurer, Monster],
                       target: Union[Adventurer, Monster],
@@ -53,8 +53,8 @@ def compute_increase_amount(caster: Union[Adventurer, Monster],
     """
     Returns the amount a given stat increases when caster casts buff on target.
     """
-    charisma = caster.total_stats.get_stat("charisma")
-    luck = caster.total_stats.get_stat("luck")
+    charisma = caster.charisma
+    luck = caster.luck
     buffed_stat = target.total_stats.get_stat(stat)
 
     base_buff = BASE_BUFF + (CHARISMA_MULT * charisma) + (LUCK_MULT * luck)
@@ -62,5 +62,5 @@ def compute_increase_amount(caster: Union[Adventurer, Monster],
 
     final = base_buff + stat_based_buff
     final_buff = final * prod(multipliers) if multipliers else final
-    
+    print(f"{stat} bonus = {final_buff}")
     return final_buff
