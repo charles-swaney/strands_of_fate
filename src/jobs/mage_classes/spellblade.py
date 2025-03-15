@@ -25,17 +25,17 @@ class SpellBlade(Job):
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 51
+        # Total: 54
         return {
             "hp": 6,
             "mp": 5,
-            "strength": 6,
+            "strength": 7,
             "toughness": 4,
             "dexterity": 6,
             "agility": 6,
-            "intellect": 6,
+            "intellect": 7,
             "wisdom": 4,
-            "speed": 5,
+            "speed": 6,
             "tenacity": 3,
             "charisma": 5,
             "luck": 6

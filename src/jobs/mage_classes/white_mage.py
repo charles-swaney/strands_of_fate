@@ -25,7 +25,7 @@ class WhiteMage(Job):
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 43
+        # Total: 47
         return {
             "hp": 4,
             "mp": 6,
@@ -36,7 +36,7 @@ class WhiteMage(Job):
             "intellect": 5,
             "wisdom": 8,
             "speed": 3,
-            "tenacity": 2,
+            "tenacity": 6,
             "charisma": 5,
             "luck": 5
         }
