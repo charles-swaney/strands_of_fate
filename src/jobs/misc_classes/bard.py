@@ -28,7 +28,7 @@ class Bard(Job):
         # Total: 49
         return {
             "hp": 5,
-            "mp": 5,
+            "mp": 7,
             "strength": 3,
             "toughness": 3,
             "dexterity": 5,
