@@ -37,7 +37,7 @@ class IronHide(Skill):
             tenacity_bonus = target.total_stats.get_stat("toughness") * 0.25
             toughness_bonus = target.total_stats.get_stat("tenacity") * 0.25
 
-            target.total_stats.update(
+            target.stat_buffs.update(
                 {
                     "toughness": toughness_bonus,
                     "tenacity": tenacity_bonus
