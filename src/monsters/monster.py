@@ -50,34 +50,54 @@ class Monster(ABC):
 
         self.initialize_base_stats()
 
-        self.update_hp(self.hp * 3)
-        self.update_mp(self.mp * 3)
-
         for _ in range(2, self.level + 1):
             self.apply_level_up()
 
         self._stats.update_override(stat_overrides)
+        self._hp = self.total_stats.get_stat("hp")
+        self._mp = self.total_stats.get_stat("mp")
 
     @property
     def total_stats(self) -> Attributes:
         """Return the Attributes class containing the monster's stats."""
-        return self._stats.update(self.stat_buffs)
+        total = self._stats.copy()
+        total.update(self.stat_buffs)
+        return total
     
     @property
     def stat_buffs(self) -> Attributes:
         """Return all stat buffs currently held by the unit."""
         return self._stat_buffs
 
-
     @property
-    def hp(self) -> float:
-        """Return the monster's (current) hp."""
+    def max_hp(self) -> float:
+        """Return the monster's max hp."""
         return self.total_stats.get_stat("hp")
     
     @property
-    def mp(self) -> float:
-        """Return the monster's (current) mp."""
+    def max_mp(self) -> float:
+        """Return the monster's max mp."""
         return self.total_stats.get_stat("mp")
+    
+    @property
+    def hp(self) -> float:
+        """Return the (current) hp."""
+        return self._hp
+    
+    @hp.setter
+    def hp(self, value):
+        """Clamps hp between 0 and max hp"""
+        self._hp = max(0, min(value, self.max_hp))
+
+    @property
+    def mp(self) -> float:
+        """Return the (current) mp."""
+        return self._mp
+    
+    @mp.setter
+    def mp(self, value):
+        """Clams mp between 0 and max mp."""
+        self._mp = max(0, min(value, self.max_mp))
 
     @property
     def skills(self) -> List["Skill"]:
@@ -215,6 +235,14 @@ class Monster(ABC):
     def initialize_base_stats(self):
         """Apply level up without incrementing level."""
         self.apply_level_up()
+        base_hp = self.total_stats.get_stat("hp")
+        base_mp = self.total_stats.get_stat("mp")
+        self._stats.update(Attributes(
+            {
+                "hp": 3 * base_hp,
+                "mp": 3 * base_mp
+            }
+        ))
 
     def apply_level_up(self) -> None:
         """Level up the monster, based on growth rates and aptitude."""
@@ -233,17 +261,15 @@ class Monster(ABC):
                 base_aptitude=self.aptitude,
                 class_aptitude=self.class_aptitude
             )
-            self.total_stats.add_to_stat(stat, growth_rate + (bonus_mult * stat_bonus))
+            self._stats.add_to_stat(stat, growth_rate + (bonus_mult * stat_bonus))
 
     def update_hp(self, amount: float) -> None:
         """A flexible health update to support either healing or taking damage."""
-        amount = Attributes({'hp': amount})
-        self.total_stats.update(amount)
+        self.hp += amount
 
     def update_mp(self, amount: float) -> None:
         """A flexible mana update to support either casting, or having mana replenished."""
-        amount = Attributes({'mp': amount})
-        self.total_stats.update(amount)
+        self.mp += amount
 
     def status_effects(self) -> List["StatusEffect"]:
         return self._status_effects
