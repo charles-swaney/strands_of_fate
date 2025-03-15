@@ -38,7 +38,6 @@ class TorchingTempo(Skill):
                 target=target,
                 stats_affected=self.stats_affected
             )
-            print(buffs.stats)
             target.stat_buffs.update(buffs)
 
         self.remaining_cooldown = self._cooldown
