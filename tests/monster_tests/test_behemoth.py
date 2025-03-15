@@ -110,7 +110,6 @@ def test_ironhide(behemoth_, guardian_factory):
     g = guardian_factory()
     for _ in range(44):
         g.level_up()
-    print(b.total_stats.stats)
     BASE_HP = 742
     BASE_MP = 212
     BASE_TGH = 500
@@ -128,10 +127,8 @@ def test_ironhide(behemoth_, guardian_factory):
     assert len(b.skills) == 1
     b.use(ih, b)
     assert b.mp == BASE_MP - COST
-    print(b.total_stats.stats)
     assert (b.total_stats.get_stat("toughness") == BASE_TGH + 0.25 * BASE_TEN and
             b.total_stats.get_stat("tenacity") == BASE_TEN + 0.25 * BASE_TGH)
-    print(b.wdef)
     NEW_DMG = 4.313142857142851
     with patch("random.random", side_effect=[0, 1]), \
                patch("random.uniform", return_value=1.00):
