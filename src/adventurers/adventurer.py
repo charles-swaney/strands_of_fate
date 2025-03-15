@@ -50,7 +50,9 @@ class Adventurer:
             "charisma": 0,
             "luck": 0,
         }
+
         self._base_stats = Attributes(base_stats)
+        self._stat_buffs = Attributes(base_stats)
 
         self._equipment = EquipmentSlots(valid_slots=self.job.allowed_item_types)
         
@@ -79,6 +81,16 @@ class Adventurer:
     def base_stats(self) -> Attributes:
         """Base stats without equipment or other bonuses."""
         return self._base_stats
+    
+    @property
+    def stat_buffs(self) -> Attributes:
+        """Return all stat buffs currently held by the unit."""
+        return self._stat_buffs
+    
+    @stat_buffs.setter
+    def stat_buffs(self, new_stats: Attributes):
+        """Update stat buffs with another Attributes object."""
+        self._stat_buffs = new_stats
 
     @property
     def equipment_bonuses(self) -> Attributes:
@@ -90,6 +102,7 @@ class Adventurer:
         """Total stats from base stats, equipment, and other bonuses."""
         total = self._base_stats.copy()
         total.update(self.equipment_bonuses)
+        total.update(self.stat_buffs)
         return total
 
     @property

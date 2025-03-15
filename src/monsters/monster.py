@@ -38,6 +38,7 @@ class Monster(ABC):
             "charisma": 0,
             "luck": 0,
         }
+        self._stat_buffs = Attributes(ZERO_STATS)
 
         from actions.attack import Attack
         self._attack = Attack()
@@ -60,7 +61,13 @@ class Monster(ABC):
     @property
     def total_stats(self) -> Attributes:
         """Return the Attributes class containing the monster's stats."""
-        return self._stats
+        return self._stats.update(self.stat_buffs)
+    
+    @property
+    def stat_buffs(self) -> Attributes:
+        """Return all stat buffs currently held by the unit."""
+        return self._stat_buffs
+
 
     @property
     def hp(self) -> float:
