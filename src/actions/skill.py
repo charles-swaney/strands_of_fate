@@ -52,6 +52,10 @@ class Skill(Action):
 
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")
+        
+        if self.target_type == "single":
+            if len(targets) > 1:
+                raise ValueError(f"Cannot cast {self.name} on {len(targets)} targets.")
 
         cost = self.cost(caster)
 
