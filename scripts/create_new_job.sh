@@ -9,9 +9,9 @@ LOWERCASE_JOB_NAME=$(echo "$JOB_NAME" | tr '[:upper:]' '[:lower:]')
 OUTPUT_FILE="src/jobs/$SUBDIR/${LOWERCASE_JOB_NAME}.py"
 
 cat <<EOF > "$OUTPUT_FILE"
-from src.jobs.job import Job
+from jobs.job import Job
 from typing import Dict, TYPE_CHECKING, List
-from src.utils.stat_calculations import compute_stat_bonus
+from utils.bonus_growth_calculations import compute_stat_bonus
 
 if TYPE_CHECKING:
     from src.adventurers.adventurer import Adventurer
@@ -65,7 +65,7 @@ class $CLASS_NAME(Job):
         return {
             "weapon": [],
             "armor": ["heavy_armor", "light_armor", "robe"],
-            "gauntlet": [["heavy_armor", "light_armor", "robe"],
+            "gauntlet": ["heavy_armor", "light_armor", "robe"],
             "greaves": ["heavy_armor", "light_armor", "robe"],
             "helmet": ["heavy_armor", "light_armor", "robe"],
             "accessory": ["ring", "necklace"],
