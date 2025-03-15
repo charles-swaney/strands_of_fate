@@ -4,7 +4,7 @@ from adventurers.adventurer import Adventurer
 import random
 from math import prod
 
-MAX_HEAL = 1999
+MAX_HEAL = 999
 MIN_HEAL = 1
 
 
@@ -26,9 +26,9 @@ def compute_heal(caster: Union[Adventurer, Monster],
     if multipliers is None:
         multipliers = []
 
-    wisdom = caster.total_stats.get_stat("wisdom")
-    charisma = caster.total_stats.get_stat("charisma")
-    luck = caster.total_stats.get_stat("luck")
+    wisdom = caster.wisdom
+    charisma = caster.charisma
+    luck = caster.luck
 
     main_heal = 1.05 * (0.30 * wisdom + 0.10 * charisma + 0.03 * luck)
 
