@@ -24,6 +24,20 @@ class Thief(Job):
 
     Armor:
     - Light armor
+
+    Growths:
+        "hp": 5,
+        "mp": 4,
+        "strength": 5,
+        "toughness": 3,
+        "dexterity": 7,
+        "agility": 7,
+        "intellect": 3,
+        "wisdom": 2,
+        "speed": 7,
+        "tenacity": 3,
+        "charisma": 4,
+        "luck": 6
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

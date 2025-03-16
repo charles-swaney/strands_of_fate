@@ -23,6 +23,20 @@ class Agent(Job):
 
     Armor:
     - Light armor, Robes
+
+    Growths:
+        "hp": 5,
+        "mp": 5,
+        "strength": 4,
+        "toughness": 3,
+        "dexterity": 8,
+        "agility": 8,
+        "intellect": 3,
+        "wisdom": 3,
+        "speed": 10,
+        "tenacity": 3,
+        "charisma": 7,
+        "luck": 5
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

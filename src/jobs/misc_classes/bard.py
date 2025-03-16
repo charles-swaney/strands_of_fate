@@ -22,6 +22,20 @@ class Bard(Job):
 
     Armor:
     - Light armor, Robes
+
+    Growths:
+        "hp": 5,
+        "mp": 7,
+        "strength": 3,
+        "toughness": 3,
+        "dexterity": 5,
+        "agility": 5,
+        "intellect": 4,
+        "wisdom": 4,
+        "speed": 5,
+        "tenacity": 3,
+        "charisma": 9,
+        "luck": 8
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

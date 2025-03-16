@@ -20,6 +20,20 @@ class Jester(Job):
 
     Armor:
     - Light armor
+
+    Growths:
+        "hp": 5,
+        "mp": 4,
+        "strength": 4,
+        "toughness": 3,
+        "dexterity": 6,
+        "agility": 8,
+        "intellect": 3,
+        "wisdom": 4,
+        "speed": 9,
+        "tenacity": 1,
+        "charisma": 9,
+        "luck": 7
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

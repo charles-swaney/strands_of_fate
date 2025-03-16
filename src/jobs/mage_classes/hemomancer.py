@@ -24,6 +24,20 @@ class Hemomancer(Job):
 
     Armor:
     - Robes
+
+    Geowths:
+        "hp": 10,
+        "mp": 1,
+        "strength": 2,
+        "toughness": 5,
+        "dexterity": 4,
+        "agility": 4,
+        "intellect": 9,
+        "wisdom": 5,
+        "speed": 5,
+        "tenacity": 4,
+        "charisma": 1,
+        "luck": 6
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

@@ -23,6 +23,20 @@ class Knight(Job):
 
     Armor:
     - Heavy armor, Robes
+
+    Growths:
+        "hp": 7,
+        "mp": 3,
+        "strength": 6,
+        "toughness": 8,
+        "dexterity": 5,
+        "agility": 4,
+        "intellect": 3,
+        "wisdom": 5,
+        "speed": 3,
+        "tenacity": 8,
+        "charisma": 5,
+        "luck": 2
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
@@ -71,8 +85,7 @@ class Knight(Job):
 
     def job_level_requirements(self) -> "JobLevelRequirement":
         return JobLevelRequirement({
-            "Warrior": 5,
-            "WhiteMage": 5
+            "Warrior": 10
         })
 
     def apply_level_up(self, adventurer: "Adventurer") -> None:

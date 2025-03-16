@@ -22,6 +22,20 @@ class Fighter(Job):
 
     Armor:
     - Light armor
+
+    Growths:
+        "hp": 7,
+        "mp": 2,
+        "strength": 9,
+        "toughness": 5,
+        "dexterity": 5,
+        "agility": 4,
+        "intellect": 2,
+        "wisdom": 3,
+        "speed": 4,
+        "tenacity": 5,
+        "charisma": 4,
+        "luck": 6
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

@@ -21,6 +21,20 @@ class Ronin(Job):
 
     Armor:
     - Light armor
+
+    Growths:
+        "hp": 6,
+        "mp": 3,
+        "strength": 10,
+        "toughness": 4,
+        "dexterity": 6,
+        "agility": 7,
+        "intellect": 3,
+        "wisdom": 3,
+        "speed": 6,
+        "tenacity": 3,
+        "charisma": 5,
+        "luck": 6
     """
 
     @property

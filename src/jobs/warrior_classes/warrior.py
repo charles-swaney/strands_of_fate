@@ -23,6 +23,20 @@ class Warrior(Job):
 
     Armor:
     - Heavy armor, Light armor
+
+    Growths:
+        "hp": 8,
+        "mp": 2,
+        "strength": 7,
+        "toughness": 7,
+        "dexterity": 5,
+        "agility": 4,
+        "intellect": 2,
+        "wisdom": 3,
+        "speed": 3,
+        "tenacity": 6,
+        "charisma": 3,
+        "luck": 4
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

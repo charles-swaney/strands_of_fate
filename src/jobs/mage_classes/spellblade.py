@@ -22,6 +22,20 @@ class SpellBlade(Job):
 
     Armor:
     - Light armor, Robes
+
+    Growths:
+        "hp": 6,
+        "mp": 5,
+        "strength": 7,
+        "toughness": 4,
+        "dexterity": 6,
+        "agility": 6,
+        "intellect": 7,
+        "wisdom": 4,
+        "speed": 6,
+        "tenacity": 3,
+        "charisma": 5,
+        "luck": 6
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

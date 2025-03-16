@@ -22,6 +22,20 @@ class Gambler(Job):
 
     Armor:
     - Light armor
+
+    Growths:
+        "hp": 4,
+        "mp": 6,
+        "strength": 3,
+        "toughness": 3,
+        "dexterity": 7,
+        "agility": 8,
+        "intellect": 2,
+        "wisdom": 2,
+        "speed": 7,
+        "tenacity": 2,
+        "charisma": 7,
+        "luck": 11
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

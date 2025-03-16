@@ -23,6 +23,20 @@ class Guardian(Job):
 
     Armor:
     - Heavy armor, Light armor, Robes
+
+    Growths:
+        "hp": 8,
+        "mp": 3,
+        "strength": 4,
+        "toughness": 11,
+        "dexterity": 3,
+        "agility": 3,
+        "intellect": 3,
+        "wisdom": 5,
+        "speed": 2,
+        "tenacity": 10,
+        "charisma": 6,
+        "luck": 4
     """
     @property
     def growth_rates(self) -> Dict[str, int]:

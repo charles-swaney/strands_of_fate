@@ -22,6 +22,20 @@ class WhiteMage(Job):
 
     Armor:
     - Robes
+
+    Growths:
+        "hp": 4,
+        "mp": 6,
+        "strength": 3,
+        "toughness": 5,
+        "dexterity": 3,
+        "agility": 4,
+        "intellect": 5,
+        "wisdom": 8,
+        "speed": 3,
+        "tenacity": 6,
+        "charisma": 5,
+        "luck": 5
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
