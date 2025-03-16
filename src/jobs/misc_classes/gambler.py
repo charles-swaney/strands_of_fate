@@ -1,6 +1,7 @@
 from src.jobs.job import Job
 from typing import Dict, TYPE_CHECKING, List
 from utils.bonus_growth_calculations import compute_stat_bonus
+from actions.gambler_attack import GamblerAttack
 
 if TYPE_CHECKING:
     from src.jobs.job import Adventurer
@@ -16,6 +17,17 @@ class Gambler(Job):
     - Extremely poor growth in magic-related skills, and extremely squishy overall.
     - Abilities range from damage-dealing, debuffing, and buffing allies,
         but always with a reliance random chance.
+    - Unique minigame: 
+        - A Gambler starts combat with an empty hand. Whenever they deal damage
+        or heal allies, they add a card belonging to suit "spade" or "heart", respectively.
+        The value of the card is the last digit of the damage they dealt, or the heal they
+        applied.
+        - Their abilities revolve around either adding additional cards to their hand on top
+        of the guaranteed addition from dealing/healing damage, or using some set of cards from
+        their hand to produce a special effect.
+        - For example, their ability "Trick up the Sleeve" allows the unit to deal physical
+        damage while drawing an additional card of random suit and value.
+
 
     Weapons:
     - Daggers
@@ -26,10 +38,10 @@ class Gambler(Job):
     Growths:
         "hp": 4,
         "mp": 6,
-        "strength": 3,
+        "strength": 6,
         "toughness": 3,
         "dexterity": 7,
-        "agility": 8,
+        "agility": 7,
         "intellect": 2,
         "wisdom": 2,
         "speed": 7,
@@ -37,16 +49,52 @@ class Gambler(Job):
         "charisma": 7,
         "luck": 11
     """
+
+    def __init__(self):
+        self._hand: List[tuple[str, int]] = []
+        self._max_hand_size = 5
+
+    @property
+    def hand(self) -> List[tuple[str, int]]:
+        """
+        Returns the cards held in the current deck.
+
+        Cards have the form: (suit, number), where suit is either 'heart' or 'spade', and
+        number is an integer from 0-9.
+        """
+        return self._hand
+    
+    def add_card(self, suit: str, value: int) -> None:
+        """
+        Add a card to the hand if there is room in the hand, according to last digit of damage.
+        """
+        if len(self.hand) >= self._max_hand_size:
+            return
+        else:
+            last_digit = abs(value) % 10
+            suit = suit
+            card = (suit, last_digit)
+            self._hand.append(card)
+
+    def reset_hand(self) -> None:
+        """
+        Reset the deck at the start of each battle.
+        """
+        self._hand = []
+
+    def create_attack(self) -> GamblerAttack:
+        return GamblerAttack()
+
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 52
+        # Total: 55
         return {
             "hp": 4,
             "mp": 6,
-            "strength": 3,
+            "strength": 6,
             "toughness": 3,
             "dexterity": 7,
-            "agility": 8,
+            "agility": 7,
             "intellect": 2,
             "wisdom": 2,
             "speed": 7,

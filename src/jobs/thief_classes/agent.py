@@ -27,7 +27,7 @@ class Agent(Job):
     Growths:
         "hp": 5,
         "mp": 5,
-        "strength": 4,
+        "strength": 5,
         "toughness": 3,
         "dexterity": 8,
         "agility": 8,
@@ -40,11 +40,11 @@ class Agent(Job):
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 54
+        # Total: 55
         return {
             "hp": 5,
             "mp": 5,
-            "strength": 4,
+            "strength": 5,
             "toughness": 3,
             "dexterity": 8,
             "agility": 8,

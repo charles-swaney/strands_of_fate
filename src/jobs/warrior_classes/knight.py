@@ -27,7 +27,7 @@ class Knight(Job):
     Growths:
         "hp": 7,
         "mp": 3,
-        "strength": 6,
+        "strength": 7,
         "toughness": 8,
         "dexterity": 5,
         "agility": 4,
@@ -40,11 +40,11 @@ class Knight(Job):
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 49
+        # Total: 50
         return {
             "hp": 7,
             "mp": 3,
-            "strength": 6,
+            "strength": 7,
             "toughness": 8,
             "dexterity": 5,
             "agility": 4,
