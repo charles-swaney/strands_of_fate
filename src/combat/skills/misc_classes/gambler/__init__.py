@@ -1,0 +1,1 @@
+from .trick import TrickUpTheSleeve

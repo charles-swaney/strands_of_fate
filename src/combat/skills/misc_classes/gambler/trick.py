@@ -5,6 +5,7 @@ from monsters.monster import Monster
 from combat.damage_calculator import compute_damage_physical
 from combat.hit_chance import compute_hit_chance
 import random
+import math
 
 
 class TrickUpTheSleeve(Skill):
@@ -15,7 +16,7 @@ class TrickUpTheSleeve(Skill):
             base_cost=6,
             cost_scaling=1.5,
             cooldown=2,
-            magnitude=1.0,
+            magnitude=0.9,
             element=None,
             skill_type="damage"
         )
@@ -49,7 +50,7 @@ class TrickUpTheSleeve(Skill):
             hit_roll = random.random()
 
             if hit_roll < hit_chance:
-                caster.job.add_card(suit='spade', value=damage)
+                caster.job.add_card(suit='spade', value=math.floor(damage))
                 target.update_hp(-damage)
             suit = random.choice(['spade', 'heart'])
             value = random.randint(0, 9)
