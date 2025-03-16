@@ -1,12 +1,13 @@
 #!/bin/bash
 
 SKILL_NAME=$1
-SUBDIR=$2
+CLASS_TYPE=$2
+SUBDIR=$3
 
 SKILL_NAME=$(echo "$SKILL_NAME" | sed -E 's/(^|_)([a-z])/\U\2/g' | sed -E 's/([A-Z])_([A-Z])/\1\2/g')
 LOWERCASE_SKILL_NAME=$(echo "$SKILL_NAME" | tr '[:upper:]' '[:lower:]')
 
-OUTPUT_FILE="src/combat/skills/$SUBDIR/${LOWERCASE_SKILL_NAME}.py"
+OUTPUT_FILE="src/combat/skills/$CLASS_TYPE/$SUBDIR/${LOWERCASE_SKILL_NAME}.py"
 
 cat <<EOF > "$OUTPUT_FILE"
 from actions.skill import Skill
