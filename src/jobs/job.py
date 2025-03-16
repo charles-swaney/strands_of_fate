@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, TYPE_CHECKING, List
+from actions.attack import Attack
 
 if TYPE_CHECKING:
     from jobs.job_requirements import JobLevelRequirement, StatRequirement
@@ -10,6 +11,7 @@ class Job(ABC):
     """
     Base class for Job.
     """
+
     @property
     @abstractmethod
     def growth_rates(self) -> Dict[str, int]:
@@ -48,3 +50,6 @@ class Job(ABC):
     def stats_requirements(self) -> "StatRequirement":
         "Return the stats requirements for this class."
         pass
+
+    def create_attack(self) -> Attack:
+        return Attack()

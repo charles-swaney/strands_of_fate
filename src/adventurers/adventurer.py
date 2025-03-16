@@ -64,8 +64,7 @@ class Adventurer:
         self._hp = self.total_stats.get_stat("hp")
         self._mp = self.total_stats.get_stat("mp")
 
-        from actions.attack import Attack
-        self._attack = Attack()
+        self._attack = self.job.create_attack()
 
         self._all_known_skills = defaultdict(list)
 

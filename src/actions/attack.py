@@ -35,8 +35,8 @@ class Attack(Action):
 
     def execute(self,
                 attacker: Union["Adventurer", "Monster"],
-                targets: List[Union["Adventurer", "Monster"]]):
-
+                targets: List[Union["Adventurer", "Monster"]]) -> List[float]:
+        damage_values = []
         if not self.can_be_used(attacker):
             raise ValueError("Cannot attack right now.")
 
@@ -50,8 +50,10 @@ class Attack(Action):
                                                     "standard",
                                                     attacker.weapon_type)
                 target.update_hp(-damage)
+                damage_values.append(damage)
             else:
                 pass
+        return damage_values
 
     def can_be_used(self, attacker: Union["Adventurer", "Monster"]) -> bool:
         """
