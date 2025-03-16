@@ -32,6 +32,20 @@ class $CLASS_NAME(Job):
 
     Armor:
     -
+
+    Growths:
+        "hp": TODO,
+        "mp": TODO,
+        "strength": TODO,
+        "toughness": TODO,
+        "dexterity": TODO,
+        "agility": TODO,
+        "intellect": TODO,
+        "wisdom": TODO,
+        "speed": TODO,
+        "tenacity": TODO,
+        "charisma": TODO,
+        "luck": TODO
     """
 
     @property
