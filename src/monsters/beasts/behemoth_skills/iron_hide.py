@@ -31,11 +31,12 @@ class IronHide(Skill):
         cost = self.cost(caster)
 
         caster.update_mp(-cost)
+        caster.update_hp(-cost)
 
         for target in targets:
 
-            tenacity_bonus = target.total_stats.get_stat("toughness") * 0.25
-            toughness_bonus = target.total_stats.get_stat("tenacity") * 0.25
+            tenacity_bonus = target.toughness * 0.25
+            toughness_bonus = target.tenacity * 0.25
 
             target.stat_buffs.update(
                 {
