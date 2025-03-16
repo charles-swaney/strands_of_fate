@@ -99,7 +99,7 @@ def test_sd(bard_, fighter_, sb_):
     f = fighter_
     sb = sb_
     fighter_lvl_5_stats = [9 * 5, 2 * 5, 4 * 5, 6 * 5]
-    sb_lvl_5_stats = [6 * 5, 6 * 5, 6 * 5, 6 * 5]
+    sb_lvl_5_stats = [7 * 5, 7 * 5, 6 * 5, 6 * 5]
     assert [f.strength, f.intellect, f.agility, f.luck] == fighter_lvl_5_stats
     assert [sb.strength, sb.intellect, sb.agility, sb.luck] == sb_lvl_5_stats
     b.use(sd, [f, sb])
@@ -108,14 +108,14 @@ def test_sd(bard_, fighter_, sb_):
     assert [f.strength, f.intellect, f.agility, f.luck] == \
         approx(list(map(add, fighter_lvl_5_stats, [24.7025, 22.795, 23.34, 23.885])))
     assert [sb.strength, sb.intellect, sb.agility, sb.luck] == \
-        approx(list(map(add, sb_lvl_5_stats, [23.885, 23.885, 23.885, 23.885])))
+        approx(list(map(add, sb_lvl_5_stats, [24.1575, 24.1575, 23.885, 23.885])))
     
     for _ in range(94):
         b.level_up()
         f.level_up()
         sb.level_up()
     f_99_stats = [9 * 99, 2 * 99, 4 * 99, 6 * 99]
-    sb_99_stats = [6 * 99, 6 * 99, 6 * 99, 6 * 99]
+    sb_99_stats = [7 * 99, 7 * 99, 6 * 99, 6 * 99]
     f.stat_buffs = Attributes({})
     sb.stat_buffs = Attributes({})
     assert [f.strength, f.intellect, f.agility, f.luck] == f_99_stats
@@ -126,4 +126,4 @@ def test_sd(bard_, fighter_, sb_):
     assert [f.strength, f.intellect, f.agility, f.luck] == \
         approx(list(map(add, f_99_stats, [470.4881, 374.0918, 401.6336, 429.1754])))
     assert [sb.strength, sb.intellect, sb.agility, sb.luck] == \
-        approx(list(map(add, sb_99_stats, [429.1754, 429.1754, 429.1754, 429.1754])))
+        approx(list(map(add, sb_99_stats, [442.9463, 442.9463, 429.1754, 429.1754])))
