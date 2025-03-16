@@ -7,21 +7,35 @@ from monsters.monster import Monster
 class DireWolf(Monster):
     """
     A Dire Wolf: the natural evolution of a Wolf.
+
+    Growths:
+        "hp": 11,
+        "mp": 3,
+        "strength": 10,
+        "toughness": 6,
+        "dexterity": 8,
+        "agility": 7,
+        "intellect": 3,
+        "wisdom": 4,
+        "speed": 8,
+        "tenacity": 4,
+        "charisma": 2,
+        "luck": 6
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 61
+        # Total: 58
         return {
-            "hp": 12,
+            "hp": 11,
             "mp": 3,
-            "strength": 11,
+            "strength": 10,
             "toughness": 6,
             "dexterity": 8,
-            "agility": 8,
+            "agility": 7,
             "intellect": 3,
             "wisdom": 4,
             "speed": 8,
-            "tenacity": 5,
+            "tenacity": 4,
             "charisma": 2,
             "luck": 6
         }

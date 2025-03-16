@@ -7,14 +7,28 @@ from monsters.monster import Monster
 class Boar(Monster):
     """
     A Boar: A wild animal that is unpredictable, but strong and tough. Somewhat weak to magic.
+
+    Growths:
+        "hp": 10,
+        "mp": 2,
+        "strength": 7,
+        "toughness": 8,
+        "dexterity": 3,
+        "agility": 3,
+        "intellect": 2,
+        "wisdom": 2,
+        "speed": 4,
+        "tenacity": 7,
+        "charisma": 2,
+        "luck": 5
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 44
+        # Total: 43
         return {
-            "hp": 12,
+            "hp": 10,
             "mp": 2,
-            "strength": 8,
+            "strength": 7,
             "toughness": 8,
             "dexterity": 3,
             "agility": 3,

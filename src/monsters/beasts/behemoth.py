@@ -8,12 +8,26 @@ class Behemoth(Monster):
     """
     A Behemoth: A high-level monster that shrugs off most magic-based and physical attacks
     alike.
+
+    Growths:
+        "hp": 13,
+        "mp": 4,
+        "strength": 9,
+        "toughness": 10,
+        "dexterity": 6,
+        "agility": 7,
+        "intellect": 2,
+        "wisdom": 7,
+        "speed": 6,
+        "tenacity": 13,
+        "charisma": 2,
+        "luck": 6
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 73
+        # Total: 72
         return {
-            "hp": 14,
+            "hp": 13,
             "mp": 4,
             "strength": 9,
             "toughness": 10,
@@ -22,7 +36,7 @@ class Behemoth(Monster):
             "intellect": 2,
             "wisdom": 7,
             "speed": 6,
-            "tenacity": 14,
+            "tenacity": 13,
             "charisma": 2,
             "luck": 6
         }

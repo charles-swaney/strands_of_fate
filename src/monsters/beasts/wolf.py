@@ -7,14 +7,28 @@ from monsters.monster import Monster
 class Wolf(Monster):
     """
     A wolf: known for being agile, strong attackers with relatively weak defenses.
+
+    Growths:
+        "hp": 9,
+        "mp": 2,
+        "strength": 8,
+        "toughness": 5,
+        "dexterity": 6,
+        "agility": 6,
+        "intellect": 2,
+        "wisdom": 3,
+        "speed": 6,
+        "tenacity": 4,
+        "charisma": 1,
+        "luck": 4
     """
     @property
     def growth_rates(self) -> Dict[str, int]:
-        # Total: 46
+        # Total: 45
         return {
-            "hp": 11,
+            "hp": 9,
             "mp": 2,
-            "strength": 9,
+            "strength": 8,
             "toughness": 5,
             "dexterity": 6,
             "agility": 6,
