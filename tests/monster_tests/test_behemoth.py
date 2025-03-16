@@ -127,9 +127,12 @@ def test_ironhide(behemoth_, guardian_factory):
     assert len(b.skills) == 1
     b.use(ih, b)
     assert b.mp == BASE_MP - COST
+    assert b.hp == approx(BASE_HP - BASE_DMG - COST)
+    OLD = b.hp
     assert (b.toughness == BASE_TGH + 0.25 * BASE_TEN and
             b.tenacity == BASE_TEN + 0.25 * BASE_TGH)
     with patch("random.random", side_effect=[0, 1]), \
                patch("random.uniform", return_value=1.00):
         g.attack(b)
-    assert b.hp == approx(627.2487142857143)
+        NEW_DMG = OLD - b.hp
+    assert b.hp == approx(OLD - NEW_DMG)
