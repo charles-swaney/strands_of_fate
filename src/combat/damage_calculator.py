@@ -26,7 +26,7 @@ def compute_damage_physical(
         attack_type: whether the physical damage is from a standard attack, "standard", or a 
             physical-damage ability, "ability". Only the former can crit.
         weapon_type: the weapon type, for purposes of incorporating monster damage resistances.
-        other_multipliers: weapon resistances, buffs, etc.
+        multipliers: buffs, etc.
     
     Returns:
         float: the damage dealt.
@@ -65,10 +65,10 @@ def compute_damage_magical(
         defender: Union[Monster, Adventurer],
         attack_element: str,
         magnitude: float,
-        *other_multipliers: List[float]
+        multipliers: List[float] = []
         ) -> float:
     """
-    Compute the damage dealt when attacker hits defender with a physical attack. 
+    Compute the damage dealt when attacker hits defender with a magical attack. 
     Note: *other_multipliers does NOT need to include elemental resistance: this is ALWAYS
     computed. But, it could include other factors like magic resistance buffs or debuffs, etc.
 
@@ -76,11 +76,15 @@ def compute_damage_magical(
         attacker: the unit attacking.
         defender: the unit defending.
         attack_element: the elemental damage type of the spell being cast.
-        other_multipliers: weapon resistances, buffs, etc.
+        magnitude: the strength of the spell.
+        multipliers: buffs, etc.
     
     Returns:    
         float: the damage dealt.
     """
+    if multipliers is None:
+        multipliers = []
+
     elemental_bonus = 1.0
 
     if isinstance(defender, Monster):
@@ -91,7 +95,46 @@ def compute_damage_magical(
 
     main_dmg = 1.15 * (matk / 2 - mdef / 4) * magnitude * elemental_bonus
 
-    final_dmg = main_dmg * prod(other_multipliers) if other_multipliers else main_dmg
+    final_dmg = main_dmg * prod(multipliers) if multipliers else main_dmg
+
+    final_dmg *= random.uniform(0.95, 1.05)
+
+    return max(1, min(MAX_DAMAGE, final_dmg))
+
+
+def compute_magical_raw(attack_value: float,
+                        defender: Union[Adventurer, Monster],
+                        attack_element: str,
+                        magnitude: float,
+                        multipliers: List[float] = []) -> float:
+    """
+    Computes the magical damage dealt using raw values. Used only if the caster is using a skill
+    whose damage is not computed using matk (e.g. Fusion for SpellBlade).
+
+    Args:
+        attack_value: the quantity to be used in place of matk. Should be pre-computed before
+            passing into this function
+        defender: the unit being attacked.
+        attack_element: the element of the magic being cast.
+        magnitude: the strength of the spell.
+        multipliers: buffs, etc.
+
+    Returns:
+        float: the damage dealt.
+    """
+    if multipliers is None:
+        multipliers = []
+
+    elemental_bonus = 1.0
+
+    if isinstance(defender, Monster):
+        elemental_bonus = defender.get_element_res(element=attack_element)
+
+    mdef = defender.mdef
+
+    main_dmg = 1.15 * (attack_value / 2 - mdef / 4) * magnitude * elemental_bonus
+
+    final_dmg = main_dmg * prod(multipliers) if multipliers else main_dmg
 
     final_dmg *= random.uniform(0.95, 1.05)
 
