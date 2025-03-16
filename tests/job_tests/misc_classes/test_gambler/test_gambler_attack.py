@@ -1,6 +1,5 @@
 import pytest
 from pytest import approx
-from operator import add
 from adventurers.adventurer import Adventurer
 from jobs.misc_classes.gambler import Gambler
 from jobs.warrior_classes.fighter import Fighter
@@ -39,6 +38,7 @@ def test_init(gambler_):
         gambler.job.add_card("spade", i)
     gambler.job.add_card("heart", 0)
     assert len(gambler.job.hand) == 5
+    assert len(gambler.skills["Gambler"]) == 0
 
 def test_attack(gambler_, fighter_):
     gambler = gambler_
@@ -60,5 +60,11 @@ def test_attack(gambler_, fighter_):
                patch("random.uniform", return_value=1.00):
         gambler.attack(fighter)
     assert fighter.hp == approx(INIT_HP - DMG_1 - DMG_2)
+    assert len(gambler.job.hand) == 2
+    assert gambler.job.hand[1] == ('spade', 8)
+    # Miss:
+    with patch("random.random", side_effect=[1, 0]), \
+               patch("random.uniform", return_value=1.00):
+        gambler.attack(fighter)
     assert len(gambler.job.hand) == 2
     assert gambler.job.hand[1] == ('spade', 8)
