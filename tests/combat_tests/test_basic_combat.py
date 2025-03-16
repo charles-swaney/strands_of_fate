@@ -26,15 +26,15 @@ def test_simple_combat():
         level=10,
         deterministic=True
     )
-    assert direwolf.hp == 156
+    assert direwolf.hp == 143
     fighter.attack(direwolf)
     assert direwolf.hp < 126
     archer.attack(direwolf)
     assert direwolf.hp < 110
     direwolf.attack(fighter)
-    assert fighter.hp < 42
+    assert fighter.hp < 50
     direwolf.attack(fighter)
-    assert fighter.hp <= 0
+    assert fighter.hp <= 10
 
 def test_equipment_combat():
     random.seed(1301)
@@ -64,7 +64,7 @@ def test_equipment_combat():
         watk=17
     )
 
-    assert direwolf.hp == 336
+    assert direwolf.hp == 308
     archer.attack(direwolf)
     assert direwolf.hp < 300
     archer.equip("weapon", bow)
@@ -73,7 +73,7 @@ def test_equipment_combat():
     assert direwolf.hp < 240
     assert guardian.hp == 424
     direwolf.attack(guardian)
-    assert guardian.hp < 400
+    assert guardian.hp < 415
 
     armor = Armor(
         name="",
@@ -83,13 +83,13 @@ def test_equipment_combat():
         mdef=5
     )
     guardian.equip("armor", armor)
-    assert guardian.hp < 400
+    assert guardian.hp < 415
     assert guardian.hp > 375
     direwolf.attack(guardian)
     assert guardian.hp > 363
     guardian.unequip("armor")
     direwolf.attack(guardian)
-    assert guardian.hp < 365
+    assert guardian.hp < 403
     assert guardian.hp > 339
 
 

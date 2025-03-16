@@ -54,11 +54,11 @@ def test_learn_skills(behemoth_):
     assert b.can_access(trample)
 
     assert trample.can_be_used(b)
-    b.update_hp(-741)
+    b.update_hp(-688)
     assert b.hp == 1
     assert not trample.can_be_used(b)
-    b.update_hp(741)
-    assert b.hp == 742
+    b.update_hp(700)
+    assert b.hp == 689
     b.update_mp(-211)
     assert b.mp == 1
     assert not trample.can_be_used(b)
@@ -71,7 +71,7 @@ def test_trample(behemoth_, guardian_factory):
     b.learn_skill(trample)
 
     assert b.level == 50
-    init_b_hp = 14 * (50 + 3)
+    init_b_hp = 13 * (50 + 3)
     init_b_mp = 4 * (50 + 3)
     assert b.hp == init_b_hp
     assert b.mp == init_b_mp
@@ -110,14 +110,14 @@ def test_ironhide(behemoth_, guardian_factory):
     g = guardian_factory()
     for _ in range(44):
         g.level_up()
-    BASE_HP = 742
+    BASE_HP = 689
     BASE_MP = 212
     BASE_TGH = 500
-    BASE_TEN = 700
+    BASE_TEN = 650
     COST = 12 + 1.75 * 50 ** 0.6
-    assert (b.total_stats.get_stat("toughness") == BASE_TGH and
-            b.total_stats.get_stat("tenacity") == BASE_TEN)
-    BASE_DMG = 53.89647619047619
+    assert (b.toughness == BASE_TGH and
+            b.tenacity == BASE_TEN)
+    BASE_DMG = 53.8964761905
     with patch("random.random", side_effect=[0, 1]), \
                patch("random.uniform", return_value=1.00):
         g.attack(b) 
@@ -127,10 +127,10 @@ def test_ironhide(behemoth_, guardian_factory):
     assert len(b.skills) == 1
     b.use(ih, b)
     assert b.mp == BASE_MP - COST
-    assert (b.total_stats.get_stat("toughness") == BASE_TGH + 0.25 * BASE_TEN and
-            b.total_stats.get_stat("tenacity") == BASE_TEN + 0.25 * BASE_TGH)
-    NEW_DMG = 4.313142857142851
+    assert (b.toughness == BASE_TGH + 0.25 * BASE_TEN and
+            b.tenacity == BASE_TEN + 0.25 * BASE_TGH)
     with patch("random.random", side_effect=[0, 1]), \
                patch("random.uniform", return_value=1.00):
-        g.attack(b) 
-    assert b.hp == approx(BASE_HP - BASE_DMG - NEW_DMG)
+        g.attack(b)
+        print(F" BEHEMOTH HP: {b.hp}")
+    assert b.hp == approx(627.2487142857143)

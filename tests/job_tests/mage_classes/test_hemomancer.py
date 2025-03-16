@@ -28,13 +28,13 @@ def test_learn_cast():
 
     THEORETICAL_DMG = 1.15 * (hemom.matk / 2 - boar.mdef / 4) * 0.80
 
-    assert boar.hp == 48
+    assert boar.hp == 40
     assert hemom.hp == 40
     with patch("random.random", side_effect=[0]), \
                patch("random.uniform", return_value=1.00):
-
             hemom.use(t, boar)
-    assert (48 - boar.hp == approx(THEORETICAL_DMG))
+
+    assert (40 - boar.hp == approx(THEORETICAL_DMG))
     # Subtract cost, add 0.40% healing rate
     assert hemom.hp == 40 - 6 + 0.4 * THEORETICAL_DMG
     t.remaining_cooldown = 0
@@ -43,7 +43,7 @@ def test_learn_cast():
                patch("random.uniform", return_value=1.00):
 
             hemom.use(t, boar)
-    assert (48 - boar.hp == approx(THEORETICAL_DMG))
+    assert (40 - boar.hp == approx(THEORETICAL_DMG))
     assert hemom.hp == 40 - 6 + 0.4 * THEORETICAL_DMG - 6
 
 
