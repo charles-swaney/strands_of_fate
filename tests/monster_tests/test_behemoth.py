@@ -132,5 +132,4 @@ def test_ironhide(behemoth_, guardian_factory):
     with patch("random.random", side_effect=[0, 1]), \
                patch("random.uniform", return_value=1.00):
         g.attack(b)
-        print(F" BEHEMOTH HP: {b.hp}")
     assert b.hp == approx(627.2487142857143)

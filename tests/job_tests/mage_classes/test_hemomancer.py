@@ -1,6 +1,6 @@
 from adventurers.adventurer import Adventurer
 from jobs.mage_classes.hemomancer import Hemomancer
-from combat.skills.hemomancer.transfusion import Transfusion
+from combat.skills.mage_classes.hemomancer.transfusion import Transfusion
 from monsters.beasts.boar import Boar
 from pytest import approx
 from unittest.mock import patch

@@ -4,7 +4,7 @@ from adventurers.adventurer import Adventurer
 from jobs.mage_classes.priest import Priest
 from jobs.warrior_classes.fighter import Fighter
 from jobs.mage_classes.spellblade import SpellBlade
-from combat.skills.priest import EmboldeningChant
+from combat.skills.mage_classes.priest import EmboldeningChant
 from core.stats.attributes import Attributes
 from unittest.mock import patch
 

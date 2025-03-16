@@ -5,7 +5,7 @@ from adventurers.adventurer import Adventurer
 from jobs.misc_classes.bard import Bard
 from jobs.warrior_classes.fighter import Fighter
 from jobs.mage_classes.spellblade import SpellBlade
-from combat.skills.bard import TorchingTempo, FortifyingChant, SpunkyDitty
+from combat.skills.misc_classes.bard import TorchingTempo, FortifyingChant, SpunkyDitty
 from core.stats.attributes import Attributes
 START_MP = 56
 

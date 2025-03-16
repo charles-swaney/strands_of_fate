@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch
 from adventurers.adventurer import Adventurer
 from jobs.warrior_classes.ronin import Ronin
+from jobs.warrior_classes.guardian import Guardian
 from monsters.beasts.direwolf import DireWolf
 from monsters.beasts.behemoth import Behemoth
 from src.utils.sim_physical_combat import sim_physical_combat
@@ -12,6 +13,17 @@ from equipment.armor import Armor
 @pytest.fixture
 def ronin_():
     c = Ronin()
+    a = Adventurer(
+        name="",
+        job=c,
+        level=50,
+        deterministic=True
+    )
+    return a
+
+@pytest.fixture
+def guardian_():
+    c = Guardian()
     a = Adventurer(
         name="",
         job=c,
@@ -37,10 +49,11 @@ def b_():
     return b
 
 
-def test_dmg(ronin_, dw_, b_):
+def test_dmg(ronin_, dw_, b_, guardian_):
     ronin = ronin_
     dw = dw_
     b = b_
+    g = guardian_
 
     sword = Weapon(
         name="",
@@ -69,8 +82,8 @@ def test_dmg(ronin_, dw_, b_):
         mdef=5
     )
 
+    sim_physical_combat(ronin, g)
+
     ronin.equip("weapon", sword)
     ronin.equip("armor", armor)
     ronin.equip("helmet", helm)
-
-    sim_physical_combat(b, dw)
