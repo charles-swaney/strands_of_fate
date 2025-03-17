@@ -19,7 +19,8 @@ class Heal(Skill):
 
     def execute(self,
                 caster: Adventurer,
-                targets: List[Adventurer]) -> None:
+                targets: List[Adventurer],
+                *other_multipliers) -> None:
 
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")
@@ -31,7 +32,7 @@ class Heal(Skill):
 
         caster.update_mp(-cost)
 
-        heal_value = 8 + compute_heal(caster=caster)
+        heal_value = 8 + compute_heal(caster=caster, multipliers=list(other_multipliers))
 
         for target in targets:
             target.update_hp(heal_value)
