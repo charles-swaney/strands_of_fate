@@ -8,7 +8,7 @@ from jobs.misc_classes.gambler import Gambler
 from jobs.warrior_classes.fighter import Fighter
 from monsters.beasts.wolf import Wolf
 from unittest.mock import patch
-from combat.skills.misc_classes.gambler import TrickUpTheSleeve, LuckyCharm
+from combat.skills.misc_classes.gambler import TrickUpTheSleeve, LuckyCharm, CheckUp
 
 
 @pytest.fixture
@@ -106,3 +106,17 @@ def test_charm(gambler_, fighter_):
 
     assert len(gambler.job.hand) == 2
     assert gambler.job.hand[0] == ('heart', 9)
+
+def test_check_up(gambler_):
+    checkup = CheckUp()
+    gambler = gambler_
+    gambler.learn_skill(checkup)
+    COST = 5 + 1.5 * 10 ** .6
+    gambler.use(checkup, gambler)
+    checkup.remaining_cooldown = 0
+    INIT_MP = gambler.job.growth_rates["mp"] * (gambler.level + 3)
+    assert gambler.mp == INIT_MP - COST
+    assert len(gambler.job.hand) == 3
+    # Checked that it gives a random buff, and 3 random cards, every time.
+    gambler.use(checkup, gambler)
+    assert len(gambler.job.hand) == 5
