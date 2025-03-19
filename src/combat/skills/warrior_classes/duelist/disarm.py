@@ -5,6 +5,7 @@ from adventurers.adventurer import Adventurer
 from core.stats.attributes import Attributes
 from combat.damage_calculator import compute_damage_physical
 from combat.hit_chance import compute_hit_chance
+from combat.debuff_hit_chance import compute_debuff_chance
 import random
 
 
@@ -50,12 +51,12 @@ class Disarm(Skill):
             if hit_roll < hit_chance:
                 target.update_hp(-damage)
                 debuff_roll = random.random()
-                debuff_chance = None # TODO need something to compute physical debuff application.
+                debuff_chance = compute_debuff_chance(
+                    attacker=caster,
+                    defender=target,
+                    type="physical"
+                )
                 if debuff_roll < debuff_chance:
                     value = target.strength * 0.40
-                    target.total_stats.update(Attributes(
-                        {
-                            "strength": -value
-                        }
-                    ))
+                    target.total_stats.update(Attributes({"strength": -value}))
         self.remaining_cooldown = self._cooldown
