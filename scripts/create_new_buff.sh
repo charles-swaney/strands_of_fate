@@ -13,7 +13,7 @@ cat <<EOF > "$OUTPUT_FILE"
 from actions.skill import Skill
 from adventurers.adventurer import Adventurer
 from monsters.monster import Monster
-from combat.damage_calculator import compute_damage_physical, compute_damage_magical
+from combat.compute_stat_buff import compute_stat_buff
 
 
 class $SKILL_NAME(Skill):
@@ -29,7 +29,7 @@ class $SKILL_NAME(Skill):
             cooldown=TODO,
             magnitude=TODO,
             element="TODO",
-            skill_type="damage"
+            skill_type="buff"
         )
         self.target_type="single"
 EOF
