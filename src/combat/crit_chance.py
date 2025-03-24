@@ -25,8 +25,8 @@ def compute_critical_chance(
     Notes:
         - The formula is based on only luck. Typical values are between 5% and 15%.
     """
-    attacker_luck = attacker.get_total_stat("luck")
-    defender_luck = defender.get_total_stat("luck")
+    attacker_luck = attacker.luck
+    defender_luck = defender.luck
 
     base_chance = (
         BASE_CRIT_CHANCE

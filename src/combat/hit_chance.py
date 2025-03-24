@@ -29,11 +29,11 @@ def compute_hit_chance(
         effect (it seems more luck is involved in dodging things than in hitting things.)
         - When dex and agi are equal, we recover 1.02 * BASE_HIT_RATE (modulo the luck ratio)
     """
-    attacker_dex = attacker.get_total_stat("dexterity")
-    attacker_luck = attacker.get_total_stat("luck")
+    attacker_dex = attacker.dexterity
+    attacker_luck = attacker.luck
 
-    defender_agi = defender.get_total_stat("agility")
-    defender_luck = defender.get_total_stat("luck")
+    defender_agi = defender.agility
+    defender_luck = defender.luck
 
     main_contribution = ((BASE_HIT_CHANCE) *
                          2.04 * attacker_dex / (attacker_dex + defender_agi))

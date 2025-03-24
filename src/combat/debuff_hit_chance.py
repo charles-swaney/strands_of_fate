@@ -32,11 +32,11 @@ def compute_debuff_chance(
             dexterity/strength, the defender's toughness/agility, and both of their lucks
     """
     if type == "magical":
-        attacker_intellect = attacker.get_total_stat("intellect")
-        attacker_charisma = attacker.get_total_stat("charisma")
+        attacker_intellect = attacker.intellect
+        attacker_charisma = attacker.charisma
         
-        defender_wisdom = defender.get_total_stat("wisdom")
-        defender_tenacity = defender.get_total_stat("tenacity")
+        defender_wisdom = defender.wisdom
+        defender_tenacity = defender.tenacity
 
         attack_weight = 0.3 * attacker_intellect + 0.7 * attacker_charisma
         defense_weight = 0.3 * defender_wisdom + 0.7 * defender_tenacity
@@ -54,8 +54,8 @@ def compute_debuff_chance(
     else:
         raise ValueError(f"Invalid debuff type: {type}.")
     
-    attacker_luck = attacker.get_total_stat("luck")
-    defender_luck = defender.get_total_stat("luck")
+    attacker_luck = attacker.luck
+    defender_luck = defender.luck
 
     main_contribution = (2 * BASE_DEBUFF_CHANCE *
                             attack_weight / (attack_weight + defense_weight))
