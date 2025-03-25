@@ -9,7 +9,7 @@ def compute_debuff_chance(
         attacker: Union[Monster, Adventurer],
         defender: Union[Monster, Adventurer],
         type: str,
-        *other_multipliers: List[float]
+        multipliers: List[float] = []
         ) -> float:
     """
     A formula for computing the debuff chance between attacker and defender.
@@ -31,6 +31,9 @@ def compute_debuff_chance(
         - For physical debuffs, the debuff probability is determined by the attacler's
             dexterity/strength, the defender's toughness/agility, and both of their lucks
     """
+    if multipliers is None:
+        multipliers = []
+
     if type == "magical":
         attacker_intellect = attacker.intellect
         attacker_charisma = attacker.charisma
@@ -64,6 +67,6 @@ def compute_debuff_chance(
 
     base_chance = main_contribution * luck_ratio
 
-    final_chance = base_chance * prod(other_multipliers) if other_multipliers else base_chance
+    final_chance = base_chance * prod(multipliers) if multipliers else base_chance
 
     return max(0.01, min(0.75, final_chance))
