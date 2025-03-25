@@ -13,12 +13,15 @@ class Disarm(Skill):
     def __init__(self):
         """
         Deals moderate damage, with a chance of lowering the target's strength.
+
+        Classes:
+            - Duelist
         """
         super().__init__(
             name="Disarm",
             cost_type="mp",
-            base_cost=6,
-            cost_scaling=1.0,
+            base_cost=8,
+            cost_scaling=1.5,
             cooldown=3,
             magnitude=0.75,
             element=None,
