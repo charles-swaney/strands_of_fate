@@ -2,11 +2,11 @@ import pytest
 from monsters.beasts.behemoth import Behemoth
 from adventurers.adventurer import Adventurer
 from jobs.warrior_classes.guardian import Guardian
-from monsters.beasts.behemoth_skills.trample import Trample
-from monsters.beasts.behemoth_skills.iron_hide import IronHide
-import monsters.beasts.behemoth_skills as bsk
+from monsters.beasts.behemoth_skills import Trample, IronHide, ExposeWeakness, EarthenGrasp, UnyieldingWill
 from pytest import approx
 from unittest.mock import patch
+BASE_HP = 689
+BASE_MP = 212
 
 
 @pytest.fixture
@@ -110,8 +110,6 @@ def test_ironhide(behemoth_, guardian_factory):
     g = guardian_factory()
     for _ in range(44):
         g.level_up()
-    BASE_HP = 689
-    BASE_MP = 212
     BASE_TGH = 500
     BASE_TEN = 650
     COST = 12 + 1.75 * 50 ** 0.6
@@ -136,3 +134,86 @@ def test_ironhide(behemoth_, guardian_factory):
         g.attack(b)
         NEW_DMG = OLD - b.hp
     assert b.hp == approx(OLD - NEW_DMG)
+
+
+def test_expose_weakness(behemoth_, guardian_factory):
+    behemoth = behemoth_
+    guardian = guardian_factory()
+    init_hp = guardian.hp
+    init_tgh = guardian.toughness
+    init_ten = guardian.tenacity
+    expose_weakness = ExposeWeakness()
+    THEORETICAL_DMG_1 = 0.5 * (behemoth.watk / 1.75 - guardian.wdef / 3.75) * 0.85
+    behemoth.learn_skill(expose_weakness)
+    assert behemoth.mp == BASE_MP
+    COST = 8 + 2.0 * behemoth.level ** 0.60
+
+    with patch("random.random", side_effect=[0, 0]), \
+               patch("random.uniform", return_value=1.00):
+        behemoth.use(expose_weakness, guardian)
+        expose_weakness.remaining_cooldown = 0
+    hp1 = guardian.hp
+    assert behemoth.mp == approx(BASE_MP - COST)
+    dmg_1 = init_hp - hp1
+    assert dmg_1 == approx(THEORETICAL_DMG_1)
+    assert guardian.toughness == init_tgh * 0.60
+    assert guardian.tenacity == init_ten * 0.60
+    THEORETICAL_DMG_2 = 69.58342857142856
+    # Debuff roll misses
+    with patch("random.random", side_effect=[0, 1, 0]), \
+               patch("random.uniform", return_value=1.00):
+        behemoth.use(expose_weakness, guardian)
+        expose_weakness.remaining_cooldown = 0
+    hp2 = guardian.hp
+    assert hp1 - hp2 == approx(THEORETICAL_DMG_2)
+    assert guardian.toughness == init_tgh * 0.60
+    with patch("random.random", side_effect=[0, 0, 0]), \
+               patch("random.uniform", return_value=1.00):
+        behemoth.use(expose_weakness, guardian)
+        expose_weakness.remaining_cooldown = 0
+    assert hp2 - guardian.hp == approx(THEORETICAL_DMG_2)
+    assert guardian.toughness == init_tgh * 0.36
+
+
+def test_earthen_grasp(behemoth_, guardian_factory):
+    behemoth = behemoth_
+    guardian = guardian_factory()
+    init_hp = guardian.hp
+    init_agi = guardian.agility
+    init_dex = guardian.dexterity
+    earthen_grasp = EarthenGrasp()
+    THEORETICAL_DMG_1 = 0.75 * (behemoth.watk / 2 - guardian.mdef / 4) * 1.15
+    behemoth.learn_skill(earthen_grasp)
+    assert behemoth.mp == BASE_MP
+    COST = 10 + 2.0 * behemoth.level ** 0.60
+    with patch("random.random", side_effect=[0, 0]), \
+               patch("random.uniform", return_value=1.00):
+        behemoth.use(earthen_grasp, guardian)
+        earthen_grasp.remaining_cooldown = 0
+    assert behemoth.mp == approx(BASE_MP - COST)
+    assert guardian.hp == approx(init_hp - THEORETICAL_DMG_1)
+    assert guardian.agility == approx(init_agi * 2/3)
+    assert guardian.dexterity == approx(init_dex * 2/3)
+
+
+def test_unyielding_will(behemoth_):
+    b = behemoth_
+    BASE_STR = b.strength
+    BASE_INT = b.intellect
+    COST = 12 + 1.75 * 50 ** 0.6
+    uw = UnyieldingWill()
+    b.learn_skill(uw)
+    assert len(b.skills) == 1
+    b.use(uw, b)
+    uw.remaining_cooldown = 0
+    assert b.mp == BASE_MP - COST
+    assert b.strength == approx(BASE_STR * 0.75)
+    assert b.intellect == approx(BASE_INT * 0.75)
+    b.update_hp(-600)
+    assert b.hp == 89
+    with patch("random.uniform", return_value=1.00):
+        b.use(uw, b)
+    assert b.mp == approx(BASE_MP - 2 * COST)
+    HEAL = 0.75 * 1.05 * 0.43 * b.tenacity * (1 + (1 - 89/689) / 2)
+    NEW_HP = 89 + HEAL
+    assert b.hp == approx(NEW_HP)
