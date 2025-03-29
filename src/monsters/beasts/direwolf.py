@@ -67,7 +67,7 @@ class DireWolf(Monster):
         })
 
     @property
-    def species_name(self) -> str:
+    def name(self) -> str:
         return "DireWolf"
 
     @property
