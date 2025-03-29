@@ -8,6 +8,7 @@ from equipment.weapon import Weapon
 if TYPE_CHECKING:
     from src.jobs.job import Job
     from actions.action import Action
+    from actions.skill import Skill
     from monsters.monster import Monster
     from combat.status_effects.status_effect import StatusEffect
 
@@ -278,6 +279,16 @@ class Adventurer:
             skill.execute(self, [targets])
         else:
             skill.execute(self, targets)
+
+    def tick_cooldown(self, skill: "Skill") -> None:
+        """Tick cooldowns on skill."""
+        skill.tick_cooldown()
+
+    def tick_all_cooldowns(self) -> None:
+        """Tick cooldowns on all skills."""
+        for job in self._all_known_skills:
+            for skill in self._all_known_skills[job]:
+                self.tick_cooldown(skill)
 
     @property
     def strength(self) -> float:

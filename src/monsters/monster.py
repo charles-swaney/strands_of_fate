@@ -44,7 +44,7 @@ class Monster(ABC):
         self._attack = Attack()
 
         self._stats = Attributes(ZERO_STATS)
-        self._all_known_skills = []
+        self._all_known_skills: List["Skill"] = []
         self.deterministic = deterministic
         self._status_effects = []
 
@@ -129,7 +129,7 @@ class Monster(ABC):
 
     @property
     @abstractmethod
-    def species_name(self) -> str:
+    def name(self) -> str:
         """Return the name of the monster."""
         pass
 
@@ -291,6 +291,15 @@ class Monster(ABC):
         else:
             skill.execute(caster=self,
                           targets=targets)
+            
+    def tick_cooldown(self, skill: "Skill") -> None:
+        """Tick cooldowns on skill."""
+        skill.tick_cooldown()
+
+    def tick_all_cooldowns(self) -> None:
+        """Tick cooldowns on all skills."""
+        for skill in self._all_known_skills:
+            self.tick_cooldown(skill)
 
     @property
     def strength(self) -> float:
