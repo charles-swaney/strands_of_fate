@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from adventurers.adventurer import Adventurer
     from actions.skill import Skill
     from combat.status_effects.status_effect import StatusEffect
-    from ai.ai import AIBehavior
+    from ai.ai_behavior import AIBehavior
     from battles.battle import Battle
 
 class Monster(ABC):
