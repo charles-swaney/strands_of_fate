@@ -33,14 +33,13 @@ class Battle:
         """
         if self.is_battle_over():
             return
+        self.remove_dead()
         
         if len(self.turn_order) == 0:
             self.turn_order = get_turn_order(self.adventurers, self.monsters)
             self.round_count += 1
         
         current_unit = self.turn_order.pop(0)
-
-        print(f"Current Unit: {current_unit}")
         return current_unit
 
     def is_battle_over(self) -> bool:
@@ -52,3 +51,11 @@ class Battle:
         elif all(adv.hp == 0 for adv in self.adventurers):
             return True
         return False
+    
+    def remove_dead(self) -> None:
+        """
+        Remove any dead monsters or adventurers from the turn order.
+        """
+        for unit in self.turn_order:
+            if unit.hp == 0:
+                self.turn_order.remove(unit)
