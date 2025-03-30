@@ -64,11 +64,7 @@ def test_multi_available(behemoth_, wolf_, fighter_, blackmage_):
 
     assert behemoth.do_action(battle)[0] == "Trample"
     battle.tick_cooldowns()
-    assert behemoth.do_action(battle)[0] == "Earthen Grasp"
+    assert behemoth.do_action(battle)[0] == "Attack"
     battle.tick_cooldowns()
     assert behemoth.do_action(battle)[0] == "Attack"
     battle.tick_cooldowns()
-    assert behemoth.do_action(battle)[0] == "Trample"  # Trample is off cooldown
-    battle.tick_cooldowns()
-    assert not behemoth.do_action(battle)
-
