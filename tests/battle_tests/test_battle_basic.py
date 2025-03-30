@@ -98,6 +98,25 @@ def test_tick_cd(behemoth_, wolf_, fighter_, blackmage_):
     with patch("random.random", side_effect=[0, 0]):
         behemoth.use(trample, battle.adventurers)
     assert trample.remaining_cooldown == trample._cooldown
-    print(fighter._all_known_skills)
     battle.tick_cooldowns()
     assert trample.remaining_cooldown == trample._cooldown - 1
+    assert not trample.can_be_used(behemoth)
+    battle.tick_cooldowns()
+    battle.tick_cooldowns()
+    assert trample.can_be_used(behemoth)
+
+
+def test_dead_units(behemoth_, wolf_, fighter_, blackmage_):
+    behemoth, wolf, fighter, blackmage = behemoth_, wolf_, fighter_, blackmage_
+    advs, monsters = [fighter, blackmage], [behemoth, wolf]
+    
+    battle = Battle(advs, monsters)
+    trample = Trample()
+    with patch("random.random", side_effect=[0, 0]):
+        behemoth.use(trample, battle.adventurers)
+        trample.remaining_cooldown = 0
+    with patch("random.random", side_effect=[0, 0]):
+        behemoth.use(trample, battle.adventurers)
+    assert blackmage.hp == 0
+    battle.next_turn()
+    assert len(battle.turn_order) == 2
