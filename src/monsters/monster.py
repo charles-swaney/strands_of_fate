@@ -11,6 +11,8 @@ if TYPE_CHECKING:
     from adventurers.adventurer import Adventurer
     from actions.skill import Skill
     from combat.status_effects.status_effect import StatusEffect
+    from ai.ai import AIBehavior
+    from battles.battle import Battle
 
 class Monster(ABC):
 
@@ -23,6 +25,7 @@ class Monster(ABC):
 
         self.level = level
         self.aptitude = aptitude
+        self.ai: AIBehavior = None  # Should be implemented by each monster.
 
         ZERO_STATS = {
             "hp": 0,
@@ -273,6 +276,10 @@ class Monster(ABC):
 
     def status_effects(self) -> List["StatusEffect"]:
         return self._status_effects
+    
+    def do_action(self, battle: "Battle"):
+        """Do an action according to the Monster's AI."""
+        return self.ai.do_action(battle=battle)
     
     def attack(self, target):
         self._attack.execute(self, [target])
