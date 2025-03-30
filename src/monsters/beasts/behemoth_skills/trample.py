@@ -51,8 +51,10 @@ class Trample(Skill):
 
     def can_be_used(self, caster: Monster):
         cost = self.cost(caster)
-        if caster.mp < cost or self.remaining_cooldown > 0:
+        if self.remaining_cooldown > 0:
             return False
-        if caster.hp < cost or self.remaining_cooldown > 0:
+        if caster.mp < cost:
+            return False
+        if caster.hp < cost:
             return False
         return True

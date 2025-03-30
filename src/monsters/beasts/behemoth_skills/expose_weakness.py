@@ -26,7 +26,7 @@ class ExposeWeakness(Skill):
             cooldown=3,
             magnitude=0.50,
             element=None,
-            skill_type="damage"
+            skill_type="debuff"
         )
         self.target_type="single"
 
