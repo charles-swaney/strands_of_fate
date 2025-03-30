@@ -62,5 +62,4 @@ def compute_increase_amount(caster: Union[Adventurer, Monster],
 
     final = base_buff + stat_based_buff
     final_buff = final * prod(multipliers) if multipliers else final
-    print(f"{stat} bonus = {final_buff}")
     return final_buff
