@@ -1,6 +1,6 @@
 import random
 from typing import Dict, List, Union, Optional, Any
-from actions.skill import Skill
+from battles.battle_state import BattleState
 from battles.battle import Battle
 from ai.behavior_nodes.behavior_node import BehaviorNode
 from adventurers.adventurer import Adventurer
@@ -11,7 +11,7 @@ class UseMultiTargetDebuffSkill(BehaviorNode):
     """
     Attempt to use a skill that debuffs multiple targets.
     """
-    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[Dict[str, Any]]):
+    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[BattleState]):
         all_enemies = data.get("all_enemies", [])
         available_multi_debuff_skills = data.get("available_multi_debuff_skills", [])
 
@@ -36,9 +36,9 @@ class UseDebuffSkill(BehaviorNode):
         debuffing multiple. So this is usually executed only if there is only one enemy
         remaining. Despite this, the unit should use multi-target debuff skills if available.
     """
-    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[Dict[str, Any]]):
+    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[BattleState]):
         all_enemies = data.get('all_enemies', [])
-        available_debuff_skills = data.get('all_debuff_skills', [])
+        available_debuff_skills = data.get('available_debuff_skills', [])
 
         if not all_enemies or not available_debuff_skills:
             return False

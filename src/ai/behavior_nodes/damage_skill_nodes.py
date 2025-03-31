@@ -1,6 +1,6 @@
 import random
 from typing import Dict, List, Union, Optional, Any
-from actions.skill import Skill
+from battles.battle_state import BattleState
 from battles.battle import Battle
 from ai.behavior_nodes.behavior_node import BehaviorNode
 from adventurers.adventurer import Adventurer
@@ -11,10 +11,9 @@ class UseMultiTargetDamageSkill(BehaviorNode):
     """
     Attempt to use a skill that damages multiple targets. 
     """
-    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[Dict[str, Any]]):
+    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[BattleState]):
         all_enemies = data.get("all_enemies", [])
         available_multi_dmg_skills = data.get("available_multi_dmg_skills", [])
-
         if not all_enemies or not available_multi_dmg_skills:
             return False
 
@@ -37,7 +36,7 @@ class UseDamageSkill(BehaviorNode):
         damaging multiple. So this is usually executed only if there is only one enemy
         remaining. Despite this, the unit should use multi-target damage skills if available.
     """
-    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[Dict[str, Any]]):
+    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[BattleState]):
         all_enemies = data.get("all_enemies", [])
         available_damage_skills = data.get("available_dmg_skills", [])
 
@@ -63,7 +62,7 @@ class BasicAttackLowestHPTarget(BehaviorNode):
     """
     Attempt to basic attack the target with the lowest proportion of remaining hp.
     """
-    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[Dict[str, Any]]):
+    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[BattleState]):
         all_enemies = data.get("all_enemies", [])
         
         if not all_enemies:
@@ -71,7 +70,7 @@ class BasicAttackLowestHPTarget(BehaviorNode):
         
         targets_by_hp = sorted(all_enemies, key = lambda e: e.hp / e.max_hp)
 
-        if targets_by_hp:
+        if targets_by_hp and (targets_by_hp[0].hp <= 0.50):
             target = targets_by_hp[0]
             unit.attack(target)
             data['result'] = ("Attack", target)
@@ -83,7 +82,7 @@ class BasicAttackRandomTarget(BehaviorNode):
     """
     Attempt to basic attack a random target.
     """
-    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[Dict[str, Any]]):
+    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[BattleState]):
         all_enemies = data.get("all_enemies", [])
 
         if not all_enemies:
@@ -102,7 +101,7 @@ class BasicAttackPreferLowHPTarget(BehaviorNode):
     Attempt to basic attack a semi-random target, with probability weights distributed according
     to targets' proportion of max hp remaining.
     """
-    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[Dict[str, Any]]):
+    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[BattleState]):
         all_enemies = data.get("all_enemies", [])
 
         if not all_enemies:
@@ -111,8 +110,9 @@ class BasicAttackPreferLowHPTarget(BehaviorNode):
         hp_ratios = [1 - (enemy.hp / enemy.max_hp) for enemy in all_enemies]
 
         weights = [hp_ratio / sum(hp_ratios) for hp_ratio in hp_ratios]
+        targets_by_hp = sorted(all_enemies, key = lambda e: e.hp / e.max_hp)
 
-        if all_enemies:
+        if all_enemies and (targets_by_hp[0].hp <= 0.50):
             target = random.choices(population=all_enemies, weights=weights)[0]
             unit.attack(target)
             data['result'] = ("Attack", target)
