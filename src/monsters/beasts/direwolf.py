@@ -2,7 +2,7 @@ from typing import Dict
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
 from monsters.monster import Monster
-
+from ai.aggressive_ai import SingleTargetAggressiveAI
 
 class DireWolf(Monster):
     """
@@ -22,6 +22,10 @@ class DireWolf(Monster):
         "charisma": 2,
         "luck": 6
     """
+    def __init__(self, level = 1, aptitude = 5, deterministic = False, **stat_overrides):
+        super().__init__(level, aptitude, deterministic, **stat_overrides)
+        self.ai = SingleTargetAggressiveAI(owner=self)
+
     @property
     def growth_rates(self) -> Dict[str, int]:
         # Total: 58
