@@ -1,16 +1,17 @@
 from abc import ABC, abstractmethod
-from typing import Union, Dict, Any
+from typing import Union, Dict, List
 from battles.battle import Battle
 from adventurers.adventurer import Adventurer
 from monsters.monster import Monster
-from actions.action import Action
+from actions.skill import Skill
+from battles.battle_state import BattleState
 
 
 class AIBehavior(ABC):
     def __init__(self, owner: Union[Adventurer, Monster]):
         self.owner = owner
 
-    def setup_data(self, battle: Battle) -> Dict[str, Any]:
+    def setup_data(self, battle: Battle) -> BattleState:
         """
         Set up the data dictionary required by all the AI decision trees, according to the battle
         state and the unit's available skills.
