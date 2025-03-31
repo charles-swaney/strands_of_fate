@@ -8,6 +8,14 @@ import random
 
 
 class Trample(Skill):
+    """
+    A slightly inaccurate but powerful skill that costs both hp and mp, dealing moderate damage
+    to all enemies. Cannot critically strike, and does physical damage of type 'misc'. Has a
+    0.90 modifier on hit chance.
+
+    Monsters:
+        - Behemoth
+    """
     def __init__(self):
         super().__init__(
             name="Trample",

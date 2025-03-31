@@ -8,6 +8,9 @@ class IronHide(Skill):
         """
         Raises toughness proportional to the unit's tenacity, and raises tenacity proportional
         to the unit's toughness, for three turns each.
+
+        Monsters:
+            - Behemoth
         """
         super().__init__(
             name="Iron Hide",
