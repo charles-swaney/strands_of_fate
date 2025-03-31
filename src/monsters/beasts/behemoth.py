@@ -2,7 +2,7 @@ from typing import Dict
 from monsters.elemental_resistances import ElementalResistances
 from monsters.weapon_resistances import WeaponResistances
 from monsters.monster import Monster
-from ai.aggressive_ai import SmartAggressiveAI
+from ai.aggressive_ai import AoEAggressiveAI
 
 
 class Behemoth(Monster):
@@ -26,7 +26,7 @@ class Behemoth(Monster):
     """
     def __init__(self, level = 1, aptitude = 5, deterministic = False, **stat_overrides):
         super().__init__(level, aptitude, deterministic, **stat_overrides)
-        self.ai = SmartAggressiveAI(owner=self)
+        self.ai = AoEAggressiveAI(owner=self)
 
     @property
     def growth_rates(self) -> Dict[str, int]:
