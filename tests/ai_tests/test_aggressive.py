@@ -58,10 +58,13 @@ def test_multi_available(behemoth_, wolf_, fighter_, blackmage_):
     advs, monsters = [fighter, blackmage], [behemoth, wolf]
     trample = Trample()
     grasp = EarthenGrasp()
+    ironhide = IronHide()
     battle = Battle(advs, monsters)
+    behemoth.learn_skill(ironhide)
     behemoth.learn_skill(trample)
     behemoth.learn_skill(grasp)
-
+    assert behemoth.do_action(battle)[0] == "Iron Hide"
+    battle.tick_cooldowns()
     assert behemoth.do_action(battle)[0] == "Trample"
     battle.tick_cooldowns()
     assert behemoth.do_action(battle)[0] == "Attack"
