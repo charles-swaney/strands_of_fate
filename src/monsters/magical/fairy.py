@@ -11,8 +11,8 @@ class Fairy(Monster):
     abilities.
 
     Growths:
-        "hp": 4,
-        "mp": 5,
+        "hp": 5,
+        "mp": 6,
         "strength": 1,
         "toughness": 2,
         "dexterity": 3,
@@ -32,8 +32,8 @@ class Fairy(Monster):
     def growth_rates(self) -> Dict[str, int]:
         # Total: 52
         return {
-            "hp": 4,
-            "mp": 5,
+            "hp": 5,
+            "mp": 6,
             "strength": 1,
             "toughness": 2,
             "dexterity": 3,
