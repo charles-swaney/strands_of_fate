@@ -21,7 +21,7 @@ class StarStream(Skill):
             base_cost=10,
             cost_scaling=2.0,
             cooldown=3,
-            magnitude=0.75,
+            magnitude=1.00,
             element="holy",
             skill_type="damage"
         )

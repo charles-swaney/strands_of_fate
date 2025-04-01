@@ -44,13 +44,16 @@ class FaeBlessing(Skill):
         stats_affected = ["agility"]
 
         for target in targets:
+
             target.update_hp(heal_value)
+
             bonus = compute_stat_buff(
                 caster=caster,
                 target=target,
                 stats_affected=stats_affected,
                 multipliers=multipliers
             )
-            target.total_stats.update(bonus)
+
+            target.stat_buffs.update(bonus)
 
         self.remaining_cooldown = self._cooldown
