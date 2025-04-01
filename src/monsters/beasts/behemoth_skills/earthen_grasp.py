@@ -36,7 +36,7 @@ class EarthenGrasp(Skill):
 
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")
-        
+
         cost = self.cost(caster)
 
         caster.update_mp(-cost)
