@@ -26,7 +26,8 @@ class MischievousMirage(Skill):
 
     def execute(self,
                 caster: Monster,
-                targets: List[Monster]) -> None:
+                targets: List[Monster],
+                *other_multipliers) -> None:
 
         if not self.can_be_used(caster):
             raise ValueError(f"Cannot cast {self.name}.")
@@ -35,15 +36,17 @@ class MischievousMirage(Skill):
 
         caster.update_mp(-cost)
         stats_affected = ["agility", "speed", "luck"]
+        multipliers = list(other_multipliers) + [self.magnitude]
 
         for target in targets:
             bonus = compute_stat_buff(
                 caster=caster,
-                target=caster,
-                stats_affected=stats_affected
+                target=target,
+                stats_affected=stats_affected,
+                multipliers=multipliers
             )
 
-            caster.total_stats.update(bonus)
+            target.stat_buffs.update(bonus)
 
         self.remaining_cooldown = self._cooldown
 
