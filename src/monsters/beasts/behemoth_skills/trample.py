@@ -50,7 +50,7 @@ class Trample(Skill):
                 weapon_dmg_type="misc",
                 multipliers=[self.magnitude] + list(other_multipliers)
             )
-            # Skill is slightly inaccurate
+
             hit_chance = compute_hit_chance(caster, target, 0.90)
             hit_roll = random.random()
             if hit_roll < hit_chance:
