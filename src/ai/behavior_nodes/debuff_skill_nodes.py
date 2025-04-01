@@ -22,7 +22,10 @@ class UseMultiTargetDebuffSkill(BehaviorNode):
             action_choice = random.choice(available_multi_debuff_skills)
             targets = all_enemies if action_choice.skill_type == 'all' else random.sample(all_enemies, 2)
             unit.use(action_choice, targets)
-            data['result'] = (action_choice.name, [target.name for target in targets])
+            target_name = [target.name for target in targets]
+            if len(target_name) == 1:
+                target_name = target_name[0]
+            data['result'] = (action_choice.name, target_name)
             return True
         return False
 
@@ -55,6 +58,28 @@ class UseDebuffSkill(BehaviorNode):
                 case _:
                     raise ValueError(f"Invalid target type: {action_choice.target_type}.")
             unit.use(action_choice, targets)
-            data['result'] = (action_choice.name, [target.name for target in targets])
+            target_name = [target.name for target in targets]
+            if len(target_name) == 1:
+                target_name = target_name[0]
+            data['result'] = (action_choice.name, target_name)
             return True
         return False
+
+
+class UseSingleDebuffSkillEarly(BehaviorNode):
+    """
+    Attempt to use a debuff skill, only if it is early on in the battle.
+    """
+    def execute(self, unit: Union[Adventurer, Monster], battle: Battle, data: Optional[BattleState]):
+        available_debuff_skills = data.get('available_debuff_skills', [])
+        single_debuffs = [debuff for debuff in available_debuff_skills if debuff.target_type == "single"]
+
+        if single_debuffs:
+            if battle.round_count <= 2:
+                action_choice = random.choice(single_debuffs)
+                target = unit
+                unit.use(action_choice, target)
+                data['result'] = (action_choice.name, target.name)
+                return True
+        return False
+    

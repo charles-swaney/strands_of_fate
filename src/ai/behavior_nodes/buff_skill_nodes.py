@@ -22,7 +22,10 @@ class UseMultiTargetBuffSkill(BehaviorNode):
             action_choice = random.choice(available_multi_buff_skills)
             targets = all_allies if action_choice.skill_type == 'all' else random.sample(all_allies, 2)
             unit.use(action_choice, targets)
-            data['result'] = (action_choice.name, [target.name for target in targets])
+            target_name = [target.name for target in targets]
+            if len(target_name) == 1:
+                target_name = target_name[0]
+            data['result'] = (action_choice.name, target_name)
             return True
         return False
 
@@ -55,7 +58,10 @@ class UseBuffSkill(BehaviorNode):
                 case _:
                     raise ValueError(f"Invalid target type: {action_choice.target_type}.")
             unit.use(action_choice, targets)
-            data['result'] = (action_choice.name, [target.name for target in targets])
+            target_name = [target.name for target in targets]
+            if len(target_name) == 1:
+                target_name = target_name[0]
+            data['result'] = (action_choice.name, target_name)
             return True
         return False
     
@@ -73,7 +79,7 @@ class UseSelfBuffSkillEarly(BehaviorNode):
                 action_choice = random.choice(self_buffs)
                 target = unit
                 unit.use(action_choice, target)
-                data['result'] = (action_choice.name, [target.name])
+                data['result'] = (action_choice.name, target.name)
                 return True
         return False
     
@@ -90,6 +96,6 @@ class UseSelfBuffSkill(BehaviorNode):
             action_choice = random.choice(self_buffs)
             target = unit
             unit.use(action_choice, target)
-            data['result'] = (action_choice.name, [target.name])
+            data['result'] = (action_choice.name, target.name)
             return True
         return False
