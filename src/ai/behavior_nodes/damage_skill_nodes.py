@@ -22,7 +22,10 @@ class UseMultiTargetDamageSkill(BehaviorNode):
             action_choice = random.choice(available_multi_dmg_skills)
             targets = all_enemies if action_choice.skill_type == 'all' else random.sample(all_enemies, 2)
             unit.use(action_choice, targets)
-            data['result'] = (action_choice.name, [target.name for target in targets])
+            target_name = [target.name for target in targets]
+            if len(target_name) == 1:
+                target_name = target_name[0]
+            data['result'] = (action_choice.name, target_name)
             return True
         return False
     
@@ -55,7 +58,12 @@ class UseDamageSkill(BehaviorNode):
                 case _:
                     raise ValueError(f"Invalid target type: {action_choice.target_type}.")
             unit.use(action_choice, targets)
-            data['result'] = (action_choice.name, [target.name for target in targets])
+            target_name = [target.name for target in targets]
+            if len(target_name) == 1:
+                target_name = target_name[0]
+            data['result'] = (action_choice.name, target_name)
+            return True
+        return False
 
 
 class BasicAttackLowestHPTarget(BehaviorNode):
@@ -73,7 +81,7 @@ class BasicAttackLowestHPTarget(BehaviorNode):
         if targets_by_hp and (targets_by_hp[0].hp <= 0.50):
             target = targets_by_hp[0]
             unit.attack(target)
-            data['result'] = ("Attack", target)
+            data['result'] = ("Attack", target.name)
             return True
         return False
 
@@ -91,7 +99,7 @@ class BasicAttackRandomTarget(BehaviorNode):
         if all_enemies:
             target = random.choice(all_enemies)
             unit.attack(target)
-            data['result'] = ("Attack", target)
+            data['result'] = ("Attack", target.name)
             return True
         return False
     
@@ -115,6 +123,6 @@ class BasicAttackPreferLowHPTarget(BehaviorNode):
         if all_enemies and (targets_by_hp[0].hp <= 0.50):
             target = random.choices(population=all_enemies, weights=weights)[0]
             unit.attack(target)
-            data['result'] = ("Attack", target)
+            data['result'] = ("Attack", target.name)
             return True
         return False
