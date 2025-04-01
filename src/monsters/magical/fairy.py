@@ -13,14 +13,14 @@ class Fairy(Monster):
     Growths:
         "hp": 4,
         "mp": 5,
-        "strength": 2,
-        "toughness": 3,
+        "strength": 1,
+        "toughness": 2,
         "dexterity": 3,
         "agility": 9,
         "intellect": 9,
-        "wisdom": 4,
+        "wisdom": 8,
         "speed": 9,
-        "tenacity": 4,
+        "tenacity": 2,
         "charisma": 3,
         "luck": 6
     """
@@ -34,14 +34,14 @@ class Fairy(Monster):
         return {
             "hp": 4,
             "mp": 5,
-            "strength": 2,
-            "toughness": 3,
-            "dexterity": 63,
+            "strength": 1,
+            "toughness": 2,
+            "dexterity": 3,
             "agility": 9,
             "intellect": 9,
-            "wisdom": 4,
+            "wisdom": 8,
             "speed": 9,
-            "tenacity": 4,
+            "tenacity": 2,
             "charisma": 3,
             "luck": 6
         }
