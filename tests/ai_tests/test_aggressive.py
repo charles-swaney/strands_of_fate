@@ -9,6 +9,8 @@ from monsters.beasts.direwolf import DireWolf
 from monsters.beasts.behemoth import Behemoth
 from monsters.beasts.behemoth_skills import Trample, ExposeWeakness, IronHide, EarthenGrasp
 from monsters.beasts.shared.aimed_strike import AimedStrike
+from monsters.beasts.shared.savage_bite import SavageBite
+from monsters.beasts.direwolf_skills.hamstring import Hamstring
 from unittest.mock import patch
 
 
@@ -20,24 +22,21 @@ def patch_random_uniform():
 @pytest.fixture
 def behemoth_():
     b = Behemoth(
-        level=25,
-        deterministic=True
+        level=99
     )
     return b
 
 @pytest.fixture
 def wolf_():
     w = Wolf(
-        level=25,
-        deterministic=True
+        level=99
     )
     return w
 
 @pytest.fixture
 def dwolf_():
     w = DireWolf(
-        level=25,
-        deterministic=True
+        level=99
     )
     return w
 
@@ -89,16 +88,18 @@ def test_multi_available(behemoth_, wolf_, dwolf_):
     trample = Trample()
     grasp = EarthenGrasp()
     ironhide = IronHide()
-    aimed_strike = AimedStrike()
-    battle = Battle(advs, monsters)
+    aimed_strike_dw = AimedStrike()
+    aimed_strike_w = AimedStrike()
+    savage_bite_dw = SavageBite()
+    savage_bite_w = SavageBite()
+    hamstring = Hamstring()
     behemoth.learn_skill(ironhide)
     behemoth.learn_skill(trample)
     behemoth.learn_skill(grasp)
-    wolf.learn_skill(aimed_strike)
-    direwolf.learn_skill(aimed_strike)
-    # R1
-    print(direwolf.do_action(battle))
-    # R2
-    print(direwolf.do_action(battle))
-    # R3
-    print(direwolf.do_action(battle))
+    wolf.learn_skill(aimed_strike_w)
+    wolf.learn_skill(savage_bite_w)
+    direwolf.learn_skill(aimed_strike_dw)
+    direwolf.learn_skill(savage_bite_dw)
+    direwolf.learn_skill(hamstring)
+    battle = Battle(advs, monsters, verbose=True)
+    battle.run_battle()
