@@ -64,6 +64,6 @@ class EarthenGrasp(Skill):
                 if debuff_roll < debuff_chance:
                     dex_value = target.dexterity / 3
                     agi_value = target.agility / 3
-                    target.base_stats.update(Attributes({"dexterity": -dex_value,
+                    target.stat_buffs.update(Attributes({"dexterity": -dex_value,
                                                          "agility": -agi_value}))
         self.remaining_cooldown = self._cooldown

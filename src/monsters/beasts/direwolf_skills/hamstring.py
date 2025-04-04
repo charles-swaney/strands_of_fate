@@ -64,7 +64,7 @@ class Hamstring(Skill):
 
                 if debuff_roll < debuff_chance:
                     agi_value = target.agility / 3
-                    target.base_stats.update(Attributes({"agility": -agi_value}))
+                    target.stat_buffs.update(Attributes({"agility": -agi_value}))
 
         self.remaining_cooldown = self._cooldown
 
