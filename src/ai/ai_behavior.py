@@ -18,8 +18,8 @@ class AIBehavior(ABC):
         """
         unit = self.owner
 
-        opposing_side = battle.adventurers if isinstance(unit, Monster) else battle.monsters
-        allied_side = battle.monsters if isinstance(unit, Monster) else battle.adventurers
+        opposing_side = battle.adventurers if unit in battle.monsters else battle.monsters
+        allied_side = battle.monsters if unit in battle.monsters else battle.adventurers
         all_enemies = [unit for unit in opposing_side if unit.hp > 0]
         all_allies = [unit for unit in allied_side if unit.hp > 0]
 
