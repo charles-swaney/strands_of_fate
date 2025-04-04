@@ -67,12 +67,46 @@ class SingleTargetAggressiveAI(AIBehavior):
         super().__init__(owner)
 
         self.behavior_tree = Selector([
-            BasicAttackLowestHPTarget(),
             UseDamageSkill(),
+            BasicAttackLowestHPTarget(),
             UseMultiTargetDamageSkill(),
             BasicAttackRandomTarget(),
             UseMultiTargetDebuffSkill(),
             UseDebuffSkill()
+        ])
+
+    def do_action(self, battle: Battle):
+        unit = self.owner
+
+        data = self.setup_data(battle=battle)
+
+        self.behavior_tree.execute(unit, battle, data) 
+
+        return data['result']
+    
+
+class DumbAggressiveAI(AIBehavior):
+    def __init__(self, owner):
+        """
+        Action selection for Dumb Aggressive Units. These units do not have good action
+        prioritization, and their basic attacks are always random, even if they have the chance
+        to potentially finish off a weak enemy.
+
+        Action Priority:
+            - Use any damage skill.
+            - Use any multi-target damage skill.
+            - Use any multi-target debuff skill.
+            - Use any debuff skill.
+            - Attack a random target.
+        """
+        super().__init__(owner)
+
+        self.behavior_tree = Selector([
+            UseDamageSkill(),
+            UseMultiTargetDamageSkill(),
+            UseMultiTargetDebuffSkill(),
+            UseDebuffSkill(),
+            BasicAttackRandomTarget(),
         ])
 
     def do_action(self, battle: Battle):
