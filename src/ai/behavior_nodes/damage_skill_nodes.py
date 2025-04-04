@@ -115,7 +115,7 @@ class BasicAttackPreferLowHPTarget(BehaviorNode):
         if not all_enemies:
             return False
 
-        hp_ratios = [1 - (enemy.hp / enemy.max_hp) for enemy in all_enemies]
+        hp_ratios = [1.5 - (enemy.hp / enemy.max_hp) for enemy in all_enemies]
 
         weights = [hp_ratio / sum(hp_ratios) for hp_ratio in hp_ratios]
         targets_by_hp = sorted(all_enemies, key = lambda e: e.hp / e.max_hp)
