@@ -10,8 +10,8 @@ import random
 
 class SavageBite(Skill):
     """
-    A slightly inaccurate attack that deals more damage the lower the target's hp is,
-    proportionally. Can critically strike, but costs both hp and mp.
+    A slightly inaccurate attack that deals more damage the lower the target's hp is
+    Can critically strike, but costs both hp and mp.
 
     Dire Wolves boast a better hp bonus than wolves. Wolves gain 1% damage per 1% hp below
     50%, while Dire Wolves gain a 2% damage bonus per 1% hp below 50%.
